@@ -1,5 +1,9 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
+<<<<<<< HEAD
+=======
+application.properties
+>>>>>>> upstream/master
 
 ### STS ###
 .apt_generated
@@ -16,8 +20,11 @@
 *.iml
 *.ipr
 
+<<<<<<< HEAD
 application.properties
 
+=======
+>>>>>>> upstream/master
 ### NetBeans ###
 /nbproject/private/
 /build/
