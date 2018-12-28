@@ -5,8 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sopt.org.moca.dto.User;
+import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.UserSignUpReq;
 import sopt.org.moca.service.UserService;
+import sopt.org.moca.utils.auth.Auth;
+import sopt.org.moca.utils.auth.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -50,8 +54,18 @@ public class UserController {
      * @param user_id
      * @retrun ResponseEntity
      * **/
-    @GetMapping("/{user_idx}")
+    @Auth
+    @GetMapping("/{user_id}")
     public ResponseEntity getMypage(final HttpServletRequest httpServletRequest, @PathVariable final String user_id){
-
+        try {
+            final String tokenValue = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+            DefaultRes<User> defaultRes = userService.findById(user_id);
+            if (tokenValue.compareTo(user_id)==0)
+                defaultRes.getData().setAuth(true);
+            return new ResponseEntity<>(defaultRes, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
