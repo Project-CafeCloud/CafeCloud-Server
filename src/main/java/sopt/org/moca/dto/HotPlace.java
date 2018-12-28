@@ -8,9 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class User {
-
-    private String user_id;
-    private String user_name;
-    private String user_phone;
+public class HotPlace {
+    private int hot_place_id;
+    private String hot_place_name;
+    private String hot_place_img;
 }

@@ -42,16 +42,16 @@ public class UserController {
         }
     }
 
-    /**
-     *
-     * 회원 정보 조회
-     *
-     * @param httpServletRequest Request
-     * @param user_id
-     * @retrun ResponseEntity
-     * **/
-    @GetMapping("/{user_idx}")
-    public ResponseEntity getMypage(final HttpServletRequest httpServletRequest, @PathVariable final String user_id){
-
-    }
+//    /**
+//     *
+//     * 회원 정보 조회
+//     *
+//     * @param httpServletRequest Request
+//     * @param user_id
+//     * @retrun ResponseEntity
+//     * **/
+//    @GetMapping("/{user_idx}")
+//    public ResponseEntity getMypage(final HttpServletRequest httpServletRequest, @PathVariable final String user_id){
+//
+//    }
 }
