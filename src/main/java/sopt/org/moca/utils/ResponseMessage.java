@@ -19,10 +19,17 @@ public class ResponseMessage {
     public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러";
 
 
+
     public static final String AUTHORIZED = "인증 성공";
     public static final String UNAUTHORIZED = "인증 실패";
     public static final String FORBIDDEN = "인가 실패";
 
-
     public static final String DB_ERROR = "데이터베이스 에러";
+
+
+    //핫플레이스
+    public static final String READ_HOT_PLACE = "핫플레이스 리스트 조회 성공";
+
+
+
 }
