@@ -13,10 +13,23 @@ public interface UserMapper {
     @Select("SELECT * FROM USER")
     List<User> findAll();
 
+    /**
+    * 아이디로 조회
+    * */
+    @Select("SELECT * FROM USER WHERE user_id = #{user_id}")
+    User findById(@Param("user_id") final String user_id);
 
-    //회원등록
-    @Insert("INSERT INTO USER(user_id,user_password,user_name) VALUES(#{UserSignUpReq.user_id}, #{UserSignUpReq.user_password},#{UserSignUpReq.user_name})")
-    void save(@Param("userSignupReq") final UserSignUpReq userSignUpReq);
+
+    /**
+    * 회원가입
+    *
+    * @param userSignUpReq
+    *
+    */
+    @Insert("INSERT INTO USER(user_id,user_password,user_name,user_phone)"+
+            "VALUES(#{userSignUpReq.user_id}, #{userSignUpReq.user_password},#{userSignUpReq.user_name},#{userSignUpReq.user_phone})")
+    void save(@Param("userSignUpReq") final UserSignUpReq userSignUpReq);
+
 
 
 }
