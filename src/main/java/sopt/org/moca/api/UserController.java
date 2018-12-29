@@ -48,14 +48,13 @@ public class UserController {
 
     /**
      *
-     * 회원 정보 조회
+     * Mypage 회원 정보 조회
      *
      * @param httpServletRequest Request
      * @param user_id
      * @retrun ResponseEntity
      * **/
-    @Auth
-    @GetMapping("/{user_id}")
+    @GetMapping("/{user_id}/mypage")
     public ResponseEntity getMypage(final HttpServletRequest httpServletRequest, @PathVariable final String user_id){
         try {
             final String tokenValue = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
@@ -68,4 +67,12 @@ public class UserController {
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     *
+     * 회원 정보 수정
+     * **/
+//    @Auth
+//    @PutMapping("/{user_id}/mypage")
+//    public ResponseEntity updateMypage(final )
 }
