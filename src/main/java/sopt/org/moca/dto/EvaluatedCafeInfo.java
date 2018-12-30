@@ -15,5 +15,6 @@ public class EvaluatedCafeInfo {
    private String cafe_name;
    private String cafe_address;
    private String evaluated_cafe_total_evaluation;
+   private String evaluated_cafe_rating;
 
 }

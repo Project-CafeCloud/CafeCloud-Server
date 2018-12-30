@@ -7,37 +7,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sopt.org.moca.service.HotPlaceService;
-
-import javax.servlet.http.HttpServletRequest;
+import sopt.org.moca.service.ReviewService;
 
 import static sopt.org.moca.model.DefaultRes.FAIL_DEFAULT_RES;
 
 @Slf4j
 @RestController
-@RequestMapping("/hot_place")
-public class HotPlaceController {
+@RequestMapping("/review")
+public class ReviewController {
 
-    private final HotPlaceService hotPlaceService;
+    private final ReviewService reviewService;
 
-    public HotPlaceController(final HotPlaceService hotPlaceService) {
-        this.hotPlaceService = hotPlaceService;
+    public ReviewController(final ReviewService reviewService) {
+        this.reviewService = reviewService;
     }
 
     @GetMapping("")
-    public ResponseEntity findAllHotPlace(final HttpServletRequest httpServletRequest)
+    public ResponseEntity findAllHotPlace()
     {
-        /**
-         * 토큰으로 유효한지 아닌지 확인 구현 필요
-         *
-         */
-
-
-
-
-
         try{
-            return new ResponseEntity<>(hotPlaceService.findAllHotPlace(), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.findAllReview(), HttpStatus.OK);
         } catch (Exception e){
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
