@@ -36,6 +36,6 @@ public interface ReviewImageMapper {
     @Insert("INSERT INTO reviewImage (review_id, review_img_url) " +
             "VALUES(#{reviewId}, #{reviewImgUrl})")
     void save(@Param("reviewId") final int reviewId,
-                           @Param("reviewImgUrl") final String reviewImgUrl);
+              @Param("reviewImgUrl") final String reviewImgUrl);
 
 }

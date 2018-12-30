@@ -16,12 +16,14 @@ public class Review {
     private int reviewId;
     private int cafeId;
     private int userId;
-    private List<ReviewImage> images;
+    private List<ReviewImage> image;
     private int rating;
     private String title;
     private String content;
-    private int likeCount;
     private Date createDate;
+
+    private int likeCount;
+    private int commentCount;
 
     private boolean auth;
     private boolean like;
