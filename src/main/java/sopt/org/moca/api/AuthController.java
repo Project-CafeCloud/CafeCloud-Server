@@ -25,4 +25,19 @@ public class AuthController {
     }
 
 
+    /**
+     * 로그인
+     *
+     * @param loginReq 로그인 객체
+     * @return ResponseEntity
+     */
+    @PostMapping("login")
+    public ResponseEntity login(@RequestBody final LoginReq loginReq) {
+        try {
+            return new ResponseEntity<>(authService.login(loginReq), HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
