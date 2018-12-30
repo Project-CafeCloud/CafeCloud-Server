@@ -12,7 +12,6 @@ import sopt.org.moca.mapper.ReviewMapper;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.ReviewReq;
 import sopt.org.moca.service.ReviewService;
-import sopt.org.moca.service.S3FileUploadService;
 import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
 
@@ -33,16 +32,16 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
     private final ReviewImageMapper reviewImageMapper;
     private final ReviewLikeMapper reviewLikeMapper;
-    private final S3FileUploadService s3FileUploadService;
+    private final FileUploadService fileUploadService;
 
     public ReviewService(final ReviewMapper reviewMapper,
                          final ReviewImageMapper reviewImageMapper,
                          final ReviewLikeMapper reviewLikeMapper,
-                         final S3FileUploadService s3FileUploadService) {
+                         final FileUploadService fileUploadService) {
         this.reviewMapper = reviewMapper;
         this.reviewImageMapper = reviewImageMapper;
         this.reviewLikeMapper = reviewLikeMapper;
-        this.s3FileUploadService = s3FileUploadService;
+        this.fileUploadService = fileUploadService;
     }
 
     /**
@@ -79,7 +78,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     /**
-     * 리뷰 조회
+     * 리뷰 상세 조회
      *
      * @param reviewId  리뷰 고유 id
      * @return DefaultRes
@@ -89,7 +88,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         if (review == null)
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
-        // review.setImage(reviewImageMapper.findAllByReviewId(review.getReviewId()));
+        review.setImage(reviewImageMapper.findAllByReviewId(review.getReviewId()));
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_REVIEWS, review);
     }
 
@@ -107,8 +106,8 @@ public class ReviewServiceImpl implements ReviewService {
                 reviewMapper.save(reviewReq);
                 final int reviewId = reviewReq.getReviewId();
 
-                for (MultipartFile photo : reviewReq.getPhoto()) {
-                    reviewImageMapper.save(reviewId, s3FileUploadService.upload(photo));
+                for (MultipartFile image : reviewReq.getImage()) {
+                    reviewImageMapper.save(reviewId, fileUploadService.upload(image));
                 }
 
                 return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_REVIEW);
@@ -129,39 +128,34 @@ public class ReviewServiceImpl implements ReviewService {
      * @param reviewId  리뷰 고유 id
      * @return DefaultRes
      */
-    /*
+
     @Transactional
     public DefaultRes like(final int userId, final int reviewId) {
         Review review = findByReviewId(reviewId).getData();
         if (review == null)
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
 
-        ReviewLike contentLike = reviewLikeMapper.findByUserIdxAndContentIdx(userId, reviewId);
+        ReviewLike reviewLike = reviewLikeMapper.findByUserIdAndReviewId(userId, reviewId);
 
         try {
-            if (contentLike == null) {
-                //좋아요 카운트 반영
-                contentMapper.like(contentIdx, content.getLikeCount() + 1);
-                //좋아요
-                contentLikeMapper.save(userIdx, contentIdx);
+            if (reviewLike == null) {
+                // 좋아요
+                reviewLikeMapper.save(userId, reviewId);
             } else {
-                //싫어요 카운트 반영
-                contentMapper.like(contentIdx, content.getLikeCount() - 1);
-                //싫어요
-                contentLikeMapper.deleteByUserIdxAndContentIdx(userIdx, contentIdx);
+                // 좋아요 취소
+                reviewLikeMapper.deleteByUserIdAndReviewId(userId, reviewId);
             }
 
-            content = findByContentIdx(contentIdx).getData();
-            content.setAuth(checkAuth(userIdx, contentIdx));
-            content.setLike(checkLike(userIdx, contentIdx));
+            review = findByReviewId(reviewId).getData();
+            // review.setAuth(checkAuth(userId, reviewId));
+            // review.setLike(checkLike(userId, reviewId));
 
-            return DefaultRes.res(StatusCode.OK, ResponseMessage.LIKE_CONTENT, content);
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.LIKE_REVIEW, review);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            // log.error(e.getMessage());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
         }
 
     }
-    */
 }

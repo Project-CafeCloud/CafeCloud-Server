@@ -12,12 +12,16 @@ import java.util.Date;
 public class ReviewReq {
 
     private int reviewId;
+    private int cafeId;
     private int userId;
-    private String body;
-    private MultipartFile[] photo;
+    private int rating;
+    private String title;
+    private String content;
+    private MultipartFile[] image;
     private Date createdDate = new Date();
 
     public boolean checkProperties() {
-        return (body != null && photo != null);
+
+        return (title != null && content != null && image != null);
     }
 }

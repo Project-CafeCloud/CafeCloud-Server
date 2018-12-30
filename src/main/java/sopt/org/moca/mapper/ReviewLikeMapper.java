@@ -44,6 +44,6 @@ public interface ReviewLikeMapper {
      */
     @Delete("DELETE FROM reviewLike " +
             "WHERE review_id = #{reviewId} AND user_id = #{userId}")
-    void deleteByUserIdxAndReviewIdx(@Param("userId") final int userId, @Param("reviewId") final int reviewId);
+    void deleteByUserIdAndReviewId(@Param("userId") final int userId, @Param("reviewId") final int reviewId);
 
 }
