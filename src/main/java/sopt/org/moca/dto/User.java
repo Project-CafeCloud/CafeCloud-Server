@@ -1,9 +1,14 @@
 package sopt.org.moca.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import sopt.org.moca.model.UserSignUpReq;
+import lombok.NoArgsConstructor;
 
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class User {
 
