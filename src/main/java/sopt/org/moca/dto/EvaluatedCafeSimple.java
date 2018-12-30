@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CafeSimple {
+public class EvaluatedCafeSimple {
 
     private int cafe_id;
     private String cafe_name;

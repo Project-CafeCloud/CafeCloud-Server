@@ -25,7 +25,6 @@ public class AuthController {
 
 //    /**
 //     * 로그인
-//     *
 //     * @param loginReq 로그인 객체
 //     * @return ResponseEntity
 //     */
