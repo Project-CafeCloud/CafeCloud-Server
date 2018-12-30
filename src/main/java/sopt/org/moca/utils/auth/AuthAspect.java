@@ -62,7 +62,7 @@ public class AuthAspect {
         if (token == null) {
             return RES_RESPONSE_ENTITY;
         } else {
-            final User user = userService.findById(token.getUser_idx()).getData();
+            final User user = userService.findById(token.getUser_id()).getData();
 
             //유효 사용자 검사
             if (user == null) {

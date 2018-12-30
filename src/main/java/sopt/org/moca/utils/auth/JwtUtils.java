@@ -30,7 +30,7 @@ public class JwtUtils {
         try {
             JWTCreator.Builder b = JWT.create();
             b.withIssuer(ISSUER);
-            b.withClaim("user_idx", user_id);
+            b.withClaim("user_id", user_id);
             return b.sign(Algorithm.HMAC256(SECRET));
         } catch (JWTCreationException JwtCreationException) {
             log.info(JwtCreationException.getMessage());
@@ -48,7 +48,7 @@ public class JwtUtils {
         try {
             final JWTVerifier jwtVerifier = require(Algorithm.HMAC256(SECRET)).withIssuer(ISSUER).build();
             DecodedJWT decodedJWT = jwtVerifier.verify(token);
-            return new Token(decodedJWT.getClaim("user_idx").asString());  //맞는지 궁금
+            return new Token(decodedJWT.getClaim("user_id").asString());  //맞는지 궁금
         } catch (JWTVerificationException jve) {
             log.error(jve.getMessage());
         } catch (Exception e) {
@@ -59,18 +59,18 @@ public class JwtUtils {
 
     public static class Token {
 
-        private String user_idx = null;
+        private String user_id = null;
 //        private String user_idx = -1;
 
         public Token() {
         }
 
-        public Token(final String user_idx) {
-            this.user_idx = user_idx;
+        public Token(final String user_id) {
+            this.user_id = user_id;
         }
 
-        public String getUser_idx() {
-            return user_idx;
+        public String getUser_id() {
+            return user_id;
         }
     }
 

@@ -12,19 +12,24 @@ import sopt.org.moca.service.UserService;
 import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
 
+import java.io.IOException;
+
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
+    private final FileUploadService fileUploadService;
+
     /**
      * 생성자 의존성 주입
      *
      * @param userMapper
      */
-    public UserServiceImpl(final UserMapper userMapper) {
+    public UserServiceImpl(final UserMapper userMapper, final FileUploadService fileUploadService) {
         this.userMapper = userMapper;
+        this.fileUploadService = fileUploadService;
     }
 
     /**
@@ -40,6 +45,9 @@ public class UserServiceImpl implements UserService {
             final User user = userMapper.findById(userSignUpReq.getUser_id());
             if(user == null) {
                 try {
+                    if(userSignUpReq.getUser_img() != null){
+                        user.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
+                    }
                     userMapper.save(userSignUpReq);
                     return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_USER);
                 } catch (Exception e) {
@@ -65,6 +73,32 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.findById(user_id);
         if (user != null) return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, user);
         return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_USER);
+    }
+
+    /**
+     *
+     * Mypage USER 수정
+     *
+     * **/
+
+    @Transactional
+    @Override
+    public DefaultRes<User> updateUser(final String user_id,final UserSignUpReq userSignUpReq){
+        User temp= userMapper.findById(user_id);
+        if(temp == null){
+            return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_USER);
+        }
+        try{
+            temp.update(userSignUpReq);
+            if(userSignUpReq.getUser_img() != null) temp.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
+            userMapper.update(temp);
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.UPDATE_USER, temp);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
+        }
+
     }
 
 }
