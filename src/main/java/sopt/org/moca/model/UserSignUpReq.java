@@ -3,6 +3,7 @@ package sopt.org.moca.model;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Data
@@ -12,6 +13,12 @@ public class UserSignUpReq {
     private String user_password;
     private String user_name;
     private String user_phone;
+    private String user_status_comment;
+
+    private MultipartFile user_img;
+    //사진 저장 url 주소
+    private String user_img_url;
+
 
 
     public boolean checkElement() {
