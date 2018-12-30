@@ -11,10 +11,7 @@ public class EvaluatedCafeSimple {
 
     private int cafe_id;
     private String cafe_name;
-    private String cafe_introduction;
-    private int cafe_rating;
-    private double latitude;
-    private double longitude;
+    private int evaluated_cafe_rating;
+    private  String address_district_name;
     private String cafe_img_main;
-    private String nerby_subway;
 }
