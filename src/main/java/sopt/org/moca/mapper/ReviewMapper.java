@@ -3,29 +3,76 @@ package sopt.org.moca.mapper;
 
 import org.apache.ibatis.annotations.*;
 import sopt.org.moca.dto.Review;
+import sopt.org.moca.model.ReviewReq;
 
 import java.util.List;
 
-// review 등록
-// review_id 상세 조회
-// cafe_id에 대한 review 모두 조회
-// cafe_id에 대한 review best 3개 조회
-// review_id에 대한 comment 등록
-// review_id에 대한 comment 상세 조회
+
+
+/**
+ * findAllByCafeId      : 해당 카페에 대한 모든 리뷰 조회
+ * findBestByCafeId     : 해당 카페에 대한 인기 리뷰 조회
+ * findByReviewId       : 리뷰 상세 조회
+ * save                 : 리뷰 등록
+ */
 
 @Mapper
 public interface ReviewMapper {
 
-    // review 등록
-    @Insert("INSERT INTO review(cafe_id, user_id, review_rating, review_title, review_content) " +
-            "VALUES (#{review.cafe_id}, #{review.user_id}, #{review.rating}, #{review.title}, #{review.content})")
-    void save(@Param("review") final Review review);
+    /**
+     * 해당 컨텐츠의 모든 리뷰 조회
+     *
+     * @param   cafeId     카페 고유 id
+     */
+    @Select("SELECT * FROM review " +
+            "WHERE contentIdx = #{cafeId}")
+    List<Review> findAllByCafeId(@Param("cafeId") final int cafeId);
 
-    // cafe_id에 대한 review 모두 조회
-    @Select("SELECT * " +
-            "FROM review " +
-            "WHERE cafe_id = #(cafe_id)")
-    List<Review> findAllByCafeId(@Param("cafe_id") final int cafe_id);
 
+    /**
+     * 해당 컨텐츠의 인기 리뷰 조회
+     *
+     * @param   cafeId     카페 고유 id
+     * @param   num        개수
+     */
+    @Select("SELECT * FROM review " +
+            "WHERE contentIdx = #{cafeId} " +
+            "LIMIT #{num}")
+    List<Review> findBestByCafeId(@Param("cafeId") final int cafeId,
+                                  @Param("num") final int num);
+
+
+    /**
+     * 리뷰 상세 조회
+     *
+     * @param   reviewId      리뷰 고유 id
+     */
+    @Select("SELECT * FROM review " +
+            "WHERE review_id = #{reviewId}")
+    Review findByReviewId(@Param("reviewId") final int reviewId);
+
+
+    /**
+     * 리뷰 등록
+     *
+     * @param   reviewReq     리뷰 데이터
+     */
+    @Insert("INSERT INTO review (cafe_id, user_id, review_rating, review_title, review_content) " +
+            "VALUES (#{reviewReq.cafe_id}, #{reviewReq.user_id}, #{reviewReq.rating}, #{reviewReq.title}, #{reviewReq.content})")
+    void save(@Param("reviewReq") final ReviewReq reviewReq);
+
+
+
+
+    // [후순위]
+
+    /**
+     * 리뷰 삭제
+     *
+     * @param reviewId      리뷰 고유 id
+     */
+    @Delete("DELETE FROM review " +
+            "WHERE review_id = #{reviewId}")
+    void deleteByReviewId(@Param("reviewId") final int reviewId);
 
 }

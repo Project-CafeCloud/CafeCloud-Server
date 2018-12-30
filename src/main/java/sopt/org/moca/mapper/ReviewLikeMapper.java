@@ -6,9 +6,11 @@ import sopt.org.moca.dto.ReviewLike;
 
 import java.util.List;
 
-// review_id에 대한 like 조회
-// review_id에 대한 like 등록
-// review_id에 대한 like 취소
+/**
+ * findByUserIdAndReviewId      : 좋아요 조회
+ * save                         : 좋아요 등록
+ * deleteByUserIdxAndReviewIdx  : 좋아요 취소
+ */
 
 @Mapper
 public interface ReviewLikeMapper {
@@ -43,5 +45,5 @@ public interface ReviewLikeMapper {
     @Delete("DELETE FROM reviewLike " +
             "WHERE review_id = #{reviewId} AND user_id = #{userId}")
     void deleteByUserIdxAndReviewIdx(@Param("userId") final int userId, @Param("reviewId") final int reviewId);
-}
+
 }

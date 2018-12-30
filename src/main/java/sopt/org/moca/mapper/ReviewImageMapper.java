@@ -9,9 +9,11 @@ import sopt.org.moca.dto.ReviewImage;
 
 import java.util.List;
 
+/**
+ * findAllReviewImageByCafeId   : 리뷰 이미지 조회
+ * save                         : 리뷰 이미지 저장
+ */
 
-// review_id에 대한 image 모두 조회
-// review_id에 대한 image 등록
 
 @Mapper
 public interface ReviewImageMapper {
@@ -23,7 +25,7 @@ public interface ReviewImageMapper {
      */
     @Select("SELECT * FROM reviewImage " +
             "WHERE review_id = #{reviewId}")
-    List<ReviewImage> findAllReviewImageByCafeId(@Param("reviewId") final int reviewId);
+    List<ReviewImage> findAllByReviewId(@Param("reviewId") final int reviewId);
 
     /**
      * 리뷰 이미지 저장
