@@ -10,4 +10,5 @@ public interface UserService {
     DefaultRes save(final UserSignUpReq userSignUpReq);
     DefaultRes<User> findById(final String user_id);
     DefaultRes<User> updateUser(final String user_id ,final UserSignUpReq userSignUpReq);
+    DefaultRes deleteById(final String user_id);
 }

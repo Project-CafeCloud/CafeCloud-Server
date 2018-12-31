@@ -48,7 +48,7 @@ public class JwtUtils {
         try {
             final JWTVerifier jwtVerifier = require(Algorithm.HMAC256(SECRET)).withIssuer(ISSUER).build();
             DecodedJWT decodedJWT = jwtVerifier.verify(token);
-            return new Token(decodedJWT.getClaim("user_id").asString());  //맞는지 궁금
+            return new Token(decodedJWT.getClaim("user_id").asString());
         } catch (JWTVerificationException jve) {
             log.error(jve.getMessage());
         } catch (Exception e) {

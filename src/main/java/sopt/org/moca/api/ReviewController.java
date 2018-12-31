@@ -22,14 +22,14 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("")
-    public ResponseEntity findAllHotPlace()
-    {
-        try{
-            return new ResponseEntity<>(reviewService.findAllReview(), HttpStatus.OK);
-        } catch (Exception e){
-            log.error(e.getMessage());
-            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("")
+//    public ResponseEntity findAllHotPlace()
+//    {
+//        try{
+//            return new ResponseEntity<>(reviewService.findAllReview(), HttpStatus.OK);
+//        } catch (Exception e){
+//            log.error(e.getMessage());
+//            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 }
