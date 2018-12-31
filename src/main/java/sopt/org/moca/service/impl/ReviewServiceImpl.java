@@ -50,7 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @param cafeId    카페 고유 id
      * @return DefaultRes
      */
-    public DefaultRes<List> findAllByCafeId(final int cafeId) {
+    public DefaultRes<List<Review>> findAllByCafeId(final int cafeId) {
 
         List<Review> reviewList = reviewMapper.findAllByCafeId(cafeId);
 
@@ -67,7 +67,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @param num       개수
      * @return DefaultRes
      */
-    public DefaultRes<List> findBestByCafeId(final int cafeId, final int num) {
+    public DefaultRes<List<Review>> findBestByCafeId(final int cafeId, final int num) {
 
         List<Review> reviewList = reviewMapper.findBestByCafeId(cafeId, num);
 
@@ -128,9 +128,8 @@ public class ReviewServiceImpl implements ReviewService {
      * @param reviewId  리뷰 고유 id
      * @return DefaultRes
      */
-
     @Transactional
-    public DefaultRes like(final int userId, final int reviewId) {
+    public DefaultRes like(final String userId, final int reviewId) {
         Review review = findByReviewId(reviewId).getData();
         if (review == null)
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
@@ -147,8 +146,8 @@ public class ReviewServiceImpl implements ReviewService {
             }
 
             review = findByReviewId(reviewId).getData();
-            // review.setAuth(checkAuth(userId, reviewId));
-            // review.setLike(checkLike(userId, reviewId));
+            review.setAuth(checkAuth(userId, reviewId));
+            review.setLike(checkLike(userId, reviewId));
 
             return DefaultRes.res(StatusCode.OK, ResponseMessage.LIKE_REVIEW, review);
         } catch (Exception e) {
@@ -156,6 +155,29 @@ public class ReviewServiceImpl implements ReviewService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
         }
+    }
 
+
+    /**
+     * 리뷰 권한 확인
+     *
+     * @param userId    유저 고유 id
+     * @param reviewId  리뷰 고유 id
+     * @return boolean
+     */
+    public boolean checkAuth(final String userId, final int reviewId) {
+        return userId == findByReviewId(reviewId).getData().getUserId();
+    }
+
+
+    /**
+     * 좋아요 여부 확인
+     *
+     * @param userId    유저 고유 id
+     * @param reviewId  리뷰 고유 id
+     * @return boolean
+     */
+    public boolean checkLike(final String userId, final int reviewId) {
+        return reviewLikeMapper.findByUserIdAndReviewId(userId, reviewId) != null;
     }
 }
