@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 import sopt.org.moca.dto.Review;
+import sopt.org.moca.dto.ReviewImage;
 import sopt.org.moca.dto.ReviewLike;
 import sopt.org.moca.mapper.ReviewImageMapper;
 import sopt.org.moca.mapper.ReviewLikeMapper;
@@ -44,19 +45,25 @@ public class ReviewServiceImpl implements ReviewService {
         this.fileUploadService = fileUploadService;
     }
 
+
     /**
-     * 해당 카페에 대한 모든 리뷰 조회
+     * 해당 카페에 대한 모든 리뷰 이미지 조회
      *
      * @param cafeId    카페 고유 id
      * @return DefaultRes
      */
-    public DefaultRes<List<Review>> findAllByCafeId(final int cafeId) {
+    public DefaultRes<List<ReviewImage>> findAllByCafeId(final int cafeId) {
 
         List<Review> reviewList = reviewMapper.findAllByCafeId(cafeId);
+        List<ReviewImage> reviewImageList;
 
-        if (reviewList.isEmpty())
+        for (Review review : reviewList) {
+            reviewImageList.add(reviewImageMapper.findOneByReviewId(review.getReviewId()));
+        }
+
+        if (reviewImageList == null)
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
-        return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_REVIEWS, reviewList);
+        return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_REVIEWS, reviewImageList);
     }
 
 

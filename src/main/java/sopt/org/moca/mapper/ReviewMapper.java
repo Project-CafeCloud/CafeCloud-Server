@@ -19,17 +19,17 @@ import java.util.List;
 public interface ReviewMapper {
 
     /**
-     * 해당 컨텐츠의 모든 리뷰 조회
+     * 해당 카페의 모든 리뷰 조회 (최신순)
      *
      * @param   cafeId     카페 고유 id
      */
-    @Select("SELECT * FROM review " +
+    @Select("SELECT review_id FROM review " +
             "WHERE contentIdx = #{cafeId}")
     List<Review> findAllByCafeId(@Param("cafeId") final int cafeId);
 
 
     /**
-     * 해당 컨텐츠의 인기 리뷰 조회
+     * 해당 카페의 인기 리뷰 조회 (좋아요 개수 순)
      *
      * @param   cafeId     카페 고유 id
      * @param   num        개수
