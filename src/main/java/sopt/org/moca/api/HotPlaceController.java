@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sopt.org.moca.service.HotPlaceService;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static sopt.org.moca.model.DefaultRes.FAIL_DEFAULT_RES;
 
 @Slf4j
@@ -23,8 +25,17 @@ public class HotPlaceController {
     }
 
     @GetMapping("")
-    public ResponseEntity findAllHotPlace()
+    public ResponseEntity findAllHotPlace(final HttpServletRequest httpServletRequest)
     {
+        /**
+         * 토큰으로 유효한지 아닌지 확인 구현 필요
+         *
+         */
+
+
+
+
+
         try{
             return new ResponseEntity<>(hotPlaceService.findAllHotPlace(), HttpStatus.OK);
         } catch (Exception e){

@@ -26,6 +26,18 @@ public class ResponseMessage {
     // 핫플레이스
     public static final String READ_HOT_PLACE = "핫플레이스 리스트 조회 성공";
 
+    //검증 카페
+    public static final String READ_EVALUATED_CAFE_LIST = "검증 카페 리스트 조회 성공";
+    public static final String FAIL_EVALUATED_CAFE_LIST = "검증 카페 리스트 조회 실패";
+    public static final String READ_EVALUATED_CAFE_INFO = "검증카페 상세 정보 조회 성공";
+    public static final String FAIL_EVALUATED_CAFE_INFO = "검증카페 상세 정보 조회 실패";
+    public static final String READ_EVALUATED_CAFE_IMG = "감증카페 이미지 조회 성공";
+    public static final String FAIL_EVALUATED_CAFE_IMG = "검증카페 이미지 조회 실패";
+    public static final String READ_EVALUATION_LIST = "검증 카페 인증 위원 평가 리스트 조회 성공";
+    public static final String FAIL_EVALUATION_LIST = "검증 카페 인증 위원 평가 리스트 조회 실패";
+    public static final String READ_EVALUATION_DETAIL = "검증카페 인증 위원 평가 조회 성공";
+    public static final String FAIL_EVALUATION_DETAIL = "해당 검증카페 인증 위원 조회 실패";
+
 
     // 리뷰
     public static final String READ_REVIEWS = "리뷰 조회 성공";
