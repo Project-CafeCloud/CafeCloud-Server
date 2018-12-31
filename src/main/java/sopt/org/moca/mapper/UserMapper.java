@@ -49,8 +49,8 @@ public interface UserMapper {
      *
      * **/
     @Update("UPDATE USER SET user_name = #{user.user_name}, user_status_comment = #{user.user_status_comment}," +
-            "user_phone = #{user.user_phone}, user_img_url = #{user_img_url} WHERE user_id = #{user.user_id}")
-    void update(@Param("user") final User user);
+            "user_phone = #{user.user_phone}, user_img_url = #{user.user_img_url} WHERE user_id = #{user.user_id}")
+    void update(@Param("user_id") final String user_id,@Param("user") final User user);
 
     /**
      *

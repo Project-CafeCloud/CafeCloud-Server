@@ -82,17 +82,18 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public DefaultRes<User> updateUser(final String user_id, UserSignUpReq userSignUpReq){
-        User temp= findById(user_id).getData();
+    public DefaultRes updateUser(final String user_id, UserSignUpReq userSignUpReq){
+        User temp= userMapper.findById(user_id);
         if(temp == null){
             return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_USER);
         }
         try{
-            temp.update(userSignUpReq);
+            if(userSignUpReq.getUser_name() != null) temp.setUser_name(userSignUpReq.getUser_name());
+            if(userSignUpReq.getUser_phone() != null) temp.setUser_phone(userSignUpReq.getUser_phone());
+            if(userSignUpReq.getUser_status_comment() != null) temp.setUser_status_comment(userSignUpReq.getUser_status_comment());
             if(userSignUpReq.getUser_img() != null) temp.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
-            userMapper.update(temp);
+            userMapper.update(user_id,temp);
 
-            temp = findById(user_id).getData();
             temp.setAuth(true);
             return DefaultRes.res(StatusCode.OK, ResponseMessage.UPDATE_USER, temp);
         } catch (IOException e) {
