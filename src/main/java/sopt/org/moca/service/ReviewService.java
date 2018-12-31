@@ -13,9 +13,9 @@ import java.util.List;
 public interface ReviewService {
 
     ReviewService(final ReviewMapper reviewMapper,
-                         final ReviewImageMapper reviewImageMapper,
-                         final ReviewLikeMapper reviewLikeMapper,
-                         final FileUploadService fileUploadService);
+                  final ReviewImageMapper reviewImageMapper,
+                  final ReviewLikeMapper reviewLikeMapper,
+                  final FileUploadService fileUploadService);
 
     DefaultRes<List<Review>> findAllByCafeId(final int cafeId);
 
@@ -26,4 +26,8 @@ public interface ReviewService {
     DefaultRes save(final ReviewReq reviewReq);
 
     DefaultRes like(final String userId, final int reviewId);
+
+    boolean checkAuth(final String userId, final int reviewId);
+
+    boolean checkLike(final String userId, final int reviewId);
 }

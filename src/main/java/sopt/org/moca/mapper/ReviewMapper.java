@@ -8,7 +8,6 @@ import sopt.org.moca.model.ReviewReq;
 import java.util.List;
 
 
-
 /**
  * findAllByCafeId      : 해당 카페에 대한 모든 리뷰 조회
  * findBestByCafeId     : 해당 카페에 대한 인기 리뷰 조회
