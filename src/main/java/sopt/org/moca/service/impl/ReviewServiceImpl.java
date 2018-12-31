@@ -50,7 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @param cafeId    카페 고유 id
      * @return DefaultRes
      */
-    public DefaultRes<List> findAllByCafeId(final int cafeId) {
+    public DefaultRes<List<Review>> findAllByCafeId(final int cafeId) {
 
         List<Review> reviewList = reviewMapper.findAllByCafeId(cafeId);
 
@@ -67,7 +67,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @param num       개수
      * @return DefaultRes
      */
-    public DefaultRes<List> findBestByCafeId(final int cafeId, final int num) {
+    public DefaultRes<List<Review>> findBestByCafeId(final int cafeId, final int num) {
 
         List<Review> reviewList = reviewMapper.findBestByCafeId(cafeId, num);
 
@@ -130,7 +130,7 @@ public class ReviewServiceImpl implements ReviewService {
      */
 
     @Transactional
-    public DefaultRes like(final int userId, final int reviewId) {
+    public DefaultRes like(final String userId, final int reviewId) {
         Review review = findByReviewId(reviewId).getData();
         if (review == null)
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);

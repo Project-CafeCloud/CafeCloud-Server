@@ -17,13 +17,13 @@ public interface ReviewService {
                          final ReviewLikeMapper reviewLikeMapper,
                          final FileUploadService fileUploadService);
 
-    DefaultRes<List> findAllByCafeId(final int cafeId);
+    DefaultRes<List<Review>> findAllByCafeId(final int cafeId);
 
-    DefaultRes<List> findBestByCafeId(final int cafeId, final int num);
+    DefaultRes<List<Review>> findBestByCafeId(final int cafeId, final int num);
 
     DefaultRes<Review> findByReviewId(final int reviewId);
 
     DefaultRes save(final ReviewReq reviewReq);
 
-    DefaultRes like(final int userId, final int reviewId);
+    DefaultRes like(final String userId, final int reviewId);
 }
