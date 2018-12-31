@@ -13,7 +13,7 @@ public class ReviewReq {
 
     private int reviewId;
     private int cafeId;
-    private int userId;
+    private String userId;
     private int rating;
     private String title;
     private String content;

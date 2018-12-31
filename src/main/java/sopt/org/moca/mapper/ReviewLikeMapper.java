@@ -24,7 +24,8 @@ public interface ReviewLikeMapper {
      */
     @Select("SELECT * FROM reviewLike " +
             "WHERE review_id = #{reviewId} AND userIdx = #{userId}")
-    ReviewLike findByUserIdAndReviewId(@Param("userId") final int userId, @Param("reviewId") final int reviewId);
+    ReviewLike findByUserIdAndReviewId(@Param("userId") final String userId, @Param("reviewId") final int reviewId);
+
 
     /**
      * 좋아요 등록
@@ -34,7 +35,8 @@ public interface ReviewLikeMapper {
      */
     @Insert("INSERT INTO reviewLike (review_id, user_id) " +
             "VALUES(#{reviewId}, #{userId})")
-    void save(@Param("userId") final int userId, @Param("reviewId") final int reviewId);
+    void save(@Param("userId") final String userId, @Param("reviewId") final int reviewId);
+
 
     /**
      * 좋아요 취소
@@ -44,6 +46,6 @@ public interface ReviewLikeMapper {
      */
     @Delete("DELETE FROM reviewLike " +
             "WHERE review_id = #{reviewId} AND user_id = #{userId}")
-    void deleteByUserIdAndReviewId(@Param("userId") final int userId, @Param("reviewId") final int reviewId);
+    void deleteByUserIdAndReviewId(@Param("userId") final String userId, @Param("reviewId") final int reviewId);
 
 }
