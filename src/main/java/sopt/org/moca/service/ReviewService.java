@@ -1,6 +1,7 @@
 package sopt.org.moca.service;
 
 import sopt.org.moca.dto.Review;
+import sopt.org.moca.dto.ReviewImage;
 import sopt.org.moca.mapper.ReviewImageMapper;
 import sopt.org.moca.mapper.ReviewLikeMapper;
 import sopt.org.moca.mapper.ReviewMapper;
@@ -17,7 +18,7 @@ public interface ReviewService {
                   final ReviewLikeMapper reviewLikeMapper,
                   final FileUploadService fileUploadService);
 
-    DefaultRes<List<Review>> findAllByCafeId(final int cafeId);
+    DefaultRes<ReviewImage> findAllByCafeId(final int cafeId);
 
     DefaultRes<List<Review>> findBestByCafeId(final int cafeId, final int num);
 
