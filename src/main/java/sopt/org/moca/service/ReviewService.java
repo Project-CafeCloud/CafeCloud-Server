@@ -1,3 +1,4 @@
+
 package sopt.org.moca.service;
 
 import sopt.org.moca.dto.Review;
@@ -32,3 +33,4 @@ public interface ReviewService {
 
     boolean checkLike(final String userId, final int reviewId);
 }
+

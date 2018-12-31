@@ -45,9 +45,8 @@ public class UserServiceImpl implements UserService {
             final User user = userMapper.findById(userSignUpReq.getUser_id());
             if(user == null) {
                 try {
-                    if(userSignUpReq.getUser_img() != null){
-                        user.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
-                    }
+                    if(userSignUpReq.getUser_img() != null)
+                        userSignUpReq.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
                     userMapper.save(userSignUpReq);
                     return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_USER);
                 } catch (Exception e) {
@@ -83,15 +82,19 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public DefaultRes<User> updateUser(final String user_id,final UserSignUpReq userSignUpReq){
+    public DefaultRes updateUser(final String user_id, UserSignUpReq userSignUpReq){
         User temp= userMapper.findById(user_id);
         if(temp == null){
             return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_USER);
         }
         try{
-            temp.update(userSignUpReq);
+            if(userSignUpReq.getUser_name() != null) temp.setUser_name(userSignUpReq.getUser_name());
+            if(userSignUpReq.getUser_phone() != null) temp.setUser_phone(userSignUpReq.getUser_phone());
+            if(userSignUpReq.getUser_status_comment() != null) temp.setUser_status_comment(userSignUpReq.getUser_status_comment());
             if(userSignUpReq.getUser_img() != null) temp.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
-            userMapper.update(temp);
+            userMapper.update(user_id,temp);
+
+            temp.setAuth(true);
             return DefaultRes.res(StatusCode.OK, ResponseMessage.UPDATE_USER, temp);
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -99,6 +102,27 @@ public class UserServiceImpl implements UserService {
             return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
         }
 
+    }
+
+    /**
+     * 회원 탈퇴
+     *
+     * **/
+    @Transactional
+    public DefaultRes deleteById(final String user_id){
+        final User user = userMapper.findById(user_id);
+        if(user == null){
+            return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_USER);
+        }
+        try{
+            userMapper.deleteById(user_id);
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.DELETE_USER);
+        }catch (Exception e) {
+            //Rollback
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.error(e.getMessage());
+            return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
+        }
     }
 
 }
