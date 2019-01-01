@@ -1,5 +1,6 @@
 package sopt.org.moca.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -16,6 +17,7 @@ import sopt.org.moca.service.ReviewService;
 import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +29,7 @@ import java.util.List;
  */
 
 
+@Slf4j
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
@@ -35,7 +38,16 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewLikeMapper reviewLikeMapper;
     private final FileUploadService fileUploadService;
 
-    public ReviewService(final ReviewMapper reviewMapper,
+
+    /**
+     * 생성자 의존성 주입
+     *
+     * @param reviewMapper
+     * @param reviewImageMapper
+     * @param reviewLikeMapper
+     * @param fileUploadService
+     */
+    public ReviewServiceImpl(final ReviewMapper reviewMapper,
                          final ReviewImageMapper reviewImageMapper,
                          final ReviewLikeMapper reviewLikeMapper,
                          final FileUploadService fileUploadService) {
@@ -52,13 +64,14 @@ public class ReviewServiceImpl implements ReviewService {
      * @param cafeId    카페 고유 id
      * @return DefaultRes
      */
+    @Override
     public DefaultRes<List<ReviewImage>> findAllByCafeId(final int cafeId) {
 
         List<Review> reviewList = reviewMapper.findAllByCafeId(cafeId);
-        List<ReviewImage> reviewImageList;
+        List<ReviewImage> reviewImageList = new ArrayList<>();
 
         for (Review review : reviewList) {
-            reviewImageList.add(reviewImageMapper.findOneByReviewId(review.getReviewId()));
+            reviewImageList.add(reviewImageMapper.findOneByReviewId(review.getReview_id()));
         }
 
         if (reviewImageList == null)
@@ -74,6 +87,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @param num       개수
      * @return DefaultRes
      */
+    @Override
     public DefaultRes<List<Review>> findBestByCafeId(final int cafeId, final int num) {
 
         List<Review> reviewList = reviewMapper.findBestByCafeId(cafeId, num);
@@ -90,12 +104,13 @@ public class ReviewServiceImpl implements ReviewService {
      * @param reviewId  리뷰 고유 id
      * @return DefaultRes
      */
+    @Override
     public DefaultRes<Review> findByReviewId(final int reviewId) {
         Review review = reviewMapper.findByReviewId(reviewId);
 
         if (review == null)
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
-        review.setImage(reviewImageMapper.findAllByReviewId(review.getReviewId()));
+        review.setImage(reviewImageMapper.findAllByReviewId(review.getReview_id()));
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_REVIEWS, review);
     }
 
@@ -107,19 +122,22 @@ public class ReviewServiceImpl implements ReviewService {
      * @return DefaultRes
      */
     @Transactional
+    @Override
     public DefaultRes save(final ReviewReq reviewReq) {
         if (reviewReq.checkProperties()) {
             try {
                 reviewMapper.save(reviewReq);
-                final int reviewId = reviewReq.getReviewId();
+                final int reviewId = reviewReq.getReview_id();
 
+                log.info(String.valueOf(reviewId));
                 for (MultipartFile image : reviewReq.getImage()) {
+                    log.info(image.getOriginalFilename());
                     reviewImageMapper.save(reviewId, fileUploadService.upload(image));
                 }
 
                 return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_REVIEW);
             } catch (Exception e) {
-                // log.info(e.getMessage());
+                log.info(e.getMessage());
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
             }
@@ -136,6 +154,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @return DefaultRes
      */
     @Transactional
+    @Override
     public DefaultRes like(final String userId, final int reviewId) {
         Review review = findByReviewId(reviewId).getData();
         if (review == null)
@@ -158,7 +177,7 @@ public class ReviewServiceImpl implements ReviewService {
 
             return DefaultRes.res(StatusCode.OK, ResponseMessage.LIKE_REVIEW, review);
         } catch (Exception e) {
-            // log.error(e.getMessage());
+            log.error(e.getMessage());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
         }
@@ -172,8 +191,9 @@ public class ReviewServiceImpl implements ReviewService {
      * @param reviewId  리뷰 고유 id
      * @return boolean
      */
+    @Override
     public boolean checkAuth(final String userId, final int reviewId) {
-        return userId == findByReviewId(reviewId).getData().getUserId();
+        return userId == findByReviewId(reviewId).getData().getUser_id();
     }
 
 
@@ -184,6 +204,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @param reviewId  리뷰 고유 id
      * @return boolean
      */
+    @Override
     public boolean checkLike(final String userId, final int reviewId) {
         return reviewLikeMapper.findByUserIdAndReviewId(userId, reviewId) != null;
     }

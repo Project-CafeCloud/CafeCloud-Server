@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class ReviewLike {
 
-    private int userId;
-    private int reviewId;
+    private int user_id;
+    private int review_id;
 }

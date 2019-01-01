@@ -13,17 +13,17 @@ import java.util.List;
 @Data
 public class Review {
 
-    private int reviewId;
-    private int cafeId;
-    private String userId;
+    private int review_id;
+    private int cafe_id;
+    private String user_id;
     private List<ReviewImage> image;
     private int rating;
     private String title;
     private String content;
-    private Date createDate;
+    private Date create_date;
 
-    private int likeCount;
-    private int commentCount;
+    private int like_count;
+    private int comment_count;
 
     private boolean auth;
     private boolean like;

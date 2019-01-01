@@ -13,8 +13,8 @@ import java.util.List;
 @Data
 public class ReviewComment {
 
-    private int reviewCommentId;
-    private String userId;
+    private int review_comment_id;
+    private String user_id;
     private String content;
     private String time;
 
