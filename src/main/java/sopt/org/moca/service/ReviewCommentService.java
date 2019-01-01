@@ -16,8 +16,6 @@ import java.util.List;
 
 public interface ReviewCommentService {
 
-    ReviewCommentService(final ReviewCommentMapper reviewCommentMapper);
-
     DefaultRes<List<Review>> findByReviewId(final int reviewId);
 
     DefaultRes save(final ReviewCommentReq reviewCommentReq);

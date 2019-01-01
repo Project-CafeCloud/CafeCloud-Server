@@ -11,14 +11,14 @@ import java.util.Date;
 @Data
 public class ReviewReq {
 
-    private int reviewId;
-    private int cafeId;
-    private String userId;
+    private int review_id;
+    private int cafe_id;
+    private String user_id;
     private int rating;
     private String title;
     private String content;
     private MultipartFile[] image;
-    private Date createdDate = new Date();
+    private Date created_date = new Date();
 
     public boolean checkProperties() {
 
