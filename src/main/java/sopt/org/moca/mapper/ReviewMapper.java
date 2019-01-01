@@ -58,6 +58,7 @@ public interface ReviewMapper {
      */
     @Insert("INSERT INTO REVIEW (cafe_id, user_id, review_rating, review_title, review_content, review_date) " +
             "VALUES (#{reviewReq.cafe_id}, #{reviewReq.user_id}, #{reviewReq.rating}, #{reviewReq.title}, #{reviewReq.content}, #{reviewReq.created_date})")
+    @Options(useGeneratedKeys = true, keyProperty = "reviewReq.review_id")
     void save(@Param("reviewReq") final ReviewReq reviewReq);
 
 

@@ -105,14 +105,14 @@ public class ReviewController {
 
         try {
             final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
-            DefaultRes<List<Review>> defaultRes = reviewService.findBestByCafeId(cafe_id, num);
-            if(defaultRes.getData() != null) {
-                for (Review r : defaultRes.getData()) {
+            DefaultRes<List<Review>> reviewList = reviewService.findBestByCafeId(cafe_id, num);
+            if(reviewList.getData() != null) {
+                for (Review r : reviewList.getData()) {
                     r.setAuth(r.getUser_id() == user_id);
                     r.setLike(reviewService.checkLike(user_id, r.getReview_id()));
                 }
             }
-            return new ResponseEntity<>(defaultRes, HttpStatus.OK);
+            return new ResponseEntity<>(reviewList, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);

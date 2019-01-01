@@ -10,8 +10,9 @@ import sopt.org.moca.dto.ReviewImage;
 import java.util.List;
 
 /**
- * findAllReviewImageByCafeId   : 리뷰 이미지 조회
- * save                         : 리뷰 이미지 저장
+ * findAllByReviewId        : 해당 리뷰의 이미지 모두 조회
+ * findOneByReviewId        : 해당 리뷰의 이미지 1장만 조회
+ * save                     : 리뷰의 이미지 1장씩 저장
  */
 
 
@@ -19,7 +20,7 @@ import java.util.List;
 public interface ReviewImageMapper {
 
     /**
-     * 리뷰 이미지 조회
+     * 해당 리뷰의 이미지 모두 조회
      * @param   reviewId    리뷰 고유 index
      * @return  이미지 리스트
      */
@@ -29,7 +30,7 @@ public interface ReviewImageMapper {
 
 
     /**
-     * 리뷰 이미지 1장만 조회
+     * 해당 리뷰의 이미지 1장만 조회
      * @param   reviewId    리뷰 고유 index
      * @return  이미지
      */
@@ -40,7 +41,7 @@ public interface ReviewImageMapper {
 
 
     /**
-     * 리뷰 이미지 저장
+     * 리뷰의 이미지 1장씩 저장
      *
      * @param reviewId      리뷰 고유 index
      * @param reviewImgUrl  리뷰 이미지 url
