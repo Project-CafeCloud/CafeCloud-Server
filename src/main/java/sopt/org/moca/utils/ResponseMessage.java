@@ -38,6 +38,14 @@ public class ResponseMessage {
     public static final String READ_EVALUATION_DETAIL = "검증카페 인증 위원 평가 조회 성공";
     public static final String FAIL_EVALUATION_DETAIL = "해당 검증카페 인증 위원 조회 실패";
 
+    //카페 상세 보기
+    public static final String READ_CAFE_IMG_LIST = "해당 카페 이미지 리스트 조회 성공";
+    public static final String FAIL_CAFE_IMG_LIST = "해당 카페 이미지 리스트 조회 실패";
+    public static final String READ_CAFE_INFO = "해당 카페 상세 정보 조회 성공";
+    public static final String FAIL_CAFE_INFO = "해당 카페 상세 정보 조회 실패";
+    public static final String READ_CAFE_SIGNITURE_MENU = "해당 카페 시그니처 메뉴 조회 성공";
+    public static final String FAIL_CAFE_SIGNITURE_MENU = "해당 카페 시그니처 메뉴 조회 실패";
+
 
     // 리뷰
     public static final String READ_REVIEWS = "리뷰 조회 성공";

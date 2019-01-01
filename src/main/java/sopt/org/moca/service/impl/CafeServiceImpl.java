@@ -104,5 +104,45 @@ public class CafeServiceImpl implements CafeService {
         }
     }
 
+    @Override
+    public DefaultRes<List<CafeImg>> findCafeImgList(int cafe_id) {
+        List<CafeImg> cafeImgList = null;
+
+        cafeImgList = cafeMapper.findCafeImgList(cafe_id);
+        if (cafeImgList.isEmpty()) {
+
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_CAFE_IMG_LIST);
+        } else {
+
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_CAFE_IMG_LIST, cafeImgList);
+        }
+    }
+    @Override
+    public DefaultRes<CafeInfo> findCafeInfo(int cafe_id) {
+
+        CafeInfo cafeInfo = null;
+        cafeInfo = cafeMapper.findCafeInfo(cafe_id);
+        if (cafeInfo == null) {
+
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_CAFE_INFO);
+        } else {
+
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_CAFE_INFO, cafeInfo);
+        }
+    }
+
+    @Override
+    public DefaultRes<List<CafeSignitureMenu>> findCafeSignitureMenuList(int cafe_id) {
+        List<CafeSignitureMenu> cafeSignitureMenuList = null;
+        cafeSignitureMenuList =  cafeMapper.findCafeSigitureMenuList(cafe_id);
+        if (cafeSignitureMenuList.isEmpty()) {
+
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_CAFE_SIGNITURE_MENU);
+        } else {
+
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_CAFE_SIGNITURE_MENU, cafeSignitureMenuList);
+        }
+    }
+
 
 }
