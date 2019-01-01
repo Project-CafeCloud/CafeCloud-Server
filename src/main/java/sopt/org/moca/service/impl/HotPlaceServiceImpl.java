@@ -28,7 +28,6 @@ public class HotPlaceServiceImpl implements HotPlaceService {
 
 
 
-
         List<HotPlace> hotPlaceList = hotPlaceMapper.findAllHotPlace();
         if(hotPlaceList != null)
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_HOT_PLACE,hotPlaceList);

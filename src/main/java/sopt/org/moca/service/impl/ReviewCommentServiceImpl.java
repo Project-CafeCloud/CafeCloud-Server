@@ -33,7 +33,7 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
 
     private final ReviewCommentMapper reviewCommentMapper;
 
-    public ReviewCommentService(final ReviewCommentMapper reviewCommentMapper) {
+    public ReviewCommentServiceImpl(final ReviewCommentMapper reviewCommentMapper) {
         this.reviewCommentMapper = reviewCommentMapper;
 
     }

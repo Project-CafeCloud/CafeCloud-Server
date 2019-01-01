@@ -52,4 +52,9 @@ public class ResponseMessage {
     public static final String CREATED_COMMENT = "댓글 작성 성공";
     public static final String FAIL_CREATE_COMMENT = "댓글 작성 실패";
 
+    // 위치
+
+    public static final String NOT_FOUND_NEAR_BY_CAFE = "가까운 카페를 찾을 수 없습니다";
+    public static final String READ_NEAR_BY_CAFE = "가까운 카페 리스트 찾기 성공";
+
 }

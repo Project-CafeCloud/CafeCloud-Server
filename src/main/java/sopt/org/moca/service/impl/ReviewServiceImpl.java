@@ -35,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewLikeMapper reviewLikeMapper;
     private final FileUploadService fileUploadService;
 
-    public ReviewService(final ReviewMapper reviewMapper,
+    public ReviewServiceImpl(final ReviewMapper reviewMapper,
                          final ReviewImageMapper reviewImageMapper,
                          final ReviewLikeMapper reviewLikeMapper,
                          final FileUploadService fileUploadService) {

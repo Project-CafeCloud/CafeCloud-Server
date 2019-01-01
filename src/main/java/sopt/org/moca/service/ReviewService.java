@@ -14,10 +14,7 @@ import java.util.List;
 
 public interface ReviewService {
 
-    ReviewService(final ReviewMapper reviewMapper,
-                  final ReviewImageMapper reviewImageMapper,
-                  final ReviewLikeMapper reviewLikeMapper,
-                  final FileUploadService fileUploadService);
+
 
     DefaultRes<ReviewImage> findAllByCafeId(final int cafeId);
 
