@@ -23,7 +23,7 @@ public interface ReviewMapper {
      *
      * @param   cafeId     카페 고유 id
      */
-    @Select("SELECT review_id FROM review " +
+    @Select("SELECT review_id FROM REVIEW " +
             "WHERE contentIdx = #{cafeId}")
     List<Review> findAllByCafeId(@Param("cafeId") final int cafeId);
 
@@ -34,7 +34,7 @@ public interface ReviewMapper {
      * @param   cafeId     카페 고유 id
      * @param   num        개수
      */
-    @Select("SELECT * FROM review " +
+    @Select("SELECT * FROM REVIEW " +
             "WHERE contentIdx = #{cafeId} " +
             "LIMIT #{num}")
     List<Review> findBestByCafeId(@Param("cafeId") final int cafeId,
@@ -46,7 +46,7 @@ public interface ReviewMapper {
      *
      * @param   reviewId      리뷰 고유 id
      */
-    @Select("SELECT * FROM review " +
+    @Select("SELECT * FROM REVIEW " +
             "WHERE review_id = #{reviewId}")
     Review findByReviewId(@Param("reviewId") final int reviewId);
 
@@ -56,8 +56,8 @@ public interface ReviewMapper {
      *
      * @param   reviewReq     리뷰 데이터
      */
-    @Insert("INSERT INTO review (cafe_id, user_id, review_rating, review_title, review_content) " +
-            "VALUES (#{reviewReq.cafe_id}, #{reviewReq.user_id}, #{reviewReq.rating}, #{reviewReq.title}, #{reviewReq.content})")
+    @Insert("INSERT INTO REVIEW (cafe_id, user_id, review_rating, review_title, review_content, review_date) " +
+            "VALUES (#{reviewReq.cafe_id}, #{reviewReq.user_id}, #{reviewReq.rating}, #{reviewReq.title}, #{reviewReq.content}, #{reviewReq.created_date})")
     void save(@Param("reviewReq") final ReviewReq reviewReq);
 
 
@@ -70,7 +70,7 @@ public interface ReviewMapper {
      *
      * @param reviewId      리뷰 고유 id
      */
-    @Delete("DELETE FROM review " +
+    @Delete("DELETE FROM REVIEW " +
             "WHERE review_id = #{reviewId}")
     void deleteByReviewId(@Param("reviewId") final int reviewId);
 

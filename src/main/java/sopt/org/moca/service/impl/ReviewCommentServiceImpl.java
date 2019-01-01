@@ -1,5 +1,6 @@
 package sopt.org.moca.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -27,7 +28,7 @@ import java.util.List;
  * save                : 리뷰 댓글 등록
  */
 
-
+@Slf4j
 @Service
 public class ReviewCommentServiceImpl implements ReviewCommentService {
 
@@ -66,11 +67,11 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
         if (reviewCommentReq.checkProperties()) {
             try {
                 reviewCommentMapper.save(reviewCommentReq);
-                final int reviewId = reviewCommentReq.getReviewId();
+                // final int reviewId = reviewCommentReq.getReviewId();
 
                 return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_REVIEW);
             } catch (Exception e) {
-                // log.info(e.getMessage());
+                log.info(e.getMessage());
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
             }

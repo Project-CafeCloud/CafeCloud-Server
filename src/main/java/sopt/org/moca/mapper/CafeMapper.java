@@ -68,21 +68,29 @@ public interface CafeMapper {
 /**
  *
  *
+ *카페 상세보기
  *
  *
  *
  */
 
-//    //해당 카페 정보 조회
-//    @Select()
-//
-//    //해당 카페 검증위원 상세 조회
-//    @Select()
-//
-//    //해당 핫플레이스 카페 리스트 조회
-//    @Select()
-//
-//
-//    //평점 높은 순, 카페리스트 조
 
+
+   //카페 이미지 리스트 조회
+    @Select("select cafe_img_url from CAFE_IMG where cafe_id = #{cafe_id}")
+   List<CafeImg> findCafeImgList(@Param("cafe_id")final int cafe_id);
+
+
+    //카페 상세 정보 조회  model
+    @Select("select cafe_name ,cafe_latitude,cafe_longitude,cafe_phone,cafe_menu_img_url,address_district_name,cafe_address_detail,cafe_rating_avg,cafe_times,cafe_days,cafe_option_parking,cafe_option_wifi,cafe_option_allnight,cafe_option_reservation,cafe_option_smokingarea" +
+            "from CAFE natural join CAFE_OPTION" +
+            "where cafe_id = #{cafe_id}")
+    CafeInfo findCafeInfo(@Param("cafe_id")final int cafe_id);
+
+
+    //시그니처 메뉴 리스트 조회
+    @Select("select cafe_signiture_menu,cafe_signiture_price,cafe_signiture_img" +
+            "from CAFE_SIGNITURE" +
+            "where cafe_id = #{cafe_id}")
+    List<CafeSignitureMenu> findCafeSigitureMenuList(@Param("cafe_id")final int cafe_id);
 }

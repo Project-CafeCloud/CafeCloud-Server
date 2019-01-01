@@ -3,20 +3,15 @@ package sopt.org.moca.service;
 
 import sopt.org.moca.dto.Review;
 import sopt.org.moca.dto.ReviewImage;
-import sopt.org.moca.mapper.ReviewImageMapper;
-import sopt.org.moca.mapper.ReviewLikeMapper;
-import sopt.org.moca.mapper.ReviewMapper;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.ReviewReq;
-import sopt.org.moca.service.impl.FileUploadService;
 
 import java.util.List;
 
 public interface ReviewService {
 
 
-
-    DefaultRes<ReviewImage> findAllByCafeId(final int cafeId);
+    DefaultRes<List<ReviewImage>> findAllByCafeId(final int cafeId);
 
     DefaultRes<List<Review>> findBestByCafeId(final int cafeId, final int num);
 

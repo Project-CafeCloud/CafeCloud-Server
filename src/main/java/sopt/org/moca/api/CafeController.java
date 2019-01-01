@@ -166,6 +166,91 @@ public class CafeController {
     }
 
 
+    /**
+     * 카페 상세 이미지 리스트 조회
+     * @param httpServletRequest
+     * @param cafe_id
+     * @return
+     */
+    @GetMapping("/cafe/image/{cafe_id")
+    public ResponseEntity getCafeImgList(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id)
+    {
+
+        /**
+         * 토큰으로 유효한지 아닌지 확인 구현 필요
+         *
+         */
+
+
+
+
+        try{
+            return new ResponseEntity<>(cafeService.findCafeImgList(cafe_id), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+
+    /**
+     * 카페 상세 정보 조회
+     * @param httpServletRequest
+     * @param cafe_id
+     * @return
+     */
+    @GetMapping("/cafe/detail/{cafe_id}")
+    public ResponseEntity getCafeInfo(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id )
+    {
+        /**
+         * 토큰으로 유효한지 아닌지 확인 구현 필요
+         *
+         */
+
+
+
+        try{
+            return new ResponseEntity<>(cafeService.findCafeInfo(cafe_id), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+
+
+    }
+
+    /**
+     * 카페 시그니처 메뉴 리스트 조회
+     * @param httpServletRequest
+     * @param cafe_id
+     * @return
+     */
+
+    @GetMapping("/cafe/signiture/{cafe_id}")
+    public ResponseEntity getCafeSignitureList(final HttpServletRequest httpServletRequest, @PathVariable final int cafe_id)
+    {
+
+        /**
+         * 토큰으로 유효한지 아닌지 확인 구현 필요
+         *
+         */
+
+
+
+        try{
+            return new ResponseEntity<>(cafeService.findCafeSignitureMenuList(cafe_id), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
 
 
 
