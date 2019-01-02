@@ -15,7 +15,7 @@ public class Map {
     private Double cafe_latitude;
     private Double cafe_longitude;
     private String cafe_name;
-
+    private String cafe_img_url;
     //거리
     private String distance;
 
