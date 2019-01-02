@@ -41,6 +41,19 @@ public interface ReviewImageMapper {
 
 
     /**
+     * 해당 카페의 이미지 1장만 조회
+     * @param   cafeId    카페 고유 index
+     * @return  이미지
+     */
+    @Select("SELECT REVIEW.review_id, REVIEW_IMG.review_img_url " +
+            "FROM REVIEW, REVIEW_IMG " +
+            "WHERE REVIEW.review_id = REVIEW_IMG.review_id " +
+            "AND REVIEW.cafe_id=#{cafeId} " +
+            "GROUP BY REVIEW.review_id")
+    List<ReviewImage> findOneByCafeId(@Param("cafeId") final int cafeId);
+
+
+    /**
      * 리뷰의 이미지 1장씩 저장
      *
      * @param reviewId      리뷰 고유 index

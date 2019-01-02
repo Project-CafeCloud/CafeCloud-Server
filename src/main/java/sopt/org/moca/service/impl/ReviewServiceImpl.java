@@ -18,6 +18,7 @@ import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,12 +68,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public DefaultRes<List<ReviewImage>> findAllByCafeId(final int cafeId) {
 
-        List<Review> reviewList = reviewMapper.findAllByCafeId(cafeId);
-        List<ReviewImage> reviewImageList = new ArrayList<>();
-
-        for (Review review : reviewList) {
-            reviewImageList.add(reviewImageMapper.findOneByReviewId(review.getReview_id()));
-        }
+        List<ReviewImage> reviewImageList = reviewImageMapper.findOneByCafeId(cafeId);
 
         if (reviewImageList == null)
             return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_REVIEWS);
@@ -91,6 +87,9 @@ public class ReviewServiceImpl implements ReviewService {
     public DefaultRes<List<Review>> findBestByCafeId(final int cafeId, final int num) {
 
         List<Review> reviewList = reviewMapper.findBestByCafeId(cafeId, num);
+        for (Review r : reviewList){
+            r.setImage(reviewImageMapper.findAllByReviewId(r.getReview_id()));
+        }
 
         if (reviewList.isEmpty())
             return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_REVIEWS);
@@ -110,7 +109,11 @@ public class ReviewServiceImpl implements ReviewService {
 
         if (review == null)
             return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_REVIEWS);
+
         review.setImage(reviewImageMapper.findAllByReviewId(review.getReview_id()));
+        // review.setAuth(checkAuth(userId, reviewId));
+        review.setLike_count(reviewLikeMapper.countByReviewId(review.getReview_id()));
+
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_REVIEWS, review);
     }
 
@@ -164,7 +167,7 @@ public class ReviewServiceImpl implements ReviewService {
         try {
             if (reviewLike == null) {
                 // 좋아요
-                reviewLikeMapper.save(userId, reviewId);
+                reviewLikeMapper.save(userId, reviewId, new Date());
             } else {
                 // 좋아요 취소
                 reviewLikeMapper.deleteByUserIdAndReviewId(userId, reviewId);

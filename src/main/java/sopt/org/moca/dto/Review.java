@@ -17,10 +17,10 @@ public class Review {
     private int cafe_id;
     private String user_id;
     private List<ReviewImage> image;
-    private int rating;
-    private String title;
-    private String content;
-    private Date create_date;
+    private int review_rating;
+    private String review_title;
+    private String review_content;
+    private Date review_date;
 
     private int like_count;
     private int comment_count;

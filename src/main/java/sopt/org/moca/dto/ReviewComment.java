@@ -15,8 +15,8 @@ public class ReviewComment {
 
     private int review_comment_id;
     private String user_id;
-    private String content;
-    private Date create_date;
+    private String review_comment_content;
+    private Date review_comment_date;
     private String time; // ~시간 전
 
     private boolean auth;
