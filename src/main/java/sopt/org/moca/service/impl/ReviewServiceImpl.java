@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 import sopt.org.moca.dto.Review;
+import sopt.org.moca.dto.ReviewComment;
 import sopt.org.moca.dto.ReviewImage;
 import sopt.org.moca.dto.ReviewLike;
 import sopt.org.moca.mapper.ReviewImageMapper;
@@ -16,8 +17,8 @@ import sopt.org.moca.model.ReviewReq;
 import sopt.org.moca.service.ReviewService;
 import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
+import sopt.org.moca.utils.Time;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,6 +92,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> reviewList = reviewMapper.findBestByCafeId(cafeId, num);
         for (Review r : reviewList){
             r.setImage(reviewImageMapper.findAllByReviewId(r.getReview_id()));
+            r.setTime(Time.toText(r.getReview_date()));
         }
 
         if (reviewList.isEmpty())
@@ -110,10 +112,9 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewMapper.findByReviewId(reviewId);
 
         if (review == null)
-            return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_REVIEWS);
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
 
         review.setImage(reviewImageMapper.findAllByReviewId(review.getReview_id()));
-        // review.setAuth(checkAuth(userId, reviewId));
         review.setLike_count(reviewLikeMapper.countByReviewId(review.getReview_id()));
 
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_REVIEWS, review);
@@ -162,7 +163,7 @@ public class ReviewServiceImpl implements ReviewService {
     public DefaultRes like(final String userId, final int reviewId) {
         Review review = findByReviewId(reviewId).getData();
         if (review == null)
-            return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_REVIEWS);
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
 
         ReviewLike reviewLike = reviewLikeMapper.findByUserIdAndReviewId(userId, reviewId);
 
@@ -175,11 +176,11 @@ public class ReviewServiceImpl implements ReviewService {
                 reviewLikeMapper.deleteByUserIdAndReviewId(userId, reviewId);
             }
 
-            review = findByReviewId(reviewId).getData();
+            // review = findByReviewId(reviewId).getData();
             review.setAuth(checkAuth(userId, reviewId));
             review.setLike(checkLike(userId, reviewId));
 
-            return DefaultRes.res(StatusCode.OK, ResponseMessage.LIKE_REVIEW, review);
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.LIKE_REVIEW);
         } catch (Exception e) {
             log.error(e.getMessage());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

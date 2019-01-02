@@ -52,7 +52,7 @@ public class ResponseMessage {
     public static final String NOT_FOUND_REVIEWS = "리뷰를 찾을 수 없습니다";
     public static final String CREATED_REVIEW = "리뷰 작성 성공";
     public static final String FAIL_CREATE_REVIEW = "리뷰 작성 실패";
-    public static final String LIKE_REVIEW = "리뷰 좋아요 성공";
+    public static final String LIKE_REVIEW = "리뷰 좋아요/취소 성공";
 
     // 리뷰에 대한 댓글
     public static final String READ_COMMENTS = "댓글 조회 성공";

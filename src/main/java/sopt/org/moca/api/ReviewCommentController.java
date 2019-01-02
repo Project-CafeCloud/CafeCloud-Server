@@ -56,16 +56,16 @@ public class ReviewCommentController {
             @PathVariable final int review_id) {
         try {
 
-            final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+//            final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
 
             DefaultRes<List<ReviewComment>> reviewCommentList = reviewCommentService.findByReviewId(review_id);
-
+/*
             if(reviewCommentList.getData() != null) {
                 for (ReviewComment c : reviewCommentList.getData()) {
                     c.setAuth(c.getUser_id() == user_id);
                 }
             }
-
+*/
             return new ResponseEntity<>(reviewCommentList, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());

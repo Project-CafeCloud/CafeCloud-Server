@@ -19,6 +19,6 @@ public class ReviewComment {
     private Date review_comment_date;
     private String time; // ~시간 전
 
-    private boolean auth;
+//    private boolean auth;
 
 }

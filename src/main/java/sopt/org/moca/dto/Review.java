@@ -21,6 +21,7 @@ public class Review {
     private String review_title;
     private String review_content;
     private Date review_date;
+    private String time; // ~시간 전
 
     private int like_count;
     private int comment_count;
