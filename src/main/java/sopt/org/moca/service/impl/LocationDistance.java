@@ -1,5 +1,11 @@
 package sopt.org.moca.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+
+@Slf4j
+@Component
 public class LocationDistance {
 
 //    // 마일(Mile) 단위

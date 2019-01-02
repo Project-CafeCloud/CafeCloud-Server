@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 @Slf4j
-
 public class MapServiceImpl implements MapService {
 
     private final LocationDistance locationDistance;

@@ -15,9 +15,12 @@ public class Map {
     private Double cafe_latitude;
     private Double cafe_longitude;
     private String cafe_name;
-    private String cafe_img_url;
 
     //거리
-    private int distance;
+    private String distance;
+
+    public void setDistance(final double distance) {
+        this.distance = String.valueOf((int)(distance * 1000)) + "m";
+    }
 
 }

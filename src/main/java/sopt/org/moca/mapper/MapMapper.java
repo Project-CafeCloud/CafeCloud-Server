@@ -17,13 +17,7 @@ public interface MapMapper {
      *  반경 구하기
      *
      * **/
-    @Select("SELECT * ," +
-            "(6371*acos(cos(radians(#{cafe_latitude}))*cos(radians(cafe_latitude))*cos(radians(cafe_longitude)" +
-            "-radians(#{cafe_longitude}))+sin(radians(#{cafe_latitude}))*sin(radians(cafe_longitude)))) AS distance" +
-            "FROM CAFE" +
-            "HAVING distance <= 1"+
-            "ORDER BY distance DESC"+
-            "LIMIT 0,5")
-    List<Map> findNearbyCafe(@Param("MapReq")final MapReq mapReq);
+    @Select("SELECT *, (6371*acos(cos(radians(#{mapReq.cafe_latitude}))*cos(radians(cafe_latitude))*cos(radians(cafe_longitude) -radians(#{mapReq.cafe_longitude}))+sin(radians(#{mapReq.cafe_latitude}))*sin(radians(cafe_latitude)))) AS distance FROM CAFE HAVING distance <= 0.3 ORDER BY distance LIMIT 0,5")
+    List<Map> findNearbyCafe(@Param("mapReq")final MapReq mapReq);
 
 }
