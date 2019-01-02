@@ -39,6 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final FileUploadService fileUploadService;
 
 
+
     /**
      * 생성자 의존성 주입
      *
@@ -47,6 +48,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @param reviewLikeMapper
      * @param fileUploadService
      */
+
     public ReviewServiceImpl(final ReviewMapper reviewMapper,
                          final ReviewImageMapper reviewImageMapper,
                          final ReviewLikeMapper reviewLikeMapper,
