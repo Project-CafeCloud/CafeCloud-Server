@@ -67,7 +67,7 @@ public interface UserMapper {
      * 회원 탈퇴
      *
      * **/
-    @Delete("DELECT FROM USER WHERE user_id = #{user_id}")
+    @Delete("DELETE  FROM USER WHERE user_id = #{user_id}")
     void deleteById(@Param("user_id") final String user_id);
 
 
