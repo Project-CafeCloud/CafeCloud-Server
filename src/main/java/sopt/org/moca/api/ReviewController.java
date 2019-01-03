@@ -133,7 +133,6 @@ public class ReviewController {
     public ResponseEntity save(
             final HttpServletRequest httpServletRequest,
             ReviewReq reviewReq) {
-        log.info("post review");
         try {
             reviewReq.setUser_id(JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id());
             return new ResponseEntity<>(reviewService.save(reviewReq), HttpStatus.OK);

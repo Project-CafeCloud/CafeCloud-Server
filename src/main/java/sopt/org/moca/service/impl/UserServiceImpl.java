@@ -13,6 +13,7 @@ import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -123,6 +124,30 @@ public class UserServiceImpl implements UserService {
             log.error(e.getMessage());
             return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
         }
+    }
+
+
+
+    /**
+     * 유저의 팔로우 (팔로잉/팔로워) 조회
+     * @param user_id
+     * @param is_follower
+     * @return DefaultRes
+     *
+     **/
+    @Override
+    public DefaultRes<List<User>> findFollow(final String user_id, final boolean is_follower){
+
+        List<User> follow;
+
+        if(is_follower){
+            follow = userMapper.findFollowing(user_id);
+        } else {
+            follow = userMapper.findFollower(user_id);
+        }
+
+        if (follow != null) return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, follow);
+        return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_FOLLOW);
     }
 
 }

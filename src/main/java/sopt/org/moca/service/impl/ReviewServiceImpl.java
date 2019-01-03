@@ -17,6 +17,7 @@ import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
 import sopt.org.moca.utils.Time;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -120,11 +121,11 @@ public class ReviewServiceImpl implements ReviewService {
     /**
      * 유저가 쓴 모든 리뷰 최신순으로 조회
      *
-     * @param userId        유저 고유 id
+     * @param userIdList        유저 고유 id
      * @return DefaultRes
      */
     @Override
-    public DefaultRes<List<Review>> findByUserId(final String userId) {
+    public DefaultRes<List<Review>> findByUserId(final String userIdList) {
 
 
         // 유저가 쓴 리뷰 모두 가져오기 findByUserId
@@ -133,7 +134,8 @@ public class ReviewServiceImpl implements ReviewService {
         // 카페 정보 붙이기
         // like_count, time 붙이기
 
-        List<Review> reviewList = reviewMapper.findByUserId(userId);
+
+        List<Review> reviewList = reviewMapper.findByUserId(userIdList);
         for (Review r : reviewList){
 
             CafeInfo cafeinfo = cafeMapper.findByCafeId(r.getCafe_id());
@@ -161,7 +163,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public DefaultRes<Review> findByReviewId(final int reviewId) {
 
-        // 이거 에러 어떻게 잡아 ;
+        // 이거 에러 어떻게 잡아 ; -> controller로
         if(reviewMapper.findByReviewId(reviewId) == null){
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
         }
