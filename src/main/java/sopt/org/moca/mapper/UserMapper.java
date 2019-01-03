@@ -31,6 +31,16 @@ public interface UserMapper {
             "VALUES(#{userSignUpReq.user_id}, #{userSignUpReq.user_password},#{userSignUpReq.user_name},#{userSignUpReq.user_phone},#{userSignUpReq.user_img_url})")
     void save(@Param("userSignUpReq") final UserSignUpReq userSignUpReq);
 
+    /***
+    *
+    * 전화 번호로 아이디 찾기
+    *
+    */
+    @Select("SELECT user_id FROM USER WHERE user_phone = #{user_phone}")
+    String findUserIdByUserPhone(@Param("user_phone")final String user_phone);
+
+
+
 
     /**
      *
@@ -57,7 +67,7 @@ public interface UserMapper {
      * 회원 탈퇴
      *
      * **/
-    @Delete("DELECT FROM USER WHERE user_id = #{user_id}")
+    @Delete("DELETE  FROM USER WHERE user_id = #{user_id}")
     void deleteById(@Param("user_id") final String user_id);
 
 
