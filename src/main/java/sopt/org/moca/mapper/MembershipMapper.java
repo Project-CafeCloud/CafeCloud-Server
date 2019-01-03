@@ -56,7 +56,6 @@ public interface MembershipMapper {
     void saveCoupon(@Param("coupon")final Coupon coupon);
 
 
-
     //쿠폰 사용
     @Update("UPDATE COUPON SET coupon_used = 1 " +
             "where coupon_id = #{coupon_id}")
