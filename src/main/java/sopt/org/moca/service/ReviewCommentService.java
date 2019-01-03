@@ -2,6 +2,7 @@ package sopt.org.moca.service;
 
 import sopt.org.moca.dto.Review;
 
+import sopt.org.moca.dto.ReviewComment;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.ReviewCommentReq;
 

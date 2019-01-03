@@ -46,6 +46,17 @@ public interface ReviewMapper {
 
 
     /**
+     * 유저가 쓴 모든 리뷰 최신순으로 조회
+     *
+     * @param   userId     유저 고유 id
+     */
+    @Select("SELECT * FROM REVIEW " +
+            "WHERE user_id = #{userId} " +
+            "ORDER BY review_date DESC")
+    List<Review> findByUserId(@Param("userId") final String userId);
+
+
+    /**
      * 리뷰 상세 조회
      *
      * @param   reviewId      리뷰 고유 id

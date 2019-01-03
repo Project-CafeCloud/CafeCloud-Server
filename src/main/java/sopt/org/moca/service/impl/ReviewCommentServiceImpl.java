@@ -6,11 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import sopt.org.moca.dto.ReviewComment;
 import sopt.org.moca.mapper.ReviewCommentMapper;
+import sopt.org.moca.mapper.ReviewMapper;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.ReviewCommentReq;
 import sopt.org.moca.service.ReviewCommentService;
 import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
+import sopt.org.moca.utils.Time;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ import java.util.List;
 @Service
 public class ReviewCommentServiceImpl implements ReviewCommentService {
 
+    private final ReviewMapper reviewMapper;
     private final ReviewCommentMapper reviewCommentMapper;
 
 
@@ -31,7 +34,9 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
      *
      * @param reviewCommentMapper
      */
-    public ReviewCommentServiceImpl(final ReviewCommentMapper reviewCommentMapper) {
+    public ReviewCommentServiceImpl(final ReviewMapper reviewMapper,
+                                    final ReviewCommentMapper reviewCommentMapper) {
+        this.reviewMapper = reviewMapper;
         this.reviewCommentMapper = reviewCommentMapper;
 
     }
@@ -46,7 +51,15 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
     @Override
     public DefaultRes<List<ReviewComment>> findByReviewId(final int reviewId) {
 
+        if(reviewMapper.findByReviewId(reviewId) == null){
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
+        }
+
         List<ReviewComment> reviewCommentList = reviewCommentMapper.findByReviewId(reviewId);
+
+        for(ReviewComment c : reviewCommentList){
+            c.setTime(Time.toText(c.getReview_comment_date()));
+        }
 
         if (reviewCommentList.isEmpty())
             return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_COMMENTS);
@@ -65,6 +78,11 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
     public DefaultRes save(final ReviewCommentReq reviewCommentReq) {
         if (reviewCommentReq.checkProperties()) {
             try {
+
+                if(reviewMapper.findByReviewId(reviewCommentReq.getReview_id()) == null){
+                    return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
+                }
+
                 reviewCommentMapper.save(reviewCommentReq);
 
                 return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_COMMENT);
