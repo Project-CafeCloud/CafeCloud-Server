@@ -125,7 +125,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @return DefaultRes
      */
     @Override
-    public DefaultRes<List<Review>> findByUserId(final String userIdList) {
+    public DefaultRes<List<Review>> findByUserId(final List<String> userIdList) {
 
 
         // 유저가 쓴 리뷰 모두 가져오기 findByUserId
@@ -133,7 +133,6 @@ public class ReviewServiceImpl implements ReviewService {
         // 리뷰 이미지 붙이기
         // 카페 정보 붙이기
         // like_count, time 붙이기
-
 
         List<Review> reviewList = reviewMapper.findByUserId(userIdList);
         for (Review r : reviewList){

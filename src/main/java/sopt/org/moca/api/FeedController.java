@@ -61,7 +61,10 @@ public class FeedController {
             final String feedId = user_id;
             final String userId = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
 
-            String feedIdList = "['" + feedId + "']";
+            List<String> feedIdList = new ArrayList<>();
+            feedIdList.add(feedId);
+
+            //String feedIdList = "['" + feedId + "']";
             DefaultRes<List<Review>> feedList = reviewService.findByUserId(feedIdList);
 
             if(feedList.getData() != null) {
@@ -96,19 +99,23 @@ public class FeedController {
 
             DefaultRes<List<User>> followingList = userService.findFollow(userId, true);
 
-            String feedIdList = "[";
+            //String feedIdList = "[";
+
+
+            List<String> feedIdList = new ArrayList<>();
 
             // user가 팔로우 하고 있는 사람들
             if(followingList.getData() != null) {
                 for (User f : followingList.getData()) {
 
-                    feedIdList += "'" + f.getUser_id() + "',";
+                    feedIdList.add(f.getUser_id());
+                    //feedIdList += "'" + f.getUser_id() + "',";
 
                 }
             }
 
-            feedIdList.substring(0, feedIdList.length()-1);
-            log.info(feedIdList);
+            //feedIdList.substring(0, feedIdList.length()-1);
+            //log.info(feedIdList);
 
             DefaultRes<List<Review>> feedList = reviewService.findByUserId(feedIdList);
 
