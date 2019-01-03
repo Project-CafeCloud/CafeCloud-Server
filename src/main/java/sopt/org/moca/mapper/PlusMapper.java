@@ -13,11 +13,11 @@ public interface PlusMapper {
 
     /**
      *
-     * Home 피드에 Moca Plus 주제 3개 보여주기
+     *  Plus 주제 보여주기
      *
      * **/
 
-    @Select("SELECT * FROM PLUS_SUBJECT ORDER BY plus_subject_id DESC LIMIT #{length}")
+    @Select("SELECT p.*,u.user_img_url FROM PLUS_SUBJECT as p, USER as u WHERE u.user_id = p.editor_id ORDER BY plus_subject_id DESC LIMIT #{length}")
     List<PlusSubject> findPlusSubject(@Param("length") final int length);
 
 
