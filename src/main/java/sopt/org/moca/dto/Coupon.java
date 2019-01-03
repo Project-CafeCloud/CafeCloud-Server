@@ -13,6 +13,6 @@ import java.util.Date;
 public class Coupon {
 
     private int coupon_id;
-    private Date coupon_create_date;
-    private int coupon_authentication_number;
+    private String  coupon_authentication_number;
+    private String user_id;
 }

@@ -14,5 +14,4 @@ public interface MembershipService {
     DefaultRes saveMembership(final MembershipReq membershipReq);
 
 
-
 }
