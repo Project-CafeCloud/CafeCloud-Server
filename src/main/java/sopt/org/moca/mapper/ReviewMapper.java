@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.*;
 import sopt.org.moca.dto.Review;
 import sopt.org.moca.model.ReviewReq;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,13 +47,28 @@ public interface ReviewMapper {
 
     /**
      * 유저가 쓴 모든 리뷰 최신순으로 조회
+     * (유저피드)
      *
      * @param   userId     유저 고유 id
      */
     @Select("SELECT * FROM REVIEW " +
-            "WHERE user_id IN #{userId} " +
+            "WHERE user_id = #{userId} " +
             "ORDER BY review_date DESC")
-    List<Review> findByUserId(@Param("userId") final List<String> userId);
+    List<Review> findUserFeedByUserId(@Param("userId") final String userId);
+
+
+    /**
+     * 유저가 팔로우한 유저들이 쓴 모든 리뷰 최신순으로 조회
+     * (소셜피드)
+     *
+     * @param   userId     유저 고유 id
+     */
+    @Select("SELECT * FROM REVIEW " +
+            "WHERE user_id IN " +
+            "(SELECT following_id FROM FOLLOW " +
+            "WHERE follower_id = #{userId}) " +
+            "ORDER BY review_date DESC")
+    List<Review> findSocialFeedByUserId(@Param("userId") final String userId);
 
 
     /**
