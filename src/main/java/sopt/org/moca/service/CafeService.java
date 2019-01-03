@@ -2,6 +2,7 @@ package sopt.org.moca.service;
 
 import org.springframework.stereotype.Service;
 import sopt.org.moca.dto.*;
+import sopt.org.moca.model.CafeSimpleRef;
 import sopt.org.moca.model.DefaultRes;
 
 import java.util.List;
@@ -19,6 +20,11 @@ public interface CafeService {
     DefaultRes<List<CafeImg>>findCafeImgList(final int cafe_id);
     DefaultRes<CafeInfo>findCafeInfo(final int cafe_id);
     DefaultRes<List<CafeSignitureMenu>>findCafeSignitureMenuList(final int cafe_id);
+
+    //카페 카테고리 필터링
+
+    //해당 지역구 전체
+    DefaultRes<List<CafeSimpleRef>>findCafeSimpleList(final int address_district_id);
 
 
 
