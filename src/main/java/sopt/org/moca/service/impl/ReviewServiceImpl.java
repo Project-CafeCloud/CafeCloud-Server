@@ -52,10 +52,10 @@ public class ReviewServiceImpl implements ReviewService {
      */
 
     public ReviewServiceImpl(final CafeMapper cafeMapper,
-                         final ReviewMapper reviewMapper,
-                         final ReviewImageMapper reviewImageMapper,
-                         final ReviewLikeMapper reviewLikeMapper,
-                         final FileUploadService fileUploadService) {
+                             final ReviewMapper reviewMapper,
+                             final ReviewImageMapper reviewImageMapper,
+                             final ReviewLikeMapper reviewLikeMapper,
+                             final FileUploadService fileUploadService) {
         this.cafeMapper = cafeMapper;
         this.reviewMapper = reviewMapper;
         this.reviewImageMapper = reviewImageMapper;
