@@ -54,7 +54,7 @@ public interface ReviewMapper {
     @Select("SELECT * FROM REVIEW " +
             "WHERE user_id IN #{userId} " +
             "ORDER BY review_date DESC")
-    List<Review> findByUserId(@Param("userId") final String userId);
+    List<Review> findByUserId(@Param("userId") final List<String> userId);
 
 
     /**
