@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class ReviewImage {
 
-    private int review_img_id;
     private int review_id;
-    private String img_url;
+    private String review_img_url;
 }

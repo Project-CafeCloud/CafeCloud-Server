@@ -10,11 +10,14 @@ import java.util.List;
 
 public interface ReviewService {
 
+
     DefaultRes<List<ReviewImage>> findAllByCafeId(final int cafeId);
 
     DefaultRes<List<Review>> findBestByCafeId(final int cafeId, final int num);
 
     DefaultRes<Review> findByReviewId(final int reviewId);
+
+    DefaultRes<List<Review>> findByUserId(final String userId);
 
     DefaultRes save(final ReviewReq reviewReq);
 

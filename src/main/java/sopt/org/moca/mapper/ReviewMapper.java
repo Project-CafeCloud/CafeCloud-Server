@@ -24,7 +24,7 @@ public interface ReviewMapper {
      * @param   cafeId     카페 고유 id
      */
     @Select("SELECT review_id FROM REVIEW " +
-            "WHERE contentIdx = #{cafeId}")
+            "WHERE cafe_id = #{cafeId}")
     List<Review> findAllByCafeId(@Param("cafeId") final int cafeId);
 
 
@@ -34,11 +34,26 @@ public interface ReviewMapper {
      * @param   cafeId     카페 고유 id
      * @param   num        개수
      */
-    @Select("SELECT * FROM REVIEW " +
-            "WHERE contentIdx = #{cafeId} " +
+    @Select("SELECT *, COUNT(review_like_date) AS like_count " +
+            "FROM REVIEW LEFT JOIN REVIEW_LIKE " +
+            "ON REVIEW.review_id = REVIEW_LIKE.review_id " +
+            "WHERE REVIEW.cafe_id = #{cafeId} " +
+            "GROUP BY REVIEW_LIKE.review_id " +
+            "ORDER BY like_count DESC, REVIEW.review_date DESC " +
             "LIMIT #{num}")
     List<Review> findBestByCafeId(@Param("cafeId") final int cafeId,
                                   @Param("num") final int num);
+
+
+    /**
+     * 유저가 쓴 모든 리뷰 최신순으로 조회
+     *
+     * @param   userId     유저 고유 id
+     */
+    @Select("SELECT * FROM REVIEW " +
+            "WHERE user_id = #{userId} " +
+            "ORDER BY review_date DESC")
+    List<Review> findByUserId(@Param("userId") final String userId);
 
 
     /**
@@ -58,6 +73,7 @@ public interface ReviewMapper {
      */
     @Insert("INSERT INTO REVIEW (cafe_id, user_id, review_rating, review_title, review_content, review_date) " +
             "VALUES (#{reviewReq.cafe_id}, #{reviewReq.user_id}, #{reviewReq.rating}, #{reviewReq.title}, #{reviewReq.content}, #{reviewReq.created_date})")
+    @Options(useGeneratedKeys = true, keyProperty = "reviewReq.review_id")
     void save(@Param("reviewReq") final ReviewReq reviewReq);
 
 
