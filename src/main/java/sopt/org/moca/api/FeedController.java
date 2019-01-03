@@ -7,15 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sopt.org.moca.dto.Review;
 import sopt.org.moca.dto.ReviewImage;
+import sopt.org.moca.dto.User;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.ReviewReq;
 import sopt.org.moca.service.ReviewService;
+import sopt.org.moca.service.UserService;
 import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
 import sopt.org.moca.utils.auth.Auth;
 import sopt.org.moca.utils.auth.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 import static sopt.org.moca.model.DefaultRes.FAIL_DEFAULT_RES;
@@ -34,10 +37,12 @@ public class FeedController {
 
     private static final String HEADER = "Authorization";
     private final ReviewService reviewService;
+    private final UserService userService;
 
-    public FeedController(final ReviewService reviewService) {
+    public FeedController(final ReviewService reviewService, final UserService userService) {
 
         this.reviewService = reviewService;
+        this.userService = userService;
     }
 
     /**
@@ -56,18 +61,16 @@ public class FeedController {
             final String feedId = user_id;
             final String userId = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
 
-            DefaultRes<List<Review>> feedList = reviewService.findByUserId(feedId);
+            String feedIdList = "['" + feedId + "']";
+            DefaultRes<List<Review>> feedList = reviewService.findByUserId(feedIdList);
 
-
-/*
-            DefaultRes<List<Review>> reviewList = reviewService.findBestByCafeId(cafe_id, num);
-            if(reviewList.getData() != null) {
-                for (Review r : reviewList.getData()) {
+            if(feedList.getData() != null) {
+                for (Review r : feedList.getData()) {
                     r.setAuth(r.getUser_id().compareTo(userId) == 0);
                     r.setLike(reviewService.checkLike(userId, r.getReview_id()));
                 }
             }
-*/
+
             return new ResponseEntity<>(feedList, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -80,32 +83,42 @@ public class FeedController {
      * 소셜 피드
      *
      * @param httpServletRequest Request
-     * @param user_id    피드 유저 고유 id
      * @return ResponseEntity
      */
-    @GetMapping("/social/{user_id}")
+    @GetMapping("/social")
     public ResponseEntity getSocialFeed(
-            final HttpServletRequest httpServletRequest,
-            @PathVariable final String user_id) {
+            final HttpServletRequest httpServletRequest) {
 
         try {
 
-            final String feedId = user_id;
             final String userId = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
 
-            if (feedId.compareTo(userId) != 0)
-                return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.FORBIDDEN);
 
-            DefaultRes<List<Review>> feedList = reviewService.findByUserId(feedId);
+            DefaultRes<List<User>> followingList = userService.findFollow(userId, true);
 
-/*
-            if(reviewList.getData() != null) {
-                for (Review r : reviewList.getData()) {
+            String feedIdList = "[";
+
+            // user가 팔로우 하고 있는 사람들
+            if(followingList.getData() != null) {
+                for (User f : followingList.getData()) {
+
+                    feedIdList += "'" + f.getUser_id() + "',";
+
+                }
+            }
+
+            feedIdList.substring(0, feedIdList.length()-1);
+            log.info(feedIdList);
+
+            DefaultRes<List<Review>> feedList = reviewService.findByUserId(feedIdList);
+
+            if(feedList.getData() != null) {
+                for (Review r : feedList.getData()) {
                     r.setAuth(r.getUser_id().compareTo(userId) == 0);
                     r.setLike(reviewService.checkLike(userId, r.getReview_id()));
                 }
             }
-*/
+
             return new ResponseEntity<>(feedList, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());

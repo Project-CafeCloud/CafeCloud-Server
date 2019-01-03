@@ -4,6 +4,8 @@ import sopt.org.moca.dto.User;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.UserSignUpReq;
 
+import java.util.List;
+
 
 public interface UserService {
 
@@ -11,4 +13,5 @@ public interface UserService {
     DefaultRes<User> findById(final String user_id);
     DefaultRes updateUser(final String user_id ,final UserSignUpReq userSignUpReq);
     DefaultRes deleteById(final String user_id);
+    DefaultRes<List<User>> findFollow(final String user_id, final boolean is_follower);
 }

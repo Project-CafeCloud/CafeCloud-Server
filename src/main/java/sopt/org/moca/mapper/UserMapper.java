@@ -59,4 +59,22 @@ public interface UserMapper {
      * **/
     @Delete("DELECT FROM USER WHERE user_id = #{user_id}")
     void deleteById(@Param("user_id") final String user_id);
+
+
+
+    /**
+     * 팔로워 목록 조회
+     * @param user_id
+     * */
+    @Select("SELECT * FROM FOLLOW WHERE following_id = #{user_id}")
+    List<User> findFollower(@Param("user_id") final String user_id);
+
+
+    /**
+     * 팔로잉 목록 조회
+     * @param user_id
+     * */
+    @Select("SELECT * FROM FOLLOW WHERE follower_id = #{user_id}")
+    List<User> findFollowing(@Param("user_id") final String user_id);
+
 }

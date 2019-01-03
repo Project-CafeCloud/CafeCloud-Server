@@ -85,6 +85,8 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
 
                 reviewCommentMapper.save(reviewCommentReq);
 
+                log.info(reviewCommentReq.getContent());
+
                 return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_COMMENT);
             } catch (Exception e) {
                 log.info(e.getMessage());
