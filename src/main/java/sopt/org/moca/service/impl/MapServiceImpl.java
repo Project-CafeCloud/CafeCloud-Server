@@ -29,7 +29,9 @@ public class MapServiceImpl implements MapService {
     public DefaultRes<List<Map>> GetNearByCafe(final MapReq mapReq){
 
         List<Map> mapList = mapMapper.findNearbyCafe(mapReq);
-        if(mapList == null){
+
+        log.info(String.valueOf(mapList));
+        if(mapList.isEmpty()){
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_NEAR_BY_CAFE);
         }else
         {

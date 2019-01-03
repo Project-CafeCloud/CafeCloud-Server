@@ -33,7 +33,7 @@ public class PlusController {
 
     /**
      *
-     * 홈피드 PLUS 주제 조회
+     * PLUS 주제 조회
      * **/
     @GetMapping("/{length}")
     public ResponseEntity GetPlusSubjectList( @PathVariable final int length){
@@ -46,4 +46,20 @@ public class PlusController {
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     *
+     * PLUS 카페 디테일 뷰 조회
+     * **/
+//    @GetMapping("/{plus_subject_id}/detail")
+//    public ResponseEntity GetPlusDetail (@PathVariable final int plus_subject_id){
+//        try{
+//
+//
+//        }catch (Exception e){
+//            log.error(e.getMessage());
+//            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
 }

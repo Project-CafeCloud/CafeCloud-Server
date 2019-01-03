@@ -64,6 +64,7 @@ public class ResponseMessage {
     public static final String NOT_FOUND_NEAR_BY_CAFE = "가까운 카페를 찾을 수 없습니다";
     public static final String READ_NEAR_BY_CAFE = "가까운 카페 리스트 찾기 성공";
 
+
     // 플러스
     public static final String NOT_FOUND_PLUS_SUBJECT_LIST = "플러스 주제 리스트를 찾을 수 없습니다.";
     public static final String READ_PLUS_SUBJECT_LIST = "플러스 주제 리스트 찾기 성공";
