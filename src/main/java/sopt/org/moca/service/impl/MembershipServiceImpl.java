@@ -7,6 +7,7 @@ import sopt.org.moca.dto.Coupon;
 import sopt.org.moca.dto.Membership;
 import sopt.org.moca.mapper.MembershipMapper;
 import sopt.org.moca.mapper.UserMapper;
+import sopt.org.moca.model.CouponRes;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.MembershipIns;
 import sopt.org.moca.model.MembershipReq;
@@ -68,8 +69,22 @@ public class MembershipServiceImpl implements MembershipService {
 
     }
 
+    @Override
+    public DefaultRes<List<CouponRes>> findCouponList(String user_id) {
+
+        List<CouponRes> couponList = membershipMapper.findCouponList(user_id);
+
+        if(couponList.isEmpty())
+        {
+            log.info(couponList.get(0).toString()+"");
 
 
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_COUPON_LIST);
+
+        }
+        return DefaultRes.res(StatusCode.OK , ResponseMessage.READ_COUPON_LIST,couponList);
+
+    }
 
 
     private int countMembership(String user_id)
