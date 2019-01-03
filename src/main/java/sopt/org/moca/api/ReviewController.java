@@ -59,9 +59,8 @@ public class ReviewController {
 
             DefaultRes<Review> review = reviewService.findByReviewId(review_id);
 
-            review.getData().setAuth(user_id == review.getData().getUser_id());
+            review.getData().setAuth(review.getData().getUser_id().compareTo(user_id) == 0);
             review.getData().setLike(reviewService.checkLike(user_id, review_id));
-
             return new ResponseEntity<>(review, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -95,24 +94,26 @@ public class ReviewController {
      *
      * @param httpServletRequest Request
      * @param cafe_id    카페 고유 id
-     * @param num       개수
      * @return ResponseEntity
      */
     @GetMapping("/{cafe_id}/best")
     public ResponseEntity getAllByCafeId(
             final HttpServletRequest httpServletRequest,
-            @PathVariable final int cafe_id, @PathVariable final int num) {
+            @PathVariable final int cafe_id) {
 
         try {
+            final int num = 3; // 베스트 몇 개?
+
             final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
-            DefaultRes<List<Review>> defaultRes = reviewService.findBestByCafeId(cafe_id, num);
-            if(defaultRes.getData() != null) {
-                for (Review r : defaultRes.getData()) {
-                    r.setAuth(r.getUser_id() == user_id);
+
+            DefaultRes<List<Review>> reviewList = reviewService.findBestByCafeId(cafe_id, num);
+            if(reviewList.getData() != null) {
+                for (Review r : reviewList.getData()) {
+                    r.setAuth(r.getUser_id().compareTo(user_id) == 0);
                     r.setLike(reviewService.checkLike(user_id, r.getReview_id()));
                 }
             }
-            return new ResponseEntity<>(defaultRes, HttpStatus.OK);
+            return new ResponseEntity<>(reviewList,HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -132,7 +133,6 @@ public class ReviewController {
     public ResponseEntity save(
             final HttpServletRequest httpServletRequest,
             ReviewReq reviewReq) {
-        log.info("post review");
         try {
             reviewReq.setUser_id(JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id());
             return new ResponseEntity<>(reviewService.save(reviewReq), HttpStatus.OK);

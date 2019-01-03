@@ -3,6 +3,7 @@ package sopt.org.moca.mapper;
 
 import org.apache.ibatis.annotations.*;
 import sopt.org.moca.dto.Review;
+import sopt.org.moca.dto.ReviewComment;
 import sopt.org.moca.model.ReviewCommentReq;
 import sopt.org.moca.model.ReviewReq;
 
@@ -10,10 +11,8 @@ import java.util.List;
 
 
 /**
- * findAllByCafeId      : 해당 카페에 대한 모든 리뷰 조회
- * findBestByCafeId     : 해당 카페에 대한 인기 리뷰 조회
- * findByReviewId       : 리뷰 상세 조회
- * save                 : 리뷰 등록
+ * findByReviewId       : 해당 리뷰의 모든 댓글 조회
+ * save                 : 리뷰에 대한 댓글 등록
  */
 
 @Mapper
@@ -24,18 +23,19 @@ public interface ReviewCommentMapper {
      *
      * @param   reviewId     리뷰 고유 id
      */
-    @Select("SELECT * FROM review_comment " +
-            "WHERE contentIdx = #{cafeId}")
-    List<Review> findByReviewId(@Param("reviewId") final int reviewId);
+    @Select("SELECT * FROM REVIEW_COMMENT " +
+            "WHERE review_id = #{reviewId}")
+    List<ReviewComment> findByReviewId(@Param("reviewId") final int reviewId);
 
 
     /**
-     * 리뷰 등록
+     * 리뷰에 대한 댓글 등록
      *
      * @param   reviewCommentReq     리뷰 데이터
      */
-    @Insert("INSERT INTO review (cafe_id, user_id, review_rating, review_title, review_content) " +
-            "VALUES (#{reviewReq.cafe_id}, #{reviewReq.user_id}, #{reviewReq.rating}, #{reviewReq.title}, #{reviewReq.content})")
+    @Insert("INSERT INTO REVIEW_COMMENT (review_id, user_id, review_comment_content, review_comment_date) " +
+            "VALUES (#{reviewCommentReq.review_id}, #{reviewCommentReq.user_id}, #{reviewCommentReq.content}, #{reviewCommentReq.created_date})")
+    @Options(useGeneratedKeys = true, keyProperty = "reviewCommentReq.review_comment_id")
     void save(@Param("reviewCommentReq") final ReviewCommentReq reviewCommentReq);
 
 

@@ -2,6 +2,13 @@ package sopt.org.moca.utils;
 
 public class ResponseMessage {
 
+    // 서버 에러
+    public static final String GET_SERVER_TIME_SUCCESS = "서버 시간 조회 성공";
+    public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러";
+    public static final String DB_ERROR = "데이터베이스 에러";
+
+
+    // 유저
     public static final String LOGIN_SUCCESS = "로그인 성공";
     public static final String LOGIN_FAIL = "로그인 실패";
     public static final String READ_USER = "회원 정보 조회 성공";
@@ -17,16 +24,15 @@ public class ResponseMessage {
     public static final String FORBIDDEN = "인가 실패";
 
 
-    public static final String GET_SERVER_TIME_SUCCESS = "서버 시간 조회 성공";
-    public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러";
-
-    public static final String DB_ERROR = "데이터베이스 에러";
+    // 팔로우/팔로잉
+    public static final String READ_FOLLOW = "팔로우/팔로잉 조회 성공";
+    public static final String NOT_FOUND_FOLLOW = "팔로우/팔로잉을 찾을 수 없습니다.";
 
 
     // 핫플레이스
     public static final String READ_HOT_PLACE = "핫플레이스 리스트 조회 성공";
 
-    //검증 카페
+    // 검증 카페
     public static final String READ_EVALUATED_CAFE_LIST = "검증 카페 리스트 조회 성공";
     public static final String FAIL_EVALUATED_CAFE_LIST = "검증 카페 리스트 조회 실패";
     public static final String READ_EVALUATED_CAFE_INFO = "검증카페 상세 정보 조회 성공";
@@ -45,6 +51,13 @@ public class ResponseMessage {
     public static final String FAIL_CAFE_INFO = "해당 카페 상세 정보 조회 실패";
     public static final String READ_CAFE_SIGNITURE_MENU = "해당 카페 시그니처 메뉴 조회 성공";
     public static final String FAIL_CAFE_SIGNITURE_MENU = "해당 카페 시그니처 메뉴 조회 실패";
+    public static final String NOT_FOUND_CAFE = "카페를 찾을 수 없습니다";
+
+
+    // 위치
+    public static final String NOT_FOUND_NEAR_BY_CAFE = "가까운 카페를 찾을 수 없습니다";
+    public static final String READ_NEAR_BY_CAFE = "가까운 카페 리스트 찾기 성공";
+
 
 
     // 리뷰
@@ -52,13 +65,18 @@ public class ResponseMessage {
     public static final String NOT_FOUND_REVIEWS = "리뷰를 찾을 수 없습니다";
     public static final String CREATED_REVIEW = "리뷰 작성 성공";
     public static final String FAIL_CREATE_REVIEW = "리뷰 작성 실패";
-    public static final String LIKE_REVIEW = "리뷰 좋아요 성공";
+    public static final String LIKE_REVIEW = "리뷰 좋아요/취소 성공";
 
     // 리뷰에 대한 댓글
     public static final String READ_COMMENTS = "댓글 조회 성공";
     public static final String NOT_FOUND_COMMENTS = "댓글을 찾을 수 없습니다";
     public static final String CREATED_COMMENT = "댓글 작성 성공";
     public static final String FAIL_CREATE_COMMENT = "댓글 작성 실패";
+
+    // 위치
+    public static final String NOT_FOUND_NEAR_BY_CAFE = "가까운 카페를 찾을 수 없습니다";
+    public static final String READ_NEAR_BY_CAFE = "가까운 카페 리스트 찾기 성공";
+
 
 
     //지역구 조회
@@ -73,9 +91,16 @@ public class ResponseMessage {
     public static final String FAIL_SAVE_MEMBERSHIP = "멤버쉽 적립 실패(일치하는 핸드폰 번호가 없습니다.)";
 
 
+
     //쿠폰 리스트 조회
     public static final String READ_COUPON_LIST = "쿠폰 리스트 조회 성공";
     public static final String FAIL_COUPON_LIST = "쿠폰 리스트 조회 실패";
+    // 커뮤니티
+    public static final String READ_FEEDS = "피드 조회 성공";
+    public static final String NOT_FOUND_FEEDS = "피드를 찾을 수 없습니다";
 
 
+    // 플러스
+    public static final String NOT_FOUND_PLUS_SUBJECT_LIST = "플러스 주제 리스트를 찾을 수 없습니다.";
+    public static final String READ_PLUS_SUBJECT_LIST = "플러스 주제 리스트 찾기 성공";
 }
