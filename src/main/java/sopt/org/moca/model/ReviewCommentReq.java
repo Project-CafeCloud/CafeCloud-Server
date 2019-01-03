@@ -11,11 +11,11 @@ import java.util.Date;
 @Data
 public class ReviewCommentReq {
 
-    private int reviewCommentId;
-    private int reviewId;
-    private String userId;
+    private int review_comment_id;
+    private int review_id;
+    private String user_id;
     private String content;
-    private Date createdDate = new Date();
+    private Date created_date = new Date();
 
     public boolean checkProperties() {
 

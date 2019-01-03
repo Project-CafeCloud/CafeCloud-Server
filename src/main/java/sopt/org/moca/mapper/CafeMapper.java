@@ -72,11 +72,17 @@ public interface CafeMapper {
  *
  */
 
+    // 카페 간단 조회 (REVIEW에서 사용)
+    @Select("SELECT CAFE.cafe_id, CAFE.cafe_name, ADDRESS_DISTRICT.address_district_name " +
+            "FROM CAFE, ADDRESS_DISTRICT " +
+            "WHERE CAFE.cafe_id = #{cafe_id} " +
+            "AND ADDRESS_DISTRICT.address_district_id = CAFE.cafe_address_district_id")
+    CafeInfo findByCafeId(@Param("cafe_id") final int cafe_id);
 
 
-   //카페 이미지 리스트 조회
+    //카페 이미지 리스트 조회
     @Select("select cafe_img_url from CAFE_IMG where cafe_id = #{cafe_id}")
-   List<CafeImg> findCafeImgList(@Param("cafe_id")final int cafe_id);
+    List<CafeImg> findCafeImgList(@Param("cafe_id")final int cafe_id);
 
 
     //카페 상세 정보 조회  model
@@ -91,4 +97,15 @@ public interface CafeMapper {
             "from CAFE_SIGNITURE" +
             "where cafe_id = #{cafe_id}")
     List<CafeSignitureMenu> findCafeSigitureMenuList(@Param("cafe_id")final int cafe_id);
+
+
+    /**
+     * 카페 카테고리
+     */
+
+    //해당 지역구 전체
+    @Select("select cafe_id, cafe_name, cafe_introduction , cafe_latitude, cafe_longitude ,cafe_rating_avg,cafe_img_url " +
+            "from CAFE natural join CAFE_IMG " +
+            "where cafe_img_main = 1 and cafe_address_district_id = #{address_district_id}")
+    List<CafeSimple> findCafeInfoList(@Param("address_district_id")final int address_district_id);
 }

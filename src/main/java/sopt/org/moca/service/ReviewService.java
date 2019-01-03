@@ -17,6 +17,8 @@ public interface ReviewService {
 
     DefaultRes<Review> findByReviewId(final int reviewId);
 
+    DefaultRes<List<Review>> findByUserId(final String userId);
+
     DefaultRes save(final ReviewReq reviewReq);
 
     DefaultRes like(final String userId, final int reviewId);

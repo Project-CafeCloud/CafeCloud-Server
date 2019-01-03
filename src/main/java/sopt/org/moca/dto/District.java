@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ReviewLike {
-
-    private String user_id;
-    private int review_id;
+public class District {
+    private int address_district_id;
+    private String address_district_name;
 }

@@ -172,7 +172,7 @@ public class CafeController {
      * @param cafe_id
      * @return
      */
-    @GetMapping("/cafe/image/{cafe_id")
+    @GetMapping("/image/{cafe_id")
     public ResponseEntity getCafeImgList(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id)
     {
 
@@ -201,7 +201,7 @@ public class CafeController {
      * @param cafe_id
      * @return
      */
-    @GetMapping("/cafe/detail/{cafe_id}")
+    @GetMapping("/detail/{cafe_id}")
     public ResponseEntity getCafeInfo(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id )
     {
         /**
@@ -230,7 +230,7 @@ public class CafeController {
      * @return
      */
 
-    @GetMapping("/cafe/signiture/{cafe_id}")
+    @GetMapping("/signiture/{cafe_id}")
     public ResponseEntity getCafeSignitureList(final HttpServletRequest httpServletRequest, @PathVariable final int cafe_id)
     {
 
@@ -249,6 +249,35 @@ public class CafeController {
         }
 
     }
+
+
+    /**
+     * 지역구별 카페 리스트
+     *
+     *
+     */
+    @GetMapping("/category/location/{address_district_id}")
+    public ResponseEntity getCafeSimpleList(final HttpServletRequest httpServletRequest, @PathVariable final int address_district_id)
+    {
+
+
+
+        /**
+         * 토큰으로 유효한지 아닌지 확인 구현 필요
+         *
+         */
+        log.info("1234");
+
+        try{
+            return new ResponseEntity<>(cafeService.findCafeSimpleList(address_district_id), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
 
 
 
