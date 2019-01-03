@@ -59,9 +59,8 @@ public class ReviewController {
 
             DefaultRes<Review> review = reviewService.findByReviewId(review_id);
 
-            review.getData().setAuth(user_id == review.getData().getUser_id());
+            review.getData().setAuth(review.getData().getUser_id().compareTo(user_id) == 0);
             review.getData().setLike(reviewService.checkLike(user_id, review_id));
-
             return new ResponseEntity<>(review, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -106,10 +105,11 @@ public class ReviewController {
             final int num = 3; // 베스트 몇 개?
 
             final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+
             DefaultRes<List<Review>> reviewList = reviewService.findBestByCafeId(cafe_id, num);
             if(reviewList.getData() != null) {
                 for (Review r : reviewList.getData()) {
-                    r.setAuth(r.getUser_id().compareTo(user_id)== 0);
+                    r.setAuth(r.getUser_id().compareTo(user_id) == 0);
                     r.setLike(reviewService.checkLike(user_id, r.getReview_id()));
                 }
             }

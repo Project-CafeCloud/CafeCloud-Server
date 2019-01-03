@@ -46,26 +46,15 @@ public class ReviewCommentController {
     /**
      * 해당 리뷰의 모든 댓글 조회
      *
-     * @param httpServletRequest    Request
      * @param review_id             리뷰 고유 id
      * @return ResponseEntity
      */
     @GetMapping("/{review_id}/comment")
-    public ResponseEntity getByReviewId(
-            final HttpServletRequest httpServletRequest,
-            @PathVariable final int review_id) {
+    public ResponseEntity getByReviewId(@PathVariable final int review_id) {
         try {
 
-//            final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
-
             DefaultRes<List<ReviewComment>> reviewCommentList = reviewCommentService.findByReviewId(review_id);
-/*
-            if(reviewCommentList.getData() != null) {
-                for (ReviewComment c : reviewCommentList.getData()) {
-                    c.setAuth(c.getUser_id() == user_id);
-                }
-            }
-*/
+
             return new ResponseEntity<>(reviewCommentList, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
