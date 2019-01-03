@@ -72,4 +72,10 @@ public class ResponseMessage {
     public static final String SAVE_MEMBERSHIP = "멤버쉽 적립 성공";
     public static final String FAIL_SAVE_MEMBERSHIP = "멤버쉽 적립 실패(일치하는 핸드폰 번호가 없습니다.)";
 
+
+    //쿠폰 리스트 조회
+    public static final String READ_COUPON_LIST = "쿠폰 리스트 조회 성공";
+    public static final String FAIL_COUPON_LIST = "쿠폰 리스트 조회 실패";
+
+
 }

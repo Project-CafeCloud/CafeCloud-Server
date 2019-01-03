@@ -66,9 +66,19 @@ public class MembershipController {
 
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
-
+    }
+    @Auth
+    @GetMapping("/coupon")
+    public ResponseEntity findCouponList(@RequestHeader("Authorization") final String jwt)
+    {
+        String user_id = null;
+        try{
+            user_id = JwtUtils.decode(jwt).getUser_id();
+            return new ResponseEntity<>(membershipService.findCouponList(user_id), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 

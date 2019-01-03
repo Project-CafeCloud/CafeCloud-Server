@@ -3,6 +3,7 @@ package sopt.org.moca.mapper;
 import org.apache.ibatis.annotations.*;
 import sopt.org.moca.dto.Coupon;
 import sopt.org.moca.dto.Membership;
+import sopt.org.moca.model.CouponRes;
 import sopt.org.moca.model.MembershipIns;
 import sopt.org.moca.model.MembershipReq;
 
@@ -44,10 +45,10 @@ public interface MembershipMapper {
 
 
     //쿠폰 리스트 조회
-   @Select("SELECT coupon_id ,coupon_create_date,coupon_authentication_number" +
-           "from COUPON" +
+   @Select("SELECT coupon_id ,coupon_create_date,coupon_authentication_number " +
+           "from COUPON " +
            "where user_id = #{user_id} and coupon_used = 0")
-   List<Coupon> findCouponList(@Param("user_id")final String user_id);
+   List<CouponRes> findCouponList(@Param("user_id")final String user_id);
 
 
     //쿠폰 적립
