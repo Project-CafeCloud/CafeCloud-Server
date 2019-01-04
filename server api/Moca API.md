@@ -1,95 +1,102 @@
-# MoCa 서버통신 API
 
-### base URL : ~
+## BASE URL 
+#### 👉 52.79.173.137:8080 👈
 
+<br>
 
-
-### 기능
+## 기능
+> update date : 2018-01-04 17:30
 
 - 유저 관련
-  - 로그인
-  - 회원정보 조회
-  - 회원가입
-  - 회원 삭제
-- 카페 조회
-  - 카페 
-- 카페에 대한 리뷰
-  - [리뷰 상세조회](리뷰상세조회)
+  - [로그인](로그인)
+  - [회원 가입](회원가입)
+  - [회원 탈퇴](회원탈퇴)
+  - [마이페이지 조회](마이페이지조회)
+  - [마이페이지 수정](마이페이지수정)
+- 멤버십 및 쿠폰 관련
+  - [멤버십 리스트 조회](멤버십리스트조회)
+  - [멤버십 적립](멤버십적립)
+  - [쿠폰 리스트 조회](쿠폰리스트조회)
+  - [쿠폰 적립](쿠폰적립)
+- 컨셉 및 핫플레이스 및 지역 관련
+  - [핫플레이스 리스트 조회](핫플레이스조회)
+  - [컨셉 리스트 조회](컨셉조회)
+  - [지역구 리스트 조회](지역구조회)
+- 카페 관련
+  - [카페 상세 조회](카페상세조회)
+  - [카페 이미지 리스트 조회](카페이미지조회)
+  - [카페 시그니처 메뉴 조회](카페시그니처메뉴조회)
+  - [근처카페 조회](근처카페조회)
+- 검증카페 관련
+  - [검증카페 베스트 조회](검증카페베스트조회)
+  - [검증카페 상세 조회](검증카페상세조회)
+  - [검증카페 이미지 조회](검증카페이미지조회)
+  - [검증카페 인증 평가 리스트 조회](검증카페인증평가리스트조회)
+  - [검증카페 인증 평가 상세 조회](검증카페인증평가상세조회)
+- 카페에 대한 리뷰 관련
+  - [리뷰 상세 조회](리뷰상세조회)
   - [리뷰 작성](리뷰작성)
-  - [리뷰 최신순조회](리뷰최신순조회)
-  - [리뷰 인기순조회](리뷰인기순조회)
+  - [리뷰 최신순 조회](리뷰최신순조회)
+  - [리뷰 인기순 조회](리뷰인기순조회)
   - [리뷰 좋아요/취소](리뷰좋아요)
-- 리뷰에 대한 댓글 
+- 리뷰에 대한 댓글 관련
   - [댓글 조회](댓글조회)
   - [댓글 작성](댓글작성) 
-- 커뮤니티
-  - [유저 피드](유저피드)
-  - [소셜 피드](소셜피드)
+- 커뮤니티 관련
+  - [유저 피드 조회](유저피드조회)
+  - [소셜 피드 조회](소셜피드조회)
 
+<br>
 
+## path 요약
+> update date : 2018-01-04 17:30
 
-
-
-### path 요약
-
-| 메소드 | 경로                                                         | 설명                                           |
-| ------ | ------------------------------------------------------------ | ---------------------------------------------- |
-| POST   | /login                                                       | 로그인                                         |
-| POST   | /user                                                        | 회원  가입                                     |
-| DELETE | /user/{user_id}                                              | 회원 정보 삭제                                 |
-|        |                                                              |                                                |
-| GET    | /user/{user_id}/mypage                                       | 마이페이지 조회                                |
-| PUT    | /user/{user_id}/mypage                                       | 마이페이지 수정                                |
-| GET    | /user/membership                                             | 맴버쉽 조회                                    |
-| GET    | /user/scrap                                                  | 스크랩(찜)한 카페 조회                         |
-| POST   | /user/scrap                                                  | 스크랩(찜)한 카페 생성                         |
-| DELETE | /user/scrap                                                  | 스크랩(찜)한 카페 삭제                         |
-| GET    | /user/coupon                                                 | 쿠폰 조회                                      |
-| DELETE | /user/coupon/{coupon_id}                                     | 쿠폰 사용해서 삭제                             |
-| GET    | /user/{user_id}/following                                    | 팔로잉 조회                                    |
-| GET    | /user/{user_id}/follower                                     | 팔로워 조회                                    |
-| GET    | /search/{user_id}/following                                  | 팔로잉 검색                                    |
-| GET    | /search/{user_id}/follower                                   | 팔로워 검색                                    |
-|        |                                                              |                                                |
-| POST   | /message/{user_id값}                                         | 쪽지 보내기                                    |
-| GET    | /message                                                     | 쪽지 조회                                      |
-| GET    | /message/{user_id값}                                         | 상대방과 주고 받은 메세지 조회                 |
-| GET    | /push                                                        | 푸시 알림                                      |
-|        |                                                              |                                                |
-| GET    | /membership                                                  | 맴버쉽 조회                                    |
-| POST   | /membership                                                  | 맴버쉽 적립                                    |
-| GET    | /coupon                                                      | 쿠폰 조회                                      |
-| POST   | /coupon                                                      | 쿠폰 사용                                      |
-|        |                                                              |                                                |
-| GET    | /hot_place                                                   | 핫플레이스  조회                               |
-| GET    | /district                                                    | 지역구 아이디 조회                             |
-|        |                                                              |                                                |
-| GET    | /cafe/pick/{length}                                          | 인기 있는 검증 카페 리스트  조회 (-1일때 전체) |
-| GET    | /cafe/pick/detail/{cafe_id}                                  | 검증카페 상세 정보 조회                        |
-| GET    | /cafe/pick/image/{cafe_id}                                   | 검증카페 이미지 조회                           |
-| GET    | /cafe/pick/evaluate/{cafe_id}                                | 검증카페 인증위원 평가 리스트                  |
-| GET    | /cafe/pick/evaluate/{cafe_id}/barista/{barista_id}           | 특정 인증 평가 정보 조회                       |
-| GET    | /cafe/image/{cafe_id}                                        | 해당 카페 이미지 리스트 조회                   |
-| GET    | /cafe/detail/{cafe_id}                                       | 해당 카페 정보 조회                            |
-| GET    | /cafe/signiture/{cafe_id}                                    | 해당 카페 시그니처 메뉴 리스트                 |
-| GET    | /cafe/hot_place/{hot_place_id}                               | 해당 핫플레이스 카페 리스트 조회               |
-| GET    | /cafe/ranking/{length}                                       | 평점 높은순. 카페 리스트 3개 조회              |
-| GET    | /cafe/district/{district_id}                                 |                                                |
-| POST   | /cafe/nearbycafe                                             | 지도에서 3KM 이내 반경 조회                    |
-|        |                                                              |                                                |
-| GET    | /plus/{length}                                               | 에디터 작성 게시글  조회(최신순)(-1일때 전체)  |
-| GET    | /plus/{plus_subject_id}/detail                               | 해당 주제 게시글 상단 텍스트, 이미지           |
-| GET    | /plus/cafe/{plus_subject_id}                                 | 해당 게시글 카페 리스트 조회                   |
-| GET    | /search/{keyword}                                            | 카페 및 컨셉 검색                              |
-| GET    | /category/location/{cafe_address_district_id}<br />/signiture/{cafe_main_menu_id}<br />/concept/{cafe_concept_id} | 필터링된 카페 리스트 조회                      |
-|        |                                                              |                                                |
-|        |                                                              |                                                |
-| POST   | /review                                                      | 리뷰 글 작성                                   |
-| GET    | /review/{review_id}                                          | 리뷰 상세 조회                                 |
-| GET    | /review/{cafe_id}/all                                        | 카페에서 리뷰 모아보기                         |
-| GET    | /review/{cafe_id}/best                                       | 카페 리뷰 베스트 3개 조회                      |
-| GET    | /review/{review_id}/comment                                  | 댓글 상세 조회                                 |
-| POST   | /review/{review_id}/comment                                  | 댓글 작성                                      |
-| GET    | /feed/user/{user_id}                                         | 유저 피드 보기                                 |
-| GET    | /feed/social                                                 | 소셜 피드 보기                                 |
-
+| 메소드 | 경로                                                         | 설명                                           | 완료 |
+| ------ | ------------------------------------------------------------ | ---------------------------------------------- | ---- |
+| POST   | /login                                                       | 로그인                                         | 소연 |
+| GET    | /user/{user_id}                                              | 회원 정보 조회                                 | 소연 |
+| POST   | /user                                                        | 회원  가입                                     | 소연 |
+| DELETE | /user/{user_id}                                              | 회원 정보 삭제                                 | 소연 |
+| GET    | /user/{user_id}/mypage                                       | 마이페이지 조회                                | 소연 |
+| PUT    | /user/{user_id}/mypage                                       | 마이페이지 수정                                | 소연 |
+| GET    | /membership                                                  | 맴버십 조회                                    | 선필 |
+| POST   | /membership                                                  | 멤버십 적립                                    | 선필 |
+| GET    | /user/scrap                                                  | 스크랩(찜)한 카페 조회                         |      |
+| POST   | /user/scrap                                                  | 스크랩(찜)한 카페 생성                         |      |
+| DELETE | /user/scrap                                                  | 스크랩(찜)한 카페 삭제                         |      |
+| GET    | /coupon                                                      | 쿠폰 조회                                      | 선필 |
+| DELETE | /coupon                                                      | 쿠폰 사용해서 삭제                             | 선필 |
+| GET    | /user/{user_id}/following                                    | 팔로잉 조회                                    |      |
+| GET    | /user/{user_id}/follower                                     | 팔로워 조회                                    |      |
+| GET    | /search/{user_id}/following                                  | 팔로잉 검색                                    |      |
+| GET    | /search/{user_id}/follower                                   | 팔로워 검색                                    |      |
+| POST   | /message/{user_id값}                                         | 쪽지 보내기                                    |      |
+| GET    | /message                                                     | 쪽지 조회                                      |      |
+| GET    | /message/{user_id값}                                         | 상대방과 주고 받은 메세지 조회                 |      |
+| GET    | /push                                                        | 푸시 알림                                      |      |
+| GET    | /hot_place                                                   | 핫플레이스  조회                               | 선필 |
+| GET    | /district                                                    | 지역구 아이디 조회                             | 선필 |
+| GET    | /cafe/pick/{length}                                          | 인기 있는 검증 카페 리스트  조회 (-1일때 전체) | 선필 |
+| GET    | /cafe/pick/{cafe_id}/detail                                  | 검증카페 상세 정보 조회                        | 선필 |
+| GET    | /cafe/pick/{cafe_id}/image                                   | 검증카페 이미지 조회                           | 선필 |
+| GET    | /cafe/pick/evaluate/{cafe_id}                                | 검증카페 인증위원 평가 리스트                  | 선필 |
+| GET    | /cafe/pick/evaluate/{cafe_id}/barista/{barista_id}           | 특정 인증 평가 정보 조회                       | 선필 |
+| GET    | /cafe/{cafe_id}/image                                        | 해당 카페 이미지 리스트 조회                   | 선필 |
+| GET    | /cafe/{cafe_id}/detail                                       | 해당 카페 정보 조회                            | 선필 |
+| GET    | /cafe/{cafe_id}/signiture                                    | 해당 카페 시그니처 메뉴 리스트                 | 선필 |
+| GET    | /cafe/hot_place/{hot_place_id}                               | 해당 핫플레이스 카페 리스트 조회               |      |
+| GET    | /cafe/ranking/{length}                                       | 평점 높은순. 카페 리스트 3개 조회              |      |
+| POST   | /cafe/nearbycafe                                             | 지도에서 3KM 이내 반경 조회                    | 소연 |      |
+| GET    | /plus/{length}                                               | 에디터 작성 게시글  조회(최신순)(-1일때 전체)  |      |
+| GET    | /plus/{plus_subject_id}/detail                               | 해당 주제 게시글 상단 텍스트, 이미지           |      |
+| GET    | /plus/cafe/{plus_subject_id}                                 | 해당 게시글 카페 리스트 조회                   |      |
+| GET    | /search/{keyword}                                            | 카페 및 컨셉 검색                              |      |
+| GET    |                                                               | 필터링된 카페 리스트 조회                      |      |
+| POST   | /review                                                      | 리뷰 글 작성                                   | 지연 |
+| GET    | /review/{review_id}                                          | 리뷰 상세 조회                                 | 지연 |
+| GET    | /review/{cafe_id}/all                                        | 카페에서 리뷰 모아보기                         | 지연 |
+| GET    | /review/{cafe_id}/best                                       | 카페 리뷰 베스트 3개 조회                      | 지연 |
+| GET    | /review/{review_id}/comment                                  | 댓글 상세 조회                                 | 지연 |
+| POST   | /review/{review_id}/comment                                  | 댓글 작성                                      | 지연 |
+| GET    | /feed/user/{user_id}                                         | 유저 피드 보기                                 | 지연 |
+| GET    | /feed/social                                                 | 소셜 피드 보기                                 | 지연 |
