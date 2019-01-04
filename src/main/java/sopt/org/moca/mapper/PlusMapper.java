@@ -47,8 +47,7 @@ public interface PlusMapper {
      * Plus 디테일 뷰
      *
      * **/
-    @Select("SELECT p.*,u.user_img_url,s.editor_id FROM PLUS_CONTENTS as p, CAFE as c, PLUS_SUBJECT s,USER as u WHERE c.cafe_id = p.cafe_id AND p.plus_subject_id = #{plus_subject_id} AND u.user_id = s.editor_id ORDER BY plus_contents_id DESC")
+    @Select("SELECT p.* FROM PLUS_CONTENTS as p, CAFE as c, PLUS_SUBJECT s,USER as u WHERE c.cafe_id = p.cafe_id AND s.plus_subject_id = #{plus_subject_id} AND u.user_id = s.editor_id ORDER BY plus_contents_id DESC")
     List<PlusContents> findContent (@Param("plus_subject_id") final int plus_subject_id);
-
 
 }

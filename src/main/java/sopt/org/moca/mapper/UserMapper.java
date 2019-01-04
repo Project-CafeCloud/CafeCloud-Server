@@ -39,9 +39,6 @@ public interface UserMapper {
     @Select("SELECT user_id FROM USER WHERE user_phone = #{user_phone}")
     String findUserIdByUserPhone(@Param("user_phone")final String user_phone);
 
-
-
-
     /**
      *
      * 로그인
@@ -86,5 +83,11 @@ public interface UserMapper {
      * */
     @Select("SELECT * FROM FOLLOW WHERE follower_id = #{user_id}")
     List<User> findFollowing(@Param("user_id") final String user_id);
+
+    /**
+     * 찜한 카페 생성
+     *
+     * **/
+
 
 }
