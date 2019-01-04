@@ -45,6 +45,16 @@ public class PlusServiceImpl implements PlusService {
 
     }
 
+    @Override
+    public DefaultRes<PlusSubject> findPlusSubject(final int plus_subject_id){
+      PlusSubject plusSubject = plusMapper.findSubject(plus_subject_id);
+
+      if(plusSubject == null)
+          return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_PLUS_SUBJECT);
+      else
+          return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_PLUS_SUBJECT,plusSubject);
+    }
+
     /**
      *
      * PLUS 이미지 조회

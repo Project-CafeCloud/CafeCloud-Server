@@ -35,10 +35,12 @@ public class MapController {
             @RequestBody MapReq mapReq){
         try{
             DefaultRes<List<Map>> mapDefaultRes = mapService.GetNearByCafe(mapReq);
+
+
             return new ResponseEntity<>(mapDefaultRes, HttpStatus.OK);
         }
         catch (Exception e){
-            log.error(e.getMessage());
+            log.error(e.toString());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

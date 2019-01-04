@@ -51,20 +51,14 @@ public class ReviewServiceImpl implements ReviewService {
      * @param fileUploadService
      */
 
-<<<<<<< HEAD
-    public ReviewServiceImpl(final CafeMapper cafeMapper,
-=======
     public ReviewServiceImpl(final UserMapper userMapper,
                              final CafeMapper cafeMapper,
->>>>>>> mocamain/master
                              final ReviewMapper reviewMapper,
                              final ReviewImageMapper reviewImageMapper,
                              final ReviewLikeMapper reviewLikeMapper,
                              final FileUploadService fileUploadService) {
-<<<<<<< HEAD
-=======
+
         this.userMapper = userMapper;
->>>>>>> mocamain/master
         this.cafeMapper = cafeMapper;
         this.reviewMapper = reviewMapper;
         this.reviewImageMapper = reviewImageMapper;

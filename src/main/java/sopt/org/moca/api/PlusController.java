@@ -16,6 +16,7 @@ import sopt.org.moca.service.PlusService;
 import sopt.org.moca.utils.auth.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.*;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class PlusController {
 
     /**
      *
-     * PLUS 주제 조회
+     * PLUS 주제 리스트 조회
      * **/
     @GetMapping("/{length}")
     public ResponseEntity GetPlusSubjectList( @PathVariable final int length){
@@ -51,7 +52,23 @@ public class PlusController {
 
     /**
      *
-     * PLUS 카페 디테일 뷰 조회
+     *  PLUS 카페 주제 상세 조회
+     * **/
+    @GetMapping("/{plus_subject_id}/cafe")
+    public ResponseEntity GetPlusSubjectCafe (@PathVariable final int plus_subject_id){
+        try{
+            DefaultRes <PlusSubject> plusSubujectRes = plusService.findPlusSubject(plus_subject_id);
+            return new ResponseEntity<>(plusSubujectRes,HttpStatus.OK);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     *
+     * PLUS 카페 콘텐츠 뷰 조회
      * **/
     @GetMapping("/{plus_subject_id}/detail")
     public ResponseEntity GetPlusDetail (@PathVariable final int plus_subject_id){
