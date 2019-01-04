@@ -1,0 +1,886 @@
+# MoCa 서버통신 API
+
+### base URL : ~
+
+
+
+### 기능
+
+- 유저 관련
+  - 로그인
+  - 회원정보 조회
+  - 회원가입
+  - 회원 삭제
+- 카페 조회
+  - 카페 
+- 카페에 대한 리뷰
+  - [리뷰 상세조회](리뷰상세조회)
+  - [리뷰 작성](리뷰작성)
+  - [리뷰 최신순조회](리뷰최신순조회)
+  - [리뷰 인기순조회](리뷰인기순조회)
+  - [리뷰 좋아요/취소](리뷰좋아요)
+- 리뷰에 대한 댓글 
+  - [댓글 조회](댓글조회)
+  - [댓글 작성](댓글작성) 
+- 커뮤니티
+  - [유저 피드](유저피드)
+  - [소셜 피드](소셜피드)
+
+
+
+
+
+### path 요약
+
+| 메소드 | 경로                                                         | 설명                                           |
+| ------ | ------------------------------------------------------------ | ---------------------------------------------- |
+| POST   | /login                                                       | 로그인                                         |
+| GET    | /user/{user_id}                                              | 회원 정보 조회                                 |
+| POST   | /user                                                        | 회원  가입                                     |
+| DELETE | /user/{user_id}                                              | 회원 정보 삭제                                 |
+|        |                                                              |                                                |
+| GET    | /user/{user_id}/mypage                                       | 마이페이지 조회                                |
+| PUT    | /user/{user_id}/mypage                                       | 마이페이지 수정                                |
+| GET    | /user/membership                                             | 맴버쉽 조회                                    |
+| GET    | /user/scrap                                                  | 스크랩(찜)한 카페 조회                         |
+| POST   | /user/scrap                                                  | 스크랩(찜)한 카페 생성                         |
+| DELETE | /user/scrap                                                  | 스크랩(찜)한 카페 삭제                         |
+| GET    | /user/coupon                                                 | 쿠폰 조회                                      |
+| DELETE | /user/coupon/{coupon_id}                                     | 쿠폰 사용해서 삭제                             |
+| GET    | /user/{user_id}/following                                    | 팔로잉 조회                                    |
+| GET    | /user/{user_id}/follower                                     | 팔로워 조회                                    |
+| GET    | /search/{user_id}/following                                  | 팔로잉 검색                                    |
+| GET    | /search/{user_id}/follower                                   | 팔로워 검색                                    |
+|        |                                                              |                                                |
+| POST   | /message/{user_id값}                                         | 쪽지 보내기                                    |
+| GET    | /message                                                     | 쪽지 조회                                      |
+| GET    | /message/{user_id값}                                         | 상대방과 주고 받은 메세지 조회                 |
+| GET    | /push                                                        | 푸시 알림                                      |
+|        |                                                              |                                                |
+| GET    | /membership                                                  | 맴버쉽 조회                                    |
+| POST   | /membership                                                  | 맴버쉽 적립                                    |
+| GET    | /coupon                                                      | 쿠폰 조회                                      |
+| POST   | /coupon                                                      | 쿠폰 사용                                      |
+|        |                                                              |                                                |
+| GET    | /hot_place                                                   | 핫플레이스  조회                               |
+| GET    | /district                                                    | 지역구 아이디 조회                             |
+|        |                                                              |                                                |
+| GET    | /cafe/pick/{length}                                          | 인기 있는 검증 카페 리스트  조회 (-1일때 전체) |
+| GET    | /cafe/pick/detail/{cafe_id}                                  | 검증카페 상세 정보 조회                        |
+| GET    | /cafe/pick/image/{cafe_id}                                   | 검증카페 이미지 조회                           |
+| GET    | /cafe/pick/evaluate/{cafe_id}                                | 검증카페 인증위원 평가 리스트                  |
+| GET    | /cafe/pick/evaluate/{cafe_id}/barista/{barista_id}           | 특정 인증 평가 정보 조회                       |
+| GET    | /cafe/image/{cafe_id}                                        | 해당 카페 이미지 리스트 조회                   |
+| GET    | /cafe/detail/{cafe_id}                                       | 해당 카페 정보 조회                            |
+| GET    | /cafe/signiture/{cafe_id}                                    | 해당 카페 시그니처 메뉴 리스트                 |
+| GET    | /cafe/hot_place/{hot_place_id}                               | 해당 핫플레이스 카페 리스트 조회               |
+| GET    | /cafe/ranking/{length}                                       | 평점 높은순. 카페 리스트 3개 조회              |
+| GET    | /cafe/district/{district_id}                                 |                                                |
+| POST   | /cafe/nearbycafe                                             | 지도에서 3KM 이내 반경 조회                    |
+|        |                                                              |                                                |
+| GET    | /plus/{length}                                               | 에디터 작성 게시글  조회(최신순)(-1일때 전체)  |
+| GET    | /plus/{plus_subject_id}/detail                               | 해당 주제 게시글 상단 텍스트, 이미지           |
+| GET    | /plus/cafe/{plus_subject_id}                                 | 해당 게시글 카페 리스트 조회                   |
+| GET    | /search/{keyword}                                            | 카페 및 컨셉 검색                              |
+| GET    | /category/location/{cafe_address_district_id}<br />/signiture/{cafe_main_menu_id}<br />/concept/{cafe_concept_id} | 필터링된 카페 리스트 조회                      |
+|        |                                                              |                                                |
+|        |                                                              |                                                |
+| POST   | /review                                                      | 리뷰 글 작성                                   |
+| GET    | /review/{review_id}                                          | 리뷰 상세 조회                                 |
+| GET    | /review/{cafe_id}/all                                        | 카페에서 리뷰 모아보기                         |
+| GET    | /review/{cafe_id}/best                                       | 카페 리뷰 베스트 3개 조회                      |
+| GET    | /review/{review_id}/comment                                  | 댓글 상세 조회                                 |
+| POST   | /review/{review_id}/comment                                  | 댓글 작성                                      |
+| GET    | /feed/user/{user_id}                                         | 유저 피드 보기                                 |
+| GET    | /feed/social                                                 | 소셜 피드 보기                                 |
+
+
+
+
+
+
+
+
+
+
+
+
+## 회원가입
+
+| 메소드 | 경로  | 설명     |
+| ------ | ----- | -------- |
+| POST   | /user | 회원가입 |
+
+#### 요청헤더
+
+```
+Content-Type: multipart/form-data
+```
+
+#### 요청 바디
+
+```
+{
+    "user_id" : "coco",
+    "user_password" : "abc",
+    "user_name" : "KIM",
+    "user_phone" : "010222333",
+    "user_img" : 사진파일
+}
+```
+
+#### 응답 바디
+
+##### 성공
+
+```
+{
+    "status": 201,
+    "message": "회원 가입 성공",
+    "data": null
+}
+```
+
+##### 중복된 아이디/
+
+```
+{
+    "status": 400,
+    "message": "회원이 이미 존재합니다.",
+    "data": null
+}
+```
+
+
+
+
+
+## 마이페이지 회원 조회
+
+---
+
+| 메소드 | 경로                   | 설명                 |
+| ------ | ---------------------- | -------------------- |
+| GET    | /user/{user_id}/mypage | 마이페이지 회원 조회 |
+
+#### 요청헤더
+
+```
+Content-Type: application/json
+Authoirzation: token
+```
+
+#### 요청 바디
+
+```
+{
+	"user_id" : "coco",
+	"user_password" : "aaaaa"
+}
+```
+
+#### 응답 바디
+
+##### 성공
+
+```
+{
+    "status": 200,
+    "message": "회원 정보 조회 성공",
+    "data": {
+        "user_id": "coco",
+        "user_name": "kim",
+        "user_phone": "01033333",
+        "user_img_url": "http://s3.ap-northeast-2.amazonaws.com/project-sopt/ed920ac05ac84ba5a3b8994a38196c72.jpg",
+        "user_status_comment": null,
+        "auth": true
+    }
+}
+```
+
+##### 회원이 없는 경우
+
+```
+{
+    "status": 404,
+    "message": "회원을 찾을 수 없습니다.",
+    "data": null
+}
+```
+
+
+
+## 마이페이지 수정
+
+---
+
+| 메소드 | 경로                   | 설명            |
+| ------ | ---------------------- | --------------- |
+| PUT    | /user/{user_id}/mypage | 마이페이지 수정 |
+
+#### 요청헤더
+
+```
+Content-Type: multipart/form-data
+Authoirzation: token
+```
+
+#### 요청 바디
+
+```
+{
+	"user_id" : "coco",
+	"user_password" : "aaaaa",
+	"user_phone" : "111111",
+	"user_status_comment" : "반가워요",
+	"user_img" : 사진파일
+
+}
+```
+
+#### 응답 바디
+
+##### 성공
+
+```
+{
+    "status": 200,
+    "message": "회원 정보 수정 성공",
+    "data": {
+        "user_id": "coco",
+        "user_name": "kim",
+        "user_phone": "01011111",
+        "user_img_url": "http://s3.ap-northeast-2.amazonaws.com/project-sopt/42c8d1171e3a4bffbd28d1ae064d3d42.jpg",
+        "user_status_comment": "happy",
+        "auth": true
+    }
+}
+```
+
+## 회원탈퇴
+
+| 메소드 | 경로            | 설명     |
+| ------ | --------------- | -------- |
+| DELETE | /user/{user_id} | 회원탈퇴 |
+
+#### 요청 헤더
+
+```
+Content-Type: multipart/form-data
+Authoirzation: token
+```
+
+#### 응답 바디
+
+##### 성공
+
+```
+{
+    "status": 200,
+    "message": "회원 탈퇴 성공",
+    "data": null
+}
+```
+
+##### 실패
+
+```
+{
+    "status": 401,
+    "message": "인증 실패",
+    "data": null
+}
+```
+
+
+
+
+
+## 로그인
+
+---
+
+| 메소드 | 경로   | 설명   |
+| ------ | ------ | ------ |
+| POST   | /login | 로그인 |
+
+#### 요청헤더
+
+```
+Content-Type: application/json
+```
+
+#### 요청 바디
+
+```
+{
+	"user_id" : "coco",
+	"user_password" : "aaaaa"
+}
+```
+
+#### 응답 바디
+
+##### 성공
+
+```
+{
+    "status": 200,
+    "message": "로그인 성공",
+    "data": {
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiY29jbyIsImlzcyI6IkRvSVRTT1BUIn0.Rplge4ISuuCrFzrddjOl55TCeRQ2QUD9yuwSMmOZ5X0"
+    }
+}
+```
+
+##### 실패
+
+```
+{
+    "status": 400,
+    "message": "로그인 실패",
+    "data": null
+}
+```
+
+
+
+## 지도
+
+| 메소드 | 경로             | 설명               |
+| ------ | ---------------- | ------------------ |
+| POST   | /cafe/nearbycafe | 3km 반경 카페 조회 |
+
+#### 요청 헤더
+
+```
+Content-Type: application/json
+```
+
+#### 요청 바디
+
+```
+{
+	"cafe_latitude" : 37.49631,
+	"cafe_longitude" : 126.9552709
+}
+```
+
+#### 응답 바디
+
+##### 성공
+
+```
+{
+    "status": 200,
+    "message": "가까운 카페 리스트 찾기 성공",
+    "data": [
+        {
+            "cafe_id": 1,
+            "cafe_latitude": 37.4963153,
+            "cafe_longitude": 126.9552709,
+            "cafe_name": "cafename1",
+            "cafe_img_url": "https://s3.ap-northeast-2.amazonaws.com/project-sopt/KakaoTalk_Photo_2018-12-16-00-08-50.jpeg",
+            "distance": "0m"
+        },
+        {
+            "cafe_id": 2,
+            "cafe_latitude": 37.495228,
+            "cafe_longitude": 126.9547636,
+            "cafe_name": "cafename2",
+            "cafe_img_url": null,
+            "distance": "128m"
+        }
+    ]
+}
+```
+
+##### 실패
+
+```
+{
+    "status": 404,
+    "message": "가까운 카페를 찾을 수 없습니다",
+    "data": null
+}
+```
+
+
+
+## 지역구 별 아이디 조회
+
+
+
+| 메소드 | 경로      | 설명                    |
+| ------ | --------- | ----------------------- |
+| GET    | /district | 카페 지역구 아이디 조회 |
+
+#### 요청 헤더
+
+```
+Content-Type: application/json
+Authoirzation: token
+
+```
+
+#### 응답 바디
+
+**카페 지역구 아이디 조회 성공시**
+
+```json
+{
+    "status": 200,
+    "message": "지역구 아이디 조회 성공",
+    "data": [
+        {
+            "address_district_id": 1,
+            "address_district_name": "종로구"
+        },
+        {
+            "address_district_id": 2,
+            "address_district_name": "중구"
+        },
+        {
+            "address_district_id": 3,
+            "address_district_name": "용산구"
+        },
+        {
+            "address_district_id": 4,
+            "address_district_name": "성동구"
+        },
+        {
+            "address_district_id": 5,
+            "address_district_name": "광진구"
+        },
+        {
+            "address_district_id": 6,
+            "address_district_name": "동대문구"
+        },
+        {
+            "address_district_id": 7,
+            "address_district_name": "중랑구"
+        },
+        {
+            "address_district_id": 8,
+            "address_district_name": "성북구"
+        },
+        {
+            "address_district_id": 9,
+            "address_district_name": "강북구"
+        },
+        {
+            "address_district_id": 10,
+            "address_district_name": "도봉구"
+        },
+        {
+            "address_district_id": 11,
+            "address_district_name": "노원구"
+        },
+        {
+            "address_district_id": 12,
+            "address_district_name": "은평구"
+        },
+        {
+            "address_district_id": 13,
+            "address_district_name": "서대문구"
+        },
+        {
+            "address_district_id": 14,
+            "address_district_name": "마포구"
+        },
+        {
+            "address_district_id": 15,
+            "address_district_name": "양천구"
+        },
+        {
+            "address_district_id": 16,
+            "address_district_name": "강서구"
+        },
+        {
+            "address_district_id": 17,
+            "address_district_name": "구로구"
+        },
+        {
+            "address_district_id": 18,
+            "address_district_name": "금천구"
+        },
+        {
+            "address_district_id": 19,
+            "address_district_name": "영등포구"
+        },
+        {
+            "address_district_id": 20,
+            "address_district_name": "동작구"
+        },
+        {
+            "address_district_id": 21,
+            "address_district_name": "관악구"
+        },
+        {
+            "address_district_id": 22,
+            "address_district_name": "서초구"
+        },
+        {
+            "address_district_id": 23,
+            "address_district_name": "강남구"
+        },
+        {
+            "address_district_id": 24,
+            "address_district_name": "송파구"
+        },
+        {
+            "address_district_id": 25,
+            "address_district_name": "강동구"
+        }
+    ]
+}
+```
+
+**조회 실패**
+
+```json
+{
+    "status" : 404,
+    "message" : "지역구 아이디 조회 실패",
+    "data" : null
+}
+```
+
+**인증 실패**
+
+```json
+{
+    "status" : 401,
+    "message" : "인증 실패",
+    "data" : null
+}
+```
+
+**DB 에러**
+
+```json
+{
+    "status" : 600,
+    "message" : "데이터베이스 에러",
+    "data" : null
+}
+```
+
+**INTERNAL SERVER ERROR**
+
+```json
+{
+    "status" : 500,
+    "message" : "서버 내부 에러",
+    "data" : null
+}
+```
+
+
+
+#  멤버쉽 리스트 조회
+
+| 메소드 | 경로        | 설명                         |
+| ------ | ----------- | ---------------------------- |
+| GET    | /membership | 해당 유저 멤버쉽 리스트 조회 |
+
+#### 요청 헤더
+
+```
+Content-Type: application/json
+Authoirzation: token
+
+```
+
+#### 응답 바디
+
+**멤버쉽 리스트 조회 성공시**
+
+```json
+{
+    "status" : 200,
+    "message" : "멤버쉽 리스트 조회 성공",
+    "data" :
+     
+         [
+          {"cafe_id":"카페 아이디",
+           "membership_create_date":"적립 일시",
+           "cafe_img_url":"카페 이미지"
+          },
+        {
+            "cafe_id": 1,
+            "membership_create_date": "2019-01-02T17:38:07.000+0000",
+            "cafe_img_url": "https://s3.ap-northeast-2.amazonaws.com/project-sopt/KakaoTalk_Photo_2018-12-16-00-08-50.jpeg"
+        },
+        {"cafe_id":"카페 아이디",
+         "membership_create_date":"적립 일시",
+         "cafe_img_url":"카페 이미지"
+          }
+         ]
+     
+
+}
+```
+
+**조회 실패**
+
+```json
+{
+    "status" : 404,
+    "message" : "멤버쉽 리스트 조회 실패",
+    "data" : null
+}
+```
+
+**인증 실패**
+
+```json
+{
+    "status" : 401,
+    "message" : "인증 실패",
+    "data" : null
+}
+```
+
+**DB 에러**
+
+```json
+{
+    "status" : 600,
+    "message" : "데이터베이스 에러",
+    "data" : null
+}
+```
+
+**INTERNAL SERVER ERROR**
+
+```json
+{
+    "status" : 500,
+    "message" : "서버 내부 에러",
+    "data" : null
+}
+```
+
+
+
+#  멤버쉽  적립
+
+| 메소드 | 경로        | 설명        |
+| ------ | ----------- | ----------- |
+| POST   | /membership | 멤버쉽 적립 |
+
+#### 요청 헤더
+
+```
+Content-Type: application/json
+Authoirzation: token
+
+```
+
+#### 요청 바디
+
+```json
+{
+    "cafe_id":"카페 아이디",
+    "user_phone":"고객 전화 번호"
+}
+```
+
+
+
+#### 응답 바디
+
+**멤버쉽 적립 성공시**
+
+```json
+{
+    "status" : 200,
+    "message" : "멤버쉽 적립 성공",
+    "data" : null
+
+}
+```
+
+**조회 실패**
+
+```json
+{
+    "status" : 404,
+    "message" : "멤버쉽 적립 실패(일치하는 핸드폰 번호가 없습니다.)",
+    "data" : null
+}
+```
+
+**DB 에러**
+
+```json
+{
+    "status" : 600,
+    "message" : "데이터베이스 에러",
+    "data" : null
+}
+```
+
+**INTERNAL SERVER ERROR**
+
+```json
+{
+    "status" : 500,
+    "message" : "서버 내부 에러",
+    "data" : null
+}
+```
+
+
+
+#  쿠폰 리스트 조회
+
+| 메소드 | 경로    | 설명                       |
+| ------ | ------- | -------------------------- |
+| GET    | /coupon | 해당 유저 쿠폰 리스트 조회 |
+
+#### 요청 헤더
+
+```
+Content-Type: application/json
+Authoirzation: token
+
+```
+
+#### 응답 바디
+
+**쿠폰 리스트 조회 성공시**
+
+```json
+{
+    "status": 200,
+    "message": "쿠폰 리스트 조회 성공",
+    "data": [
+        {
+            "coupon_id": 3,
+            "coupon_authentication_number": "1833"
+        }, {
+            "coupon_id": 3,
+            "coupon_authentication_number": "1833"
+        }
+    ]
+}
+```
+
+**조회 실패**
+
+```json
+{
+    "status" : 404,
+    "message" : "쿠폰 리스트 조회 실패",
+    "data" : null
+}
+```
+
+**인증 실패**
+
+```json
+{
+    "status" : 401,
+    "message" : "인증 실패",
+    "data" : null
+}
+```
+
+**DB 에러**
+
+```json
+{
+    "status" : 600,
+    "message" : "데이터베이스 에러",
+    "data" : null
+}
+```
+
+**INTERNAL SERVER ERROR**
+
+```json
+{
+    "status" : 500,
+    "message" : "서버 내부 에러",
+    "data" : null
+}
+```
+
+
+
+# 쿠폰 사용
+
+| 메소드 | 경로    | 설명      |
+| ------ | ------- | --------- |
+| POST   | /coupon | 쿠폰 적립 |
+
+#### 요청 헤더
+
+```
+Content-Type: application/json
+Authoirzation: token
+
+```
+
+#### 요청 바디
+
+```json
+{
+    "cafe_id":"카페 아이디",
+    "coupon_authentication_number":"인증번호"
+}
+```
+
+
+
+#### 응답 바디
+
+**멤버쉽 적립 성공시**
+
+```json
+{
+    "status" : 200,
+    "message" : "멤버쉽 적립 성공",
+    "data" : null
+
+}
+```
+
+**조회 실패**
+
+```json
+{
+    "status" : 404,
+    "message" : "멤버쉽 적립 실패(일치하는 핸드폰 번호가 없습니다.)",
+    "data" : null
+}
+```
+
+**DB 에러**
+
+```json
+{
+    "status" : 600,
+    "message" : "데이터베이스 에러",
+    "data" : null
+}
+```
+
+**INTERNAL SERVER ERROR**
+
+```json
+{
+    "status" : 500,
+    "message" : "서버 내부 에러",
+    "data" : null
+}
+```
+
+
+
+
+
+
+
