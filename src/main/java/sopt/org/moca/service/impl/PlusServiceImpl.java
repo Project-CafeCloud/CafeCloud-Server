@@ -2,6 +2,7 @@ package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sopt.org.moca.dto.PlusContentImg;
 import sopt.org.moca.dto.PlusContents;
 import sopt.org.moca.dto.PlusSubject;
 import sopt.org.moca.mapper.PlusMapper;
@@ -29,14 +30,35 @@ public class PlusServiceImpl implements PlusService {
 
     @Override
     public DefaultRes<List<PlusSubject>> findPlusSubjectList(final int length){
-        List<PlusSubject> plusSubjectList = plusMapper.findPlusSubject(length);
+        List<PlusSubject> plusSubjectList;
 
+        if(length<0){
+            plusSubjectList = plusMapper.findPlusSubjectAll();
+        }
+        else{
+            plusSubjectList = plusMapper.findPlusSubject(length);
+        }
         if(plusSubjectList.isEmpty()){
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_PLUS_SUBJECT_LIST);
-        }else
-        {
-            return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_PLUS_SUBJECT_LIST,plusSubjectList);
         }
+        return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_PLUS_SUBJECT_LIST,plusSubjectList);
+
+    }
+
+    /**
+     *
+     * PLUS 이미지 조회
+     * **/
+    @Override
+    public DefaultRes<List <PlusContentImg>> findPlusImg(final int plus_contents_id){
+        List<PlusContentImg> plusContentImgList = plusMapper.findPlusContentImg(plus_contents_id);
+
+        if(plusContentImgList.isEmpty()){
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_PLUS_CONTENT_IMG_LIST);
+        }else{
+            return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_PLUS_CONTENT_IMG_LIST,plusContentImgList);
+        }
+
     }
 
     /**
@@ -51,10 +73,8 @@ public class PlusServiceImpl implements PlusService {
         if(plusContentsList.isEmpty()){
             return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_PLUS_CONTENT_LIST);
 
-        }else{
+        }else
             return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_PLUS_CONTENT_LIST,plusContentsList);
-        }
     }
-
 
 }

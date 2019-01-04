@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class PlusContents {
 
     private String editor_id;
+    private String user_img_url;
     private String plus_subject_img_url;
 
     private int plus_contents_id;
