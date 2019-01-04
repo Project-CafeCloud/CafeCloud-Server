@@ -11,7 +11,7 @@ public interface UserService {
 
     DefaultRes save(final UserSignUpReq userSignUpReq);
     DefaultRes<User> findById(final String user_id);
-    DefaultRes updateUser(final String user_id ,final UserSignUpReq userSignUpReq);
+    DefaultRes updateUser(final String token_value ,final UserSignUpReq userSignUpReq);
     DefaultRes deleteById(final String user_id);
     DefaultRes<List<User>> findFollow(final String user_id, final boolean is_follower);
 }

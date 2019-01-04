@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sopt.org.moca.dto.PlusContentImg;
+import sopt.org.moca.dto.PlusContents;
 import sopt.org.moca.dto.PlusSubject;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.service.PlusService;
@@ -51,15 +53,32 @@ public class PlusController {
      *
      * PLUS 카페 디테일 뷰 조회
      * **/
-//    @GetMapping("/{plus_subject_id}/detail")
-//    public ResponseEntity GetPlusDetail (@PathVariable final int plus_subject_id){
-//        try{
-//
-//
-//        }catch (Exception e){
-//            log.error(e.getMessage());
-//            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @GetMapping("/{plus_subject_id}/detail")
+    public ResponseEntity GetPlusDetail (@PathVariable final int plus_subject_id){
+        try{
+            DefaultRes<List<PlusContents>> contentDefaultRes = plusService.findContentList(plus_subject_id);
+            return new ResponseEntity<>(contentDefaultRes,HttpStatus.OK);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     *
+     * Plus 카페 디테일 이미지 뷰 조회
+     * **/
+
+    @GetMapping("/{plus_contents_id}/image")
+    public ResponseEntity GetPlusImg (@PathVariable final int plus_contents_id){
+        try{
+            DefaultRes<List<PlusContentImg>> plusContentImgRes = plusService.findPlusImg(plus_contents_id);
+            return new ResponseEntity<>(plusContentImgRes,HttpStatus.OK);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

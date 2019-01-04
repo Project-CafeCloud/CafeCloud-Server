@@ -75,6 +75,9 @@ public class ResponseMessage {
     public static final String CREATED_COMMENT = "댓글 작성 성공";
     public static final String FAIL_CREATE_COMMENT = "댓글 작성 실패";
 
+<<<<<<< HEAD
+    //지역구 조회
+=======
 
     // 커뮤니티
     public static final String READ_FEEDS = "피드 조회 성공";
@@ -82,6 +85,7 @@ public class ResponseMessage {
 
 
     // 지역구 조회
+>>>>>>> mocamain/master
     public static final String READ_DISTRICT = "지역구 아이디 조회 성공";
     public static final String FAIL_DISTRICT = "지역구 아이디 조회 실패";
 
@@ -100,5 +104,10 @@ public class ResponseMessage {
 
     // 플러스
     public static final String NOT_FOUND_PLUS_SUBJECT_LIST = "플러스 주제 리스트를 찾을 수 없습니다.";
-    public static final String READ_PLUS_SUBJECT_LIST = "플러스 주제 리스트 찾기 성공";
+    public static final String READ_PLUS_SUBJECT_LIST = "플러스 주제 리스트 조회 성공";
+    public static final String READ_PLUS_CONTENT_LIST = "플러스 콘텐츠 리스트 조회 성공";
+    public static final String NOT_FOUND_PLUS_CONTENT_LIST = "플러스 콘텐츠 리스트를 찾을 수 없습니다.";
+    public static final String NOT_FOUND_PLUS_CONTENT_IMG_LIST = "플러스 콘텐츠 이미지 리스트를 조회 할 수 없습니다.";
+    public static final String READ_PLUS_CONTENT_IMG_LIST = "플러스 콘텐츠 이미지 리스트 조회 성공";
+
 }
