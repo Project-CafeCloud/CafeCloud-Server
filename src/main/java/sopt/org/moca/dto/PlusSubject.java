@@ -13,4 +13,5 @@ public class PlusSubject {
     private String editor_id;
     private String plus_subject_title;
     private String plus_subject_img_url;
+
 }

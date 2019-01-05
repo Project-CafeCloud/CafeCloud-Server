@@ -97,7 +97,7 @@ public class ResponseMessage {
     //카테고리화 리스트 조회
     public static final String READ_CATEGORIZED_CAFE = "카테고라화 카페 리스트 조회 성공";
     public static final String FAIL_CATEGORIZED_CAFE = "카테고라화 카페 리스트 조회 실패";
-   
+
     // 커뮤니티
     public static final String READ_FEEDS = "피드 조회 성공";
     public static final String NOT_FOUND_FEEDS = "피드를 찾을 수 없습니다";
