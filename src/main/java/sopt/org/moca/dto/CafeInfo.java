@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class CafeInfo {
 
+
     private int cafe_id;
     private String cafe_name;
     private double cafe_latitude;

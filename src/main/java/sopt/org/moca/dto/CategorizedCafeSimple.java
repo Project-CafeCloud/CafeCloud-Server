@@ -5,18 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CafeSimple {
-
+public class CategorizedCafeSimple {
     private int cafe_id;
     private String cafe_name;
-    private String cafe_introduction;
-    private double cafe_latitude;
-    private double cafe_longitude;
     private String cafe_address_detail;
-    private String cafe_rating_avg;
-    private String cafe_img_url;
+    private int cafe_rating_avg;
+    private String cafe_menu_img_url;
+    private String cafe_main_menu_name;
+    private String cafe_concept_name;
 }
+

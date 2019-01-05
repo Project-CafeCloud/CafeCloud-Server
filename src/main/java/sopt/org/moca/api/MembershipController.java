@@ -6,6 +6,8 @@ import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sopt.org.moca.model.CouponAuthReq;
+import sopt.org.moca.model.CouponReq;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.MembershipReq;
 import sopt.org.moca.service.MembershipService;
@@ -54,6 +56,11 @@ public class MembershipController {
 
     }
 
+    /**
+     * 멤버쉽 적립
+     * @param membershipReq
+     * @return
+     */
     @PostMapping("/membership")
     public ResponseEntity saveMembership(@RequestBody final MembershipReq membershipReq)
     {
@@ -67,6 +74,12 @@ public class MembershipController {
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * coupon리스트 조회
+     * @param jwt
+     * @return
+     */
     @Auth
     @GetMapping("/coupon")
     public ResponseEntity findCouponList(@RequestHeader("Authorization") final String jwt)
@@ -82,6 +95,61 @@ public class MembershipController {
 
     }
 
+
+    /**
+     * 쿠폰 사용
+     * @param couponReq
+     * @return
+     */
+    @PostMapping("/coupon")
+    public ResponseEntity useCoupon(@RequestBody final CouponReq couponReq)
+    {
+        try{
+            log.info(couponReq.toString());
+            return new ResponseEntity<>(membershipService.useCoupon(couponReq), HttpStatus.OK);
+        } catch (Exception e){
+
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+    /**
+     * 쿠폰 인증 테이블 등록
+     * @param couponAuthReq
+     */
+    @PostMapping("coupon/auth")
+    public ResponseEntity registerAuth(@RequestBody final CouponAuthReq couponAuthReq)
+    {
+        try{
+            return new ResponseEntity<>(membershipService.registerAuth(couponAuthReq.getCoupon_id()), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+    /**
+     *  쿠폰 인증 테이블 삭제
+     * @param couponAuthReq
+     */
+    @DeleteMapping("coupon/auth")
+    public ResponseEntity deleteAuth(@RequestBody final CouponAuthReq couponAuthReq)
+    {
+
+        try{
+            return new ResponseEntity<>(membershipService.deleteAuth(couponAuthReq.getCoupon_id()), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
 
 
 }

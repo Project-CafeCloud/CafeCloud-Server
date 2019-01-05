@@ -75,14 +75,32 @@ public class ResponseMessage {
     public static final String CREATED_COMMENT = "댓글 작성 성공";
     public static final String FAIL_CREATE_COMMENT = "댓글 작성 실패";
 
-    // 커뮤니티
+
+
+
+
+
+    //지역구 조회
+    public static final String READ_DISTRICT = "지역구 리스트 조회 성공";
+    public static final String FAIL_DISTRICT = "지역구 리스트 조회 실패";
+
+    //컨셉 리스트 조회
+    public static final String READ_CONCPET ="컨셉 리스트 조회 성공";
+    public static final String FAIL_CONCEPT ="컨셉 리스트 조회 실패";
+
+    //주메뉴 리스트 조회
+    public static final String READ_MAIN_MENU ="주 메뉴 리스트 조회 성공";
+    public static final String FAIL_MAIN_MENU ="주 메뉴 리스트 실패 성공";
+
+
+    //카테고리화 리스트 조회
+    public static final String READ_CATEGORIZED_CAFE = "카테고라화 카페 리스트 조회 성공";
+    public static final String FAIL_CATEGORIZED_CAFE = "카테고라화 카페 리스트 조회 실패";
+   
+  // 커뮤니티
     public static final String READ_FEEDS = "피드 조회 성공";
     public static final String NOT_FOUND_FEEDS = "피드를 찾을 수 없습니다";
 
-
-    // 지역구 조회
-    public static final String READ_DISTRICT = "지역구 아이디 조회 성공";
-    public static final String FAIL_DISTRICT = "지역구 아이디 조회 실패";
 
 
     // 멤버쉽 리스트 조회
@@ -95,6 +113,20 @@ public class ResponseMessage {
     // 쿠폰 리스트 조회
     public static final String READ_COUPON_LIST = "쿠폰 리스트 조회 성공";
     public static final String FAIL_COUPON_LIST = "쿠폰 리스트 조회 실패";
+
+
+    //쿠폰 auth 등록
+    public static final String SAVE_COUPON_AUTH = "쿠폰 auth에 등록";
+    public static final String DELETE_COUPON_AUTH = "쿠폰 auth에 삭제";
+
+    //쿠폰 사용
+    public static final String FAIL_USE_COUPON = "쿠폰 사용 실패";
+    public static final String USE_COUPON ="쿠폰 사용 완료";
+
+    // 커뮤니티
+    public static final String READ_FEEDS = "피드 조회 성공";
+    public static final String NOT_FOUND_FEEDS = "피드를 찾을 수 없습니다";
+
 
 
     // 플러스

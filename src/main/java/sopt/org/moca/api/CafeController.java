@@ -21,6 +21,8 @@ public class CafeController {
    private final CafeService cafeService;
 
 
+
+
     public CafeController(final CafeService cafeService) {
         this.cafeService = cafeService;
     }
@@ -172,7 +174,7 @@ public class CafeController {
      * @param cafe_id
      * @return
      */
-    @GetMapping("/image/{cafe_id")
+    @GetMapping("/{cafe_id}/image")
     public ResponseEntity getCafeImgList(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id)
     {
 
@@ -201,7 +203,7 @@ public class CafeController {
      * @param cafe_id
      * @return
      */
-    @GetMapping("/detail/{cafe_id}")
+    @GetMapping("/{cafe_id}/detail")
     public ResponseEntity getCafeInfo(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id )
     {
         /**
@@ -230,7 +232,7 @@ public class CafeController {
      * @return
      */
 
-    @GetMapping("/signiture/{cafe_id}")
+    @GetMapping("/{cafe_id}/signiture")
     public ResponseEntity getCafeSignitureList(final HttpServletRequest httpServletRequest, @PathVariable final int cafe_id)
     {
 
