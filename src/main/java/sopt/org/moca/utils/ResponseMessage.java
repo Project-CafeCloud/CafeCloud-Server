@@ -25,6 +25,7 @@ public class ResponseMessage {
 
 
     // 팔로우/팔로잉
+    public static final String FOLLOW_SUCCESS = "팔로우/언팔로우 성공";
     public static final String READ_FOLLOW = "팔로우/팔로잉 조회 성공";
     public static final String NOT_FOUND_FOLLOW = "팔로우/팔로잉을 찾을 수 없습니다.";
 
@@ -97,6 +98,11 @@ public class ResponseMessage {
     public static final String READ_CATEGORIZED_CAFE = "카테고라화 카페 리스트 조회 성공";
     public static final String FAIL_CATEGORIZED_CAFE = "카테고라화 카페 리스트 조회 실패";
 
+    // 커뮤니티
+    public static final String READ_FEEDS = "피드 조회 성공";
+    public static final String NOT_FOUND_FEEDS = "피드를 찾을 수 없습니다";
+
+
 
     // 멤버쉽 리스트 조회
     public static final String READ_MEMBERSHIP_LIST ="멤버쉽 리스트 조회 성공";
@@ -117,11 +123,6 @@ public class ResponseMessage {
     //쿠폰 사용
     public static final String FAIL_USE_COUPON = "쿠폰 사용 실패";
     public static final String USE_COUPON ="쿠폰 사용 완료";
-
-    // 커뮤니티
-    public static final String READ_FEEDS = "피드 조회 성공";
-    public static final String NOT_FOUND_FEEDS = "피드를 찾을 수 없습니다";
-
 
 
     // 플러스
