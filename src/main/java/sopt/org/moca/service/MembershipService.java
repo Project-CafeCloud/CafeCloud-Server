@@ -3,6 +3,7 @@ package sopt.org.moca.service;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import sopt.org.moca.dto.Membership;
+import sopt.org.moca.model.CouponReq;
 import sopt.org.moca.model.CouponRes;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.MembershipReq;
@@ -16,5 +17,14 @@ public interface MembershipService {
 
     DefaultRes<List<CouponRes>> findCouponList(final String user_id);
 
+
+    //쿠폰 사용
+    DefaultRes useCoupon(final CouponReq couponReq);
+
+    //쿠폰 인증 등록
+    DefaultRes registerAuth(final int coupon_id);
+
+    //쿠폰 인증 삭제
+    DefaultRes deleteAuth(final int coupon_id);
 
 }

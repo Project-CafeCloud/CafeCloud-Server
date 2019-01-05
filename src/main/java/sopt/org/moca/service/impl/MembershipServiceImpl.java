@@ -1,16 +1,14 @@
 package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.stereotype.Service;
 import sopt.org.moca.dto.Coupon;
 import sopt.org.moca.dto.Membership;
 import sopt.org.moca.mapper.MembershipMapper;
 import sopt.org.moca.mapper.UserMapper;
-import sopt.org.moca.model.CouponRes;
-import sopt.org.moca.model.DefaultRes;
-import sopt.org.moca.model.MembershipIns;
-import sopt.org.moca.model.MembershipReq;
+import sopt.org.moca.model.*;
 import sopt.org.moca.service.MembershipService;
 import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
@@ -86,11 +84,39 @@ public class MembershipServiceImpl implements MembershipService {
 
     }
 
+    @Override
+    public DefaultRes useCoupon(CouponReq couponReq) {
+
+        Coupon coupon =membershipMapper.checkCoupon(couponReq.getCoupon_authentication_number()) ;
+      if(coupon == null)
+          return DefaultRes.res(StatusCode.NOT_FOUND , ResponseMessage.FAIL_USE_COUPON);
+      log.info(coupon.toString());
+
+          membershipMapper.use(coupon.getCoupon_id());
+        return DefaultRes.res(StatusCode.OK , ResponseMessage.USE_COUPON);
+    }
+
+    @Override
+    public DefaultRes registerAuth(int coupon_id) {
+        membershipMapper.registerAuth(coupon_id);
+        return DefaultRes.res(StatusCode.OK , ResponseMessage.SAVE_COUPON_AUTH);
+    }
+
+    @Override
+    public DefaultRes deleteAuth(int coupon_id) {
+        membershipMapper.deleteAuth(coupon_id);
+        return DefaultRes.res(StatusCode.OK , ResponseMessage.DELETE_COUPON_AUTH);
+    }
+
+
 
     private int countMembership(String user_id)
     {
         return membershipMapper.countMembershopByUserId(user_id);
     }
+
+
+
 
     private String GenerateAuthNumber()
     {

@@ -57,8 +57,25 @@ public interface MembershipMapper {
     void saveCoupon(@Param("coupon")final Coupon coupon);
 
 
+    //인증 테이블에 등록 (인증 준비)
+    @Insert("INSERT INTO AUTHENTICATION (coupon_id) " +
+            "VALUES (#{coupon_id})")
+    void registerAuth(@Param("coupon_id") final int coupon_id);
+
+    //인증 테이블에서 삭제
+    @Delete("DELETE FROM AUTHENTICATION where coupon_id = #{coupon_id}")
+    void deleteAuth(@Param("coupon_id") final int coupon_id);
+
     //쿠폰 사용
-    @Update("UPDATE COUPON SET coupon_used = 1 " +
-            "where coupon_id = #{coupon_id}")
+       @Update("UPDATE COUPON  SET coupon_used  = 1 " +
+            "where coupon_id  = #{coupon_id}")
     void use(@Param("coupon_id")final int coupon_id);
+
+    //쿠폰 있는지
+    @Select("SELECT * from AUTHENTICATION natural join COUPON where coupon_authentication_number = #{coupon_authentication_number}")
+    Coupon checkCoupon(@Param("coupon_authentication_number")final String coupon_authentication_number);
+
+
+
+
 }

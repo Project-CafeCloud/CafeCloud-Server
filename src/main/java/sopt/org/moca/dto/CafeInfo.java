@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class CafeInfo {
-    private int cafe_name;
+    private int cafe_id;
+    private String cafe_name;
     private  double cafe_latitude;
     private double cafe_longitude;
     private String cafe_phone;

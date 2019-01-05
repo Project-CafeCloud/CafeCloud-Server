@@ -10,8 +10,6 @@ import sopt.org.moca.dto.User;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.UserSignUpReq;
 import sopt.org.moca.service.UserService;
-import sopt.org.moca.service.impl.FileUploadService;
-import sopt.org.moca.service.impl.S3Service;
 import sopt.org.moca.utils.auth.Auth;
 import sopt.org.moca.utils.auth.JwtUtils;
 
