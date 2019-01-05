@@ -52,7 +52,7 @@ public class PlusController {
      *
      *  PLUS 카페 주제 상세 조회
      * **/
-    @GetMapping("/{plus_subject_id}/contents")
+    @GetMapping("/{plus_subject_id}/detail")
     public ResponseEntity GetPlusSubjectCafe (
             @PathVariable final int plus_subject_id){
         try{
@@ -70,7 +70,7 @@ public class PlusController {
      *
      * PLUS 카페 콘텐츠 뷰 조회
      * **/
-    @GetMapping("/{plus_subject_id}/detail")
+    @GetMapping("/{plus_subject_id}/contents")
     public ResponseEntity GetPlusDetail (@PathVariable final int plus_subject_id){
         try{
             DefaultRes<List<PlusContents>> contentDefaultRes = plusService.findContentList(plus_subject_id);
