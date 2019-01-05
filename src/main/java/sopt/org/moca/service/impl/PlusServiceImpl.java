@@ -64,22 +64,22 @@ public class PlusServiceImpl implements PlusService {
     }
 
 
-    /**
-     *
-     * PLUS 이미지 조회
-     * **/
-    @Override
-    public DefaultRes<List <PlusContentImg>> findPlusImg(final int plus_contents_id){
-
-        List<PlusContentImg> plusContentImgList = plusMapper.findPlusContentImg(plus_contents_id);
-
-        if(plusContentImgList.isEmpty()){
-            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_PLUS_CONTENT_IMG_LIST);
-        }else{
-            return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_PLUS_CONTENT_IMG_LIST,plusContentImgList);
-        }
-
-    }
+//    /**
+//     *
+//     * PLUS 이미지 조회
+//     * **/
+//    @Override
+//    public DefaultRes<List <PlusContentImg>> findPlusImg(final int plus_contents_id){
+//
+//        List<PlusContentImg> plusContentImgList = plusMapper.findPlusContentImg(plus_contents_id);
+//
+//        if(plusContentImgList.isEmpty()){
+//            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_PLUS_CONTENT_IMG_LIST);
+//        }else{
+//            return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_PLUS_CONTENT_IMG_LIST,plusContentImgList);
+//        }
+//
+//    }
 
     /**
      *
@@ -98,6 +98,7 @@ public class PlusServiceImpl implements PlusService {
                 CafeInfo cafeInfo = cafeMapper.findCafeInfo(p.getCafe_id());
                 p.setAddress_district_name("서울 " + cafeInfo.getAddress_district_name());
                 p.setCafe_name(cafeInfo.getCafe_name());
+                p.setContentImages(plusMapper.findPlusContentImg(p.getPlus_contents_id()));
             }
 
             return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_PLUS_CONTENT_LIST, plusContentsList);
