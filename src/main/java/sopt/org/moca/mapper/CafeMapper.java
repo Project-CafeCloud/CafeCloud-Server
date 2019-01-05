@@ -7,6 +7,7 @@ import sopt.org.moca.dto.*;
 
 import java.util.List;
 
+
 @Mapper
 public interface CafeMapper {
 
@@ -63,14 +64,14 @@ public interface CafeMapper {
             "where barista_id = #{barista_id} , cafe_id = #{cafe_id}")
     Evaluation_detail findBaristaEvaluation(@Param("cafe_id")final int cafe_id,@Param("barista_id")final int barista_id);
 
-/**
- *
- *
- *카페 상세보기
- *
- *
- *
- */
+    /**
+     *
+     *
+     *카페 상세보기
+     *
+     *
+     *
+     */
 
     // 카페 간단 조회 (REVIEW에서 사용)
     @Select("SELECT CAFE.cafe_id, CAFE.cafe_name, ADDRESS_DISTRICT.address_district_name " +

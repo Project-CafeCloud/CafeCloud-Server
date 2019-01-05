@@ -54,7 +54,7 @@ public class PlusController {
      *
      *  PLUS 카페 주제 상세 조회
      * **/
-    @GetMapping("/{plus_subject_id}/cafe")
+    @GetMapping("/{plus_subject_id}/contents")
     public ResponseEntity GetPlusSubjectCafe (@PathVariable final int plus_subject_id){
         try{
             DefaultRes <PlusSubject> plusSubujectRes = plusService.findPlusSubject(plus_subject_id);

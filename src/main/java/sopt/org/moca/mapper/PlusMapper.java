@@ -26,7 +26,7 @@ public interface PlusMapper {
      * Plus 주제 한개
      *
      * **/
-    @Select("SELECT p.* FROM PLUS_SUBJECT as p, PLUS_CONTENTS as c WHERE p.plus_subject_id = #{plus_subject_id}")
+    @Select("SELECT * FROM PLUS_SUBJECT WHERE plus_subject_id = #{plus_subject_id}")
     PlusSubject findSubject(@Param("plus_subject_id")final int plus_subject_id);
 
     /**
@@ -40,7 +40,7 @@ public interface PlusMapper {
      *
      * Plus 이미지 보여주기
      ***/
-    @Select("SELECT * FROM PLUS_IMG natural join PLUS_CONTENTS  WHERE plus_contents_id  = #{plus_contents_id}")
+    @Select("SELECT * FROM PLUS_IMG as p, PLUS_CONTENTS as c WHERE p.plus_contents_id  = #{plus_contents_id}")
     List<PlusContentImg> findPlusContentImg(@Param("plus_contents_id") final int plus_contents_id);
     /**
      *
