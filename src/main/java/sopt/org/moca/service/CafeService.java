@@ -24,7 +24,7 @@ public interface CafeService {
     //카페 카테고리 필터링
 
     //해당 지역구 전체
-    DefaultRes<List<CafeSimpleRef>>findCafeSimpleList(final int address_district_id);
+
 
 
 

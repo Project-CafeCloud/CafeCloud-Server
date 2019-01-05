@@ -34,9 +34,8 @@ public interface CafeMapper {
             "where evaluated_cafe_main_img = 1 ")
     List<EvaluatedCafeSimple>findAllEvaluatedCafe();
 
-
-    //검증 카페 상세 정보 조회(카페이름, 카페주소,총평, 평균 별점)
-    @Select("select cafe_name, cafe_address, evaluated_cafe_total_evaluation, evaluated_cafe_rating " +
+    //검증 카페 상세 정보 조회(카페이름, 카페주소, 총평, 평균 별점)
+    @Select("select cafe_name,cafe_address_detail , evaluated_cafe_total_evaluation, evaluated_cafe_rating " +
             "from EVALUATED_CAFE natural join CAFE " +
             "where cafe_id = #{cafe_id}")
     EvaluatedCafeInfo findEvaluatedCafeInfo(@Param("cafe_id")final int cafe_id);
