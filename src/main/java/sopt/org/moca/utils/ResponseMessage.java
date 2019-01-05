@@ -25,6 +25,7 @@ public class ResponseMessage {
 
 
     // 팔로우/팔로잉
+    public static final String FOLLOW_SUCCESS = "팔로우/언팔로우 성공";
     public static final String READ_FOLLOW = "팔로우/팔로잉 조회 성공";
     public static final String NOT_FOUND_FOLLOW = "팔로우/팔로잉을 찾을 수 없습니다.";
 
