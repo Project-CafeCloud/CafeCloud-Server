@@ -10,7 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class Scrap {
-    private String user_id; //스크랩한 유저
     private int cafe_id; //스크랩한 카페
+    private String cafe_name;
+    private String address_district_name;
+    private String cafe_address_detail;
+    private int cafe_rating_avg;
     private List<CafeImg> cafe_img_url;
 }

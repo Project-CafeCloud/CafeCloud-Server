@@ -2,7 +2,9 @@ package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sopt.org.moca.dto.CafeInfo;
 import sopt.org.moca.dto.Map;
+import sopt.org.moca.mapper.CafeMapper;
 import sopt.org.moca.mapper.MapMapper;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.MapReq;
@@ -17,10 +19,12 @@ import java.util.List;
 public class MapServiceImpl implements MapService {
 
     private final MapMapper mapMapper;
+    private final CafeMapper cafeMapper;
 
-    public MapServiceImpl(final MapMapper mapMapper) {
+    public MapServiceImpl(final MapMapper mapMapper,final CafeMapper cafeMapper) {
 
         this.mapMapper = mapMapper;
+        this.cafeMapper = cafeMapper;
     }
 
 
@@ -43,9 +47,15 @@ public class MapServiceImpl implements MapService {
 
         log.info(String.valueOf(mapList));
         if(mapList.isEmpty())
+
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_NEAR_BY_CAFE);
+
         else
         {
+            for(Map m : mapList){
+                CafeInfo cafeInfo = cafeMapper.findCafeInfo(m.getCafe_id());
+                m.setCafe_rating_avg(cafeInfo.getCafe_rating_avg());
+            }
             return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_NEAR_BY_CAFE,mapList);
         }
 

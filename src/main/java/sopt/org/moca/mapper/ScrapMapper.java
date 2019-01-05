@@ -17,10 +17,20 @@ public interface ScrapMapper {
     void save(@Param("scrapReq") final ScrapReq scrapReq);
 
     /**
+     *
+     * 스크랩 취소
+     * * **/
+    @Delete("DELETE FROM SCRAP WHERE cafe_id =#{cafe_id}")
+    void deleteByCafeId(@Param("cafe_id") final int cafe_id);
+
+    @Select("SELECT * FROM SCRAP WHERE cafe_id = #{cafe_id}")
+    boolean findByCafeId(@Param("cafe_id")final int cafe_id);
+
+    /**
      * 찜한 카페 리스트 조회
      *
      * **/
-    @Select("SELECT * FROM SCRAP i WHERE user_id =#{user_id}")
+    @Select("SELECT * FROM SCRAP WHERE user_id =#{user_id}")
     List<Scrap> findScrapList(@Param("user_id") final String user_id);
 
     /**
