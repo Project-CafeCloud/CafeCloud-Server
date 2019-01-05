@@ -59,7 +59,7 @@ public class CafeController {
      */
 
 
-    @GetMapping("/pick/detail/{cafe_id}")
+    @GetMapping("/pick/{cafe_id}/detail")
     public ResponseEntity getEvaluatedCafeInfo(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id)
     {
         /**
@@ -86,7 +86,7 @@ public class CafeController {
      * @return
      */
 
-    @GetMapping("/pick/image/{cafe_id}")
+    @GetMapping("/pick/{cafe_id}/image")
     public ResponseEntity getEvaluatedCafeImgList(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id)
     {
         /**
@@ -113,7 +113,7 @@ public class CafeController {
      * @return
      */
 
-    @GetMapping("/pick/evaluate/{cafe_id}")
+    @GetMapping("/pick/{cafe_id}/evaluate")
     public ResponseEntity getEvaluationList(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id)
     {
         /**
