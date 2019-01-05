@@ -16,11 +16,10 @@ import java.util.List;
 @Slf4j
 public class MapServiceImpl implements MapService {
 
-    private final LocationDistance locationDistance;
     private final MapMapper mapMapper;
 
-    public MapServiceImpl(final LocationDistance locationDistance,final MapMapper mapMapper) {
-        this.locationDistance = locationDistance;
+    public MapServiceImpl(final MapMapper mapMapper) {
+
         this.mapMapper = mapMapper;
     }
 
