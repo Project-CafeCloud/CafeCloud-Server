@@ -33,7 +33,9 @@ public interface PlusMapper {
      * PLUS 전체 리스트
      *
      * **/
-    @Select("SELECT p.*,u.user_img_url FROM PLUS_SUBJECT as p, USER as u WHERE u.user_id = p.editor_id")
+    @Select("SELECT p.*,u.user_id" +
+            "" +
+            "mg_url FROM PLUS_SUBJECT as p, USER as u WHERE u.user_id = p.editor_id")
     List<PlusSubject> findPlusSubjectAll();
 
     /**
