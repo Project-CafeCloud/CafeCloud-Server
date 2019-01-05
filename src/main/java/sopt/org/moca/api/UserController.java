@@ -77,21 +77,19 @@ public class UserController {
      * Mypage 회원 정보 수정
      **/
     @Auth
-    @PutMapping("/{user_id}/mypage")
+    @PutMapping("/mypage")
     public ResponseEntity updateMypage(
             @RequestHeader("Authorization") final String jwt,
-            @PathVariable final String user_id,
             final UserSignUpReq userSignUpReq,
             @RequestPart(value = "profile", required = false) final MultipartFile user_img
     ) {
-
         try {
             if (user_img != null) userSignUpReq.setUser_img(user_img);
             final String tokenValue = JwtUtils.decode(jwt).getUser_id();
-            if (tokenValue.compareTo(user_id) == 0)
-                return new ResponseEntity<>(userService.updateUser(user_id, userSignUpReq), HttpStatus.OK);
-            return new ResponseEntity<>(UNAUTHORIZED_RES, HttpStatus.OK);
-
+            if(tokenValue != null) return new ResponseEntity<>(userService.updateUser(tokenValue, userSignUpReq), HttpStatus.OK);
+            else{
+                    return new ResponseEntity<>(UNAUTHORIZED_RES, HttpStatus.OK);
+            }
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
