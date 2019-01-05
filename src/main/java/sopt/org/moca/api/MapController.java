@@ -29,6 +29,7 @@ public class MapController {
     /**
      *
      * 반경 3km 카페 찾기
+     *
      * **/
     @PostMapping("/nearbycafe")
     public ResponseEntity GetNearbyCafe(
