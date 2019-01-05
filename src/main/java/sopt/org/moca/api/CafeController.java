@@ -146,7 +146,7 @@ public class CafeController {
      * @return
      */
 
-    @GetMapping("/pick/evaluate/{cafe_id}/barista/{barista_id}")
+    @GetMapping("/pick/{cafe_id}/evaluate/barista/{barista_id}")
     public ResponseEntity getEvaluationDetail(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id,@PathVariable final int barista_id)
     {
 
@@ -253,32 +253,7 @@ public class CafeController {
     }
 
 
-    /**
-     * 지역구별 카페 리스트
-     *
-     *
-     */
-    @GetMapping("/category/location/{address_district_id}")
-    public ResponseEntity getCafeSimpleList(final HttpServletRequest httpServletRequest, @PathVariable final int address_district_id)
-    {
 
-
-
-        /**
-         * 토큰으로 유효한지 아닌지 확인 구현 필요
-         *
-         */
-        log.info("1234");
-
-        try{
-            return new ResponseEntity<>(cafeService.findCafeSimpleList(address_district_id), HttpStatus.OK);
-        } catch (Exception e){
-            log.error(e.getMessage());
-            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-
-    }
 
 
 
