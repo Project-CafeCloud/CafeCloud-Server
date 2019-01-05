@@ -63,7 +63,7 @@ public class PlusServiceImpl implements PlusService {
             return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_PLUS_SUBJECT);
         else {
             User user = userMapper.findById(plusSubject.getEditor_id());
-            plusSubject.setUser_name(user.getUser_name());
+            plusSubject.setEditor_name(user.getUser_name());
             return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_PLUS_SUBJECT, plusSubject);
         }
     }
