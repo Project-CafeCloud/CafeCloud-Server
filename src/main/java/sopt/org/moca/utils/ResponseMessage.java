@@ -139,5 +139,9 @@ public class ResponseMessage {
     // 스크랩
     public static final String SCRAP_SUCCESS = "스크랩 성공";
     public static final String SCRAP_FAIL = "스크랩 실패";
+    public static final String READ_SCRAP_LIST = "스크랩 조회 성공";
+    public static final String NOT_FOUND_SCRAP_LIST = "스크랩 조회 실패";
+    public static final String SCRAP_DELETE_FAIL = "스크랩 취소 실패";
+    public static final String SCRAP_DELETE_SUCCESS = "스크랩 취소 성공";
 
 }
