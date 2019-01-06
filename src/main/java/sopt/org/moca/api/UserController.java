@@ -9,11 +9,14 @@ import org.springframework.web.multipart.MultipartFile;
 import sopt.org.moca.dto.User;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.UserSignUpReq;
+import sopt.org.moca.service.FollowService;
 import sopt.org.moca.service.UserService;
 import sopt.org.moca.utils.auth.Auth;
 import sopt.org.moca.utils.auth.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.List;
 
 import static sopt.org.moca.model.DefaultRes.*;
 
@@ -24,10 +27,12 @@ public class UserController {
 
     private static final String HEADER = "Authorization";
     private final UserService userService;
+    private final FollowService followService;
 
 
-    public UserController(final UserService userService) {
+    public UserController(final UserService userService, final FollowService followService) {
         this.userService = userService;
+        this.followService = followService;
 
     }
 
@@ -118,6 +123,35 @@ public class UserController {
         }
     }
 
+
+
+    /**
+     * 인기 유저 조회
+     *
+     * @param httpServletRequest Request
+     * @retrun ResponseEntity
+     **/
+    @GetMapping("/best")
+    public ResponseEntity getBestUser(final HttpServletRequest httpServletRequest) {
+        try {
+            final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+
+            DefaultRes<List<User>> bestUser = userService.findBestUser(5);
+
+            for(User u : bestUser.getData()){
+                // 나
+                if (user_id.compareTo(u.getUser_id()) == 0)
+                    u.setAuth(true);
+                else
+                    u.setFollow(followService.checkFollow(user_id, u.getUser_id()));
+            }
+
+            return new ResponseEntity<>(bestUser, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
 
