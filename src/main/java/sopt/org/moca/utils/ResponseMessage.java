@@ -144,4 +144,8 @@ public class ResponseMessage {
     public static final String SCRAP_DELETE_FAIL = "스크랩 취소 실패";
     public static final String SCRAP_DELETE_SUCCESS = "스크랩 취소 성공";
 
+    //메시지
+    public static final String FAIL_TO_SAVE_MESSAGE = "메시지 저장 실패";
+    public static final String MESSAGE_SAVE_SUCCESS = "메시지 저장 성공";
+
 }
