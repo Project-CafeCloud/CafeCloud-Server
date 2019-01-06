@@ -17,21 +17,13 @@ import sopt.org.moca.utils.Time;
 import java.util.Date;
 import java.util.List;
 
-/**
- * findAllByCafeId      : 해당 카페에 대한 모든 리뷰 조회
- * findBestByCafeId     : 해당 카페에 대한 인기 리뷰 조회
- * findByReviewId       : 리뷰 상세 조회
- * findByUserId         : 유저가 쓴 모든 리뷰 최신순으로 조회
- * save                 : 리뷰 등록
- * like                 : 리뷰 좋아요 & 좋아요 취소
- */
 
 
 @Slf4j
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-    private final UserMapper userMapper;
+    private final FollowMapper followMapper;
     private final CafeMapper cafeMapper;
     private final ReviewMapper reviewMapper;
     private final ReviewImageMapper reviewImageMapper;
@@ -44,6 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
      * 생성자 의존성 주입
      *
      * @param userMapper
+     * @param followMapper
      * @param cafeMapper
      * @param reviewMapper
      * @param reviewImageMapper
@@ -51,14 +44,14 @@ public class ReviewServiceImpl implements ReviewService {
      * @param fileUploadService
      */
 
-    public ReviewServiceImpl(final UserMapper userMapper,
+    public ReviewServiceImpl(final FollowMapper followMapper,
                              final CafeMapper cafeMapper,
                              final ReviewMapper reviewMapper,
                              final ReviewImageMapper reviewImageMapper,
                              final ReviewLikeMapper reviewLikeMapper,
                              final FileUploadService fileUploadService) {
 
-        this.userMapper = userMapper;
+        this.followMapper = followMapper;
         this.cafeMapper = cafeMapper;
         this.reviewMapper = reviewMapper;
         this.reviewImageMapper = reviewImageMapper;
@@ -134,7 +127,7 @@ public class ReviewServiceImpl implements ReviewService {
         if(is_user_feed){
             reviewList = reviewMapper.findUserFeedByUserId(userId);
         } else {
-            if(userMapper.findFollowing(userId).size() == 0){
+            if(followMapper.findFollowing(userId).size() == 0){
                 return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_FOLLOW);
             }
             reviewList = reviewMapper.findSocialFeedByUserId(userId);
@@ -244,7 +237,6 @@ public class ReviewServiceImpl implements ReviewService {
                 reviewLikeMapper.deleteByUserIdAndReviewId(userId, reviewId);
             }
 
-            // review = findByReviewId(reviewId).getData();
             review.setAuth(checkAuth(userId, reviewId));
             review.setLike(checkLike(userId, reviewId));
 

@@ -12,8 +12,10 @@ import sopt.org.moca.dto.PlusContents;
 import sopt.org.moca.dto.PlusSubject;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.service.PlusService;
+import sopt.org.moca.utils.auth.JwtUtils;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static sopt.org.moca.model.DefaultRes.FAIL_DEFAULT_RES;
@@ -50,11 +52,13 @@ public class PlusController {
      *
      *  PLUS 카페 주제 상세 조회
      * **/
-    @GetMapping("/{plus_subject_id}/contents")
-    public ResponseEntity GetPlusSubjectCafe (@PathVariable final int plus_subject_id){
+    @GetMapping("/{plus_subject_id}/detail")
+    public ResponseEntity GetPlusSubjectCafe (
+            @PathVariable final int plus_subject_id){
         try{
             DefaultRes <PlusSubject> plusSubujectRes = plusService.findPlusSubject(plus_subject_id);
             return new ResponseEntity<>(plusSubujectRes,HttpStatus.OK);
+
         }catch (Exception e){
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -66,7 +70,7 @@ public class PlusController {
      *
      * PLUS 카페 콘텐츠 뷰 조회
      * **/
-    @GetMapping("/{plus_subject_id}/detail")
+    @GetMapping("/{plus_subject_id}/contents")
     public ResponseEntity GetPlusDetail (@PathVariable final int plus_subject_id){
         try{
             DefaultRes<List<PlusContents>> contentDefaultRes = plusService.findContentList(plus_subject_id);
