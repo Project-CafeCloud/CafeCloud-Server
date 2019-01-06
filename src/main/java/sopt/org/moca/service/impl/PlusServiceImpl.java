@@ -45,6 +45,13 @@ public class PlusServiceImpl implements PlusService {
         else{
             plusSubjectList = plusMapper.findPlusSubject(length);
         }
+
+        for(PlusSubject p : plusSubjectList){
+            User user = userMapper.findById(p.getEditor_id());
+            p.setEditor_name(user.getUser_name());
+            p.setEditor_img_url(user.getUser_img_url());
+        }
+
         if(plusSubjectList.isEmpty()){
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_PLUS_SUBJECT_LIST);
         }
@@ -64,6 +71,7 @@ public class PlusServiceImpl implements PlusService {
         else {
             User user = userMapper.findById(plusSubject.getEditor_id());
             plusSubject.setEditor_name(user.getUser_name());
+            plusSubject.setEditor_img_url(user.getUser_img_url());
             return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_PLUS_SUBJECT, plusSubject);
         }
     }

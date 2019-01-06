@@ -90,7 +90,7 @@ public class ScrapServiceImpl implements ScrapService {
                 CafeInfo cafeInfo = cafeMapper.findCafeInfo(s.getCafe_id());
                 s.setCafe_img_url(cafeMapper.findCafeImgList(s.getCafe_id()));
                 s.setCafe_name(cafeInfo.getCafe_name());
-                s.setAddress_district_name("서울 "+ cafeInfo.getAddress_district_name() + cafeInfo.getCafe_address_detail());
+                s.setAddress_district_name("서울 "+ cafeInfo.getAddress_district_name()+" " + cafeInfo.getCafe_address_detail());
                 s.setCafe_rating_avg(cafeInfo.getCafe_rating_avg());
             }
             return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_SCRAP_LIST,scrapList);
