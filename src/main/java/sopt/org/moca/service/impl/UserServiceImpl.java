@@ -129,25 +129,21 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * 유저의 팔로우 (팔로잉/팔로워) 조회
-     * @param user_id
-     * @param is_follower
+     * 인기 있는 유저 리스트 조회 (팔로워 순)
+     *
+     * @param num       몇 명까지
      * @return DefaultRes
      *
      **/
     @Override
-    public DefaultRes<List<User>> findFollow(final String user_id, final boolean is_follower){
+    public DefaultRes<List<User>> findBestUser(final int num){
 
-        List<User> follow;
+        List<User> bestUserList = userMapper.findBestUser(num);
 
-        if(is_follower){
-            follow = userMapper.findFollowing(user_id);
-        } else {
-            follow = userMapper.findFollower(user_id);
-        }
+        if (bestUserList == null)
+            return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_USER);
+        return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, bestUserList);
 
-        if (follow != null) return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, follow);
-        return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_FOLLOW);
     }
 
 }

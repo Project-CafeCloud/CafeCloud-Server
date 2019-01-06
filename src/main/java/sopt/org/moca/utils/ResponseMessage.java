@@ -95,8 +95,8 @@ public class ResponseMessage {
 
 
     //카테고리화 리스트 조회
-    public static final String READ_CATEGORIZED_CAFE = "카테고라화 카페 리스트 조회 성공";
-    public static final String FAIL_CATEGORIZED_CAFE = "카테고라화 카페 리스트 조회 실패";
+    public static final String READ_CATEGORIZED_CAFE = "카테고리화 카페 리스트 조회 성공";
+    public static final String FAIL_CATEGORIZED_CAFE = "카테고리화 카페 리스트 조회 실패";
 
     // 커뮤니티
     public static final String READ_FEEDS = "피드 조회 성공";
@@ -136,6 +136,11 @@ public class ResponseMessage {
     public static final String NOT_FOUND_PLUS_CONTENT_IMG_LIST = "플러스 콘텐츠 이미지 리스트를 조회 할 수 없습니다.";
     public static final String READ_PLUS_CONTENT_IMG_LIST = "플러스 콘텐츠 이미지 리스트 조회 성공";
 
+
+
+    //검색
+    public static final String SEARCH_CAFE_LIST = "카페 키워드 조회 성공";
+    public static final String FAIL_SEARCH_CAFE_LIST = "카페 키워드 조회 실패";
     // 스크랩
     public static final String SCRAP_SUCCESS = "스크랩 성공";
     public static final String SCRAP_FAIL = "스크랩 실패";
