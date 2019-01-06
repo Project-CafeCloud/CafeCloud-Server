@@ -70,24 +70,20 @@ public interface UserMapper {
 
 
     /**
-     * 팔로워 목록 조회
-     * @param user_id
-     * */
-    @Select("SELECT * FROM FOLLOW WHERE following_id = #{user_id}")
-    List<User> findFollower(@Param("user_id") final String user_id);
-
-
-    /**
-     * 팔로잉 목록 조회
-     * @param user_id
-     * */
-    @Select("SELECT * FROM FOLLOW WHERE follower_id = #{user_id}")
-    List<User> findFollowing(@Param("user_id") final String user_id);
-
-    /**
-     * 찜한 카페 생성
+     * 인기 있는 유저 리스트 조회 (팔로워 순)
      *
-     * **/
+     * @param num
+     *
+     * */
+    @Select("SELECT user_id, user_name, user_img_url " +
+            "FROM USER JOIN " +
+            "(SELECT following_id, count(*) AS c " +
+            "FROM FOLLOW " +
+            "GROUP BY following_id) AS F " +
+            "ON F.following_id = USER.user_id " +
+            "ORDER BY c DESC " +
+            "LIMIT #{num}")
+    List<User> findBestUser(@Param("num") final int num);
 
 
 }
