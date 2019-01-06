@@ -59,9 +59,7 @@ public class ScrapServiceImpl implements ScrapService {
      * **/
     @Transactional
     public DefaultRes deleteByCafeId(final int cafe_id){
-//        if(!scrapMapper.findByCafeId(cafe_id)){
-//            return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_SCRAP_LIST);
-//        }
+
         try{
             scrapMapper.deleteByCafeId(cafe_id);
             return DefaultRes.res(StatusCode.OK,ResponseMessage.SCRAP_DELETE_SUCCESS);
