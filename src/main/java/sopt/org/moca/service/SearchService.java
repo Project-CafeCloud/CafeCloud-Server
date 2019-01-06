@@ -10,5 +10,5 @@ public interface SearchService {
 
     DefaultRes<List<SearchCafeInfoRef>> searchKeywordInCafe(String keyword);
 
-    DefaultRes<SearchCommunityCombination> searchKeywrodInCommunity(String keyword);
+    DefaultRes<SearchCommunityCombination> searchKeywordInCommunity(String keyword, String user_id);
 }
