@@ -4,15 +4,17 @@ package sopt.org.moca.api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import sopt.org.moca.dto.Message;
+import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.MessageReq;
 import sopt.org.moca.service.MessageService;
 import sopt.org.moca.utils.auth.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.List;
 
 import static sopt.org.moca.model.DefaultRes.FAIL_DEFAULT_RES;
 
@@ -33,14 +35,13 @@ public class MessageController {
      * 메세지 보내기
      * **/
 
-    @PostMapping("/{receiver_id}")
+    @PostMapping("")
     public ResponseEntity save(
             final HttpServletRequest httpServletRequest,
             MessageReq messageReq,
-            @PathVariable final String receiver_id
+            @RequestPart(value = "profile", required = false) final MultipartFile message_img
     ){
         try{
-            messageReq.setReceiver_id(receiver_id);
             messageReq.setSender_id(JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id());
             return new ResponseEntity<>(messageService.save(messageReq),HttpStatus.OK);
         }catch (Exception e) {
@@ -49,4 +50,22 @@ public class MessageController {
         }
 
     }
+
+    /**
+     *
+     * 상대방과 주고받은 쪽지함 조회
+     * **/
+//    @GetMapping("/{user_id}") //상대방id
+//    public ResponseEntity getMessageList(
+//            final HttpServletRequest httpServletRequest,
+//            @PathVariable final String user_id
+//    ){
+//        try{
+//            DefaultRes<List<Message>> messageDefaultRes = messageService.findMessageByUserId(user_id);
+//
+//        }catch (Exception e){
+//            log.error(e.getMessage());
+//            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 }
