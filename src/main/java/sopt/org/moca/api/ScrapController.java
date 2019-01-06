@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sopt.org.moca.dto.Scrap;
+import sopt.org.moca.mapper.ScrapMapper;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.ScrapReq;
 import sopt.org.moca.service.ScrapService;
@@ -83,7 +84,6 @@ public class ScrapController {
     ){
         try{
             return new ResponseEntity<>(scrapService.deleteByCafeId(cafe_id),HttpStatus.OK);
-
         }catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
