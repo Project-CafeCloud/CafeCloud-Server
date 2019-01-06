@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SearchCafeInfo {
+public class  SearchCafeInfo {
     private int cafe_id;
     private String cafe_name;
     private String cafe_img_url;
