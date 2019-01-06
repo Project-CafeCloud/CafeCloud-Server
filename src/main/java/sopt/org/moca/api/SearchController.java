@@ -34,6 +34,8 @@ public class SearchController {
     }
 
 
+
+
     public ResponseEntity searchCommunityKeyword(String keyword)
     {
         try

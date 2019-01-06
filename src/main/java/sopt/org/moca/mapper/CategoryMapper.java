@@ -34,9 +34,10 @@ public interface CategoryMapper {
 
     //카테고리회된 카페 리스트 조회
 
-    @Select("<script>"+"SELECT  cafe_id , cafe_name ,cafe_address_detail ,cafe_rating_avg ,cafe_menu_img_url,cafe_main_menu_name, cafe_concept_name " +
-            "from CAFE natural join CAFE_IMG natural join CAFE_CONCEPT natural join CAFE_MAIN_MENU "+
-            "where cafe_address_district_id = #{district_id} and  cafe_main_menu_id in " +
+    @Select("<script>"+"SELECT  CAFE.cafe_id , cafe_name ,cafe_address_detail ,cafe_rating_avg ,cafe_img_url, cafe_main_menu_name, cafe_concept_name " +
+            "from CAFE left join CAFE_IMG on CAFE.cafe_id = CAFE_IMG.cafe_id natural join CAFE_CONCEPT natural join CAFE_MAIN_MENU "+
+            "where cafe_address_district_id = #{district_id} " +
+            "and  (cafe_img_main = 1 or ISNULL(cafe_img_main)) and cafe_main_menu_id in " +
             "<foreach item='item' index='index' collection='categoryParam.menu'" +
             " open='(' separator=',' close=')'> " +
             " #{item} " +

@@ -60,7 +60,6 @@ public ResponseEntity findDistrictList()
                 categoryParam.setMenu(ary);
             }
 
-
             return new ResponseEntity<>(categoryService.findCategorizedCafeList(district_id,categoryParam), HttpStatus.OK);
         } catch (Exception e){
             log.error(e.getMessage());

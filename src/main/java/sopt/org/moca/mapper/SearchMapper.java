@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface SearchMapper {
 
-    @Select()
+    @Select("select ")
     List<SearchCafeInfo>searchCafeInfoList(String keyword);
 
 }
