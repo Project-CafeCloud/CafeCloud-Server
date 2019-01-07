@@ -65,6 +65,7 @@ public class FeedController {
                 for (Review r : feedList.getData()) {
                     r.setAuth(r.getUser_id().compareTo(userId) == 0);
                     r.setLike(reviewService.checkLike(userId, r.getReview_id()));
+
                 }
             }
 

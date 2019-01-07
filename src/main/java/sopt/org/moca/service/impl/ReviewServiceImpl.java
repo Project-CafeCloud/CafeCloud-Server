@@ -143,12 +143,17 @@ public class ReviewServiceImpl implements ReviewService {
         for (Review r : reviewList){
 
             CafeInfo cafeinfo = cafeMapper.findByCafeId(r.getCafe_id());
+            User user = userMapper.findById(userId);
 
             r.setImage(reviewImageMapper.findAllByReviewId(r.getReview_id()));
             r.setCafe_name(cafeinfo.getCafe_name());
             r.setCafe_address("서울 " + cafeinfo.getAddress_district_name());
             r.setLike_count(reviewLikeMapper.countByReviewId(r.getReview_id()));
             r.setTime(Time.toText(r.getReview_date()));
+            r.setUser_name(user.getUser_name());
+            r.setUser_img_url(user.getUser_img_url());
+            r.setUser_name(user.getUser_name());
+            r.setUser_img_url(user.getUser_img_url());
         }
 
         if (reviewList.isEmpty())
@@ -184,6 +189,7 @@ public class ReviewServiceImpl implements ReviewService {
         review.setCafe_address("서울 " + cafeinfo.getAddress_district_name());
         review.setLike_count(reviewLikeMapper.countByReviewId(review.getReview_id()));
         review.setTime(Time.toText(review.getReview_date()));
+
 
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_REVIEWS, review);
     }
