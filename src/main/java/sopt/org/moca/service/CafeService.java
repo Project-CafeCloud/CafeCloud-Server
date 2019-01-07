@@ -21,9 +21,8 @@ public interface CafeService {
     DefaultRes<CafeInfo>findCafeInfo(final int cafe_id);
     DefaultRes<List<CafeSignitureMenu>>findCafeSignitureMenuList(final int cafe_id);
 
-    //카페 카테고리 필터링
-
-    //해당 지역구 전체
+    //카페 리스트 조회(핫플레이스)
+    DefaultRes<List<CafeByHotPlace>>findCafeByHotPlaceList(final int hot_place_id);
 
 
     DefaultRes<List<CafeBest>>findBestCafeSimpleList(final int flag);
