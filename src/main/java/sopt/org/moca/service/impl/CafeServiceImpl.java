@@ -1,7 +1,5 @@
 package sopt.org.moca.service.impl;
 
-
-import com.oracle.tools.packager.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sopt.org.moca.dto.*;
@@ -12,11 +10,6 @@ import sopt.org.moca.service.CafeService;
 import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
