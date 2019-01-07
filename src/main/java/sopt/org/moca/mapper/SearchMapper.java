@@ -4,9 +4,7 @@ package sopt.org.moca.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import sopt.org.moca.dto.SearchCafeInfo;
-import sopt.org.moca.dto.SearchReviewInfo;
-import sopt.org.moca.dto.SearchUserInfo;
+import sopt.org.moca.dto.*;
 
 import java.util.List;
 
@@ -36,6 +34,19 @@ public interface SearchMapper {
         "order by 1")
     List<SearchReviewInfo>searchReviewInfoList(@Param("keyword")final String keyword);
 
+
+//나를 팔로우 한 사람 조회
+    @Select("select user_id as follower_id  , user_name as follower_name  , user_img_url as follower_img_url " +
+            "from  FOLLOW  left join USER on follower_id =  user_id " +
+            "where following_id = #{user_id}")
+    List<FollowerInfo>searchFollowerList(@Param("user_id")final String user_id);
+
+//내가 팔로우 한 사람 조회
+
+    @Select("select user_id as following_id  , user_name as following_name  , user_img_url as following_img_url " +
+            "from  FOLLOW  left join USER on following_id =  user_id " +
+            "where follower_id = #{user_id}")
+    List<FollowingInfo>searchFollowingList(@Param("user_id")final String user_id);
 
 
 

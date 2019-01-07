@@ -3,9 +3,7 @@ package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import sopt.org.moca.dto.SearchCafeInfo;
-import sopt.org.moca.dto.SearchReviewInfo;
-import sopt.org.moca.dto.SearchUserInfo;
+import sopt.org.moca.dto.*;
 import sopt.org.moca.mapper.SearchMapper;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.SearchCafeInfoRef;
@@ -83,13 +81,38 @@ public class SearchServiceImpl implements SearchService {
         searchCommunityCombination.setReviewListOrderByLatest(reviewListOrderByLatest);
 
 
-
-
         return DefaultRes.res(StatusCode.OK,ResponseMessage.SEARCH_REVIEW_LIST, searchCommunityCombination);
     }
 
+    @Override
+    public DefaultRes<List<FollowerInfo>> searchFollowerInfoList(String user_id) {
+        List<FollowerInfo> followerInfoList = searchMapper.searchFollowerList(user_id);
+        if(followerInfoList.isEmpty())
+        {
+         return  DefaultRes.res(StatusCode.NO_CONTENT,ResponseMessage.FAIL_SEARCH_FOLLOWER_LIST);
+        }
+        else
+        {
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.SEARCH_FOLLOWER_LIST,followerInfoList);
+
+        }
+    }
+
+    @Override
+    public DefaultRes<List<FollowingInfo>> searchFollingInfoList(String user_id) {
+        List<FollowingInfo> followingInfoList = searchMapper.searchFollowingList(user_id);
+        if(followingInfoList.isEmpty())
+        {
+            return  DefaultRes.res(StatusCode.NO_CONTENT,ResponseMessage.FAIL_SEARCH_FOLLOWING_LIST);
+        }
+        else
+        {
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.SEARCH_FOLLOWING_LIST,followingInfoList);
+
+        }
 
 
+    }
 
 
 }

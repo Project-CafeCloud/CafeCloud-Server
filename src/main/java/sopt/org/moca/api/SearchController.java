@@ -52,4 +52,40 @@ public class SearchController {
         }
         return new ResponseEntity(DefaultRes.FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+   @GetMapping("/follower")
+   public ResponseEntity searchFollowerList(@RequestHeader("Authorization") final String jwt)
+   {
+       String user_id;
+       try
+       {
+           user_id = JwtUtils.decode(jwt).getUser_id();
+           return new ResponseEntity(searchService.searchFollowerInfoList(user_id), HttpStatus.OK);
+       }
+       catch(Exception e)
+       {
+           log.error(e.getMessage());
+       }
+       return new ResponseEntity(DefaultRes.FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+   }
+
+
+
+   @GetMapping("/following")
+   public ResponseEntity searchFollowingList(@RequestHeader("Authorization") final String jwt)
+   {
+       String user_id;
+       try
+       {
+           user_id = JwtUtils.decode(jwt).getUser_id();
+           return new ResponseEntity(searchService.searchFollingInfoList(user_id), HttpStatus.OK);
+       }
+       catch(Exception e)
+       {
+           log.error(e.getMessage());
+       }
+       return new ResponseEntity(DefaultRes.FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+   }
+
+
 }
