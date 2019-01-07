@@ -55,7 +55,7 @@ public class MessageController {
 
     /**
      *
-     * 상대방과 주고받은 쪽지함 조회
+     * 상대방과 주고받은 쪽지 조회
      * **/
     @GetMapping("/{user_id}") //상대방id
     public ResponseEntity getMessageList(
