@@ -171,4 +171,8 @@ public class ResponseMessage {
     public static final String NOT_FOUND_MESSAGELIST = "메시지 리스트가 없습니다.";
     public static final String READ_MESSAGE = "메시지 리스트 조회 성공";
 
+    //핫플레이스로 카페 리스트
+    public static final String READ_HOT_PLACE_CAFE_LIST = "핫플레이스로 카페 리스트 조회 성공";
+    public static final String FAIL_HOT_PLACE_CAFE_LIST = "핫플레이스로 카페 리스트 조회 실패";
+
 }

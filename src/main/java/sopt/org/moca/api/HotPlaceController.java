@@ -32,10 +32,6 @@ public class HotPlaceController {
          *
          */
 
-
-
-
-
         try{
             return new ResponseEntity<>(hotPlaceService.findAllHotPlace(), HttpStatus.OK);
         } catch (Exception e){
@@ -43,4 +39,7 @@ public class HotPlaceController {
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
 }

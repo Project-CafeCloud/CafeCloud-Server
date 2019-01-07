@@ -53,7 +53,7 @@ public class SearchController {
         return new ResponseEntity(DefaultRes.FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-   @GetMapping("/follower")
+   @GetMapping("/follower/{keyeord}")
    public ResponseEntity searchFollowerList(@RequestHeader("Authorization") final String jwt)
    {
        String user_id;

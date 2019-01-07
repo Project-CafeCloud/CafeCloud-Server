@@ -280,6 +280,21 @@ public class CafeController {
     }
 
 
+    @GetMapping("/hot_place/{hot_place_id}")
+    public ResponseEntity getCafeListByHotPlace(@PathVariable("hot_place_id") final int hot_place_id)
+    {
+
+        try{
+            return new ResponseEntity<>(cafeService.findCafeByHotPlaceList(hot_place_id), HttpStatus.OK);
+
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
 
 
 }

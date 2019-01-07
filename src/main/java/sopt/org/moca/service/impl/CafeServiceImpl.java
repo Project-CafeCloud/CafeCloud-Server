@@ -147,7 +147,23 @@ public class CafeServiceImpl implements CafeService {
         }
     }
 
+    /**
+     * 핫플레이스 카페 리스트
+     * @param hot_place_id
+     * @return
+     */
+    @Override
+    public DefaultRes<List<CafeByHotPlace>> findCafeByHotPlaceList(int hot_place_id) {
+        List<CafeByHotPlace> cafeByHotPlaceList = null;
+        cafeByHotPlaceList =  cafeMapper.findCafeByHotPlaceList(hot_place_id);
+        if (cafeByHotPlaceList.isEmpty()) {
 
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_HOT_PLACE_CAFE_LIST);
+        } else {
+
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_HOT_PLACE_CAFE_LIST, cafeByHotPlaceList);
+        }
+    }
 
 
     /**
