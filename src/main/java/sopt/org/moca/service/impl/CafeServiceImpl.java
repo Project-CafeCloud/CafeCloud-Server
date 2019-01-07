@@ -120,11 +120,18 @@ public class CafeServiceImpl implements CafeService {
             return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_CAFE_IMG_LIST, cafeImgList);
         }
     }
+
+
+    /**
+     *
+     * @param cafe_id
+     * @return
+     */
     @Override
-    public DefaultRes<CafeInfo> findCafeInfo(int cafe_id) {
+    public DefaultRes<CafeInfo> findCafeInfo(int cafe_id,String user_id) {
 
         CafeInfo cafeInfo = null;
-        cafeInfo = cafeMapper.findCafeInfo(cafe_id);
+        cafeInfo = cafeMapper.findCafeInfo(cafe_id,user_id);
         if (cafeInfo == null) {
 
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_CAFE_INFO);

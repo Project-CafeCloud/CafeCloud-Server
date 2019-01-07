@@ -83,7 +83,7 @@ public class PlusServiceImpl implements PlusService {
      * **/
 
     @Override
-    public DefaultRes<List<PlusContents>> findContentList(final int plus_subject_id){
+    public DefaultRes<List<PlusContents>> findContentList(final int plus_subject_id, final String user_id){
         List<PlusContents> plusContentsList = plusMapper.findContent(plus_subject_id);
 
         if(plusContentsList.isEmpty()){
@@ -91,7 +91,7 @@ public class PlusServiceImpl implements PlusService {
 
         }else {
             for(PlusContents p : plusContentsList ) {
-                CafeInfo cafeInfo = cafeMapper.findCafeInfo(p.getCafe_id());
+                CafeInfo cafeInfo = cafeMapper.findCafeInfo(p.getCafe_id(),user_id);
                 p.setAddress_district_name("서울 " + cafeInfo.getAddress_district_name());
                 p.setCafe_name(cafeInfo.getCafe_name());
                 p.setContentImages(plusMapper.findPlusContentImg(p.getPlus_contents_id()));
