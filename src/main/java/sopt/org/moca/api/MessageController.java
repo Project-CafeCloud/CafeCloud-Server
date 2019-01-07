@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sopt.org.moca.dto.Message;
+import sopt.org.moca.dto.MyMessages;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.MessageReq;
 import sopt.org.moca.service.MessageService;
@@ -51,21 +52,41 @@ public class MessageController {
 
     }
 
+
     /**
      *
      * 상대방과 주고받은 쪽지함 조회
      * **/
-//    @GetMapping("/{user_id}") //상대방id
-//    public ResponseEntity getMessageList(
-//            final HttpServletRequest httpServletRequest,
-//            @PathVariable final String user_id
-//    ){
-//        try{
-//            DefaultRes<List<Message>> messageDefaultRes = messageService.findMessageByUserId(user_id);
-//
-//        }catch (Exception e){
-//            log.error(e.getMessage());
-//            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @GetMapping("/{user_id}") //상대방id
+    public ResponseEntity getMessageList(
+            final HttpServletRequest httpServletRequest,
+            @PathVariable final String user_id
+    ){
+        try{
+            String my_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+            DefaultRes<List<Message>> messageDefaultRes ;
+            return new ResponseEntity<>(messageService.findMessageList(my_id,user_id),HttpStatus.OK);
+
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    /**
+     * 내 쪽지함 조회
+     * **/
+    @GetMapping("")
+    public ResponseEntity getMyMessageList(
+            final HttpServletRequest httpServletRequest
+    ) {
+        try {
+            String my_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+            DefaultRes<List<MyMessages>> myMessagesDefaultRes;
+            return new ResponseEntity<>(messageService.findMyMessageList(my_id),HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
