@@ -144,4 +144,15 @@ public interface CafeMapper {
             "LIMIT 5")
     List<CafeBest>findBestCafeOrderByScrapCnt();
 
+
+    //핫플레이스 별 카페리스트 조회
+    @Select("SELECT cafe_id, cafe_name , cafe_subway, cafe_rating_avg ,(CASE  WHEN cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
+            "from CAFE " +
+            "where hot_place_id = #{hot_place_id}")
+    List<CafeByHotPlace>findCafeByHotPlaceList(@Param("hot_place_id")final int hot_place_id);
+
+
+
+
+
 }

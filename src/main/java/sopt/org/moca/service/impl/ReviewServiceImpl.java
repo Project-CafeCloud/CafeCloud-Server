@@ -23,6 +23,7 @@ import java.util.List;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
+    private final UserMapper userMapper;
     private final FollowMapper followMapper;
     private final CafeMapper cafeMapper;
     private final ReviewMapper reviewMapper;
@@ -44,13 +45,15 @@ public class ReviewServiceImpl implements ReviewService {
      * @param fileUploadService
      */
 
-    public ReviewServiceImpl(final FollowMapper followMapper,
+    public ReviewServiceImpl(final UserMapper userMapper,
+                             final FollowMapper followMapper,
                              final CafeMapper cafeMapper,
                              final ReviewMapper reviewMapper,
                              final ReviewImageMapper reviewImageMapper,
                              final ReviewLikeMapper reviewLikeMapper,
                              final FileUploadService fileUploadService) {
 
+        this.userMapper = userMapper;
         this.followMapper = followMapper;
         this.cafeMapper = cafeMapper;
         this.reviewMapper = reviewMapper;
@@ -100,6 +103,10 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> reviewList = reviewMapper.findBestByCafeId(cafeId, num);
         for (Review r : reviewList){
 
+            User user = userMapper.findById(r.getUser_id());
+
+            r.setUser_name(user.getUser_name());
+            r.setUser_img_url(user.getUser_img_url());
             r.setImage(reviewImageMapper.findAllByReviewId(r.getReview_id()));
             r.setCafe_name(cafeinfo.getCafe_name());
             r.setCafe_address("서울 " + cafeinfo.getAddress_district_name());
@@ -167,6 +174,10 @@ public class ReviewServiceImpl implements ReviewService {
 
         Review review = reviewMapper.findByReviewId(reviewId);
         CafeInfo cafeinfo = cafeMapper.findByCafeId(review.getCafe_id());
+        User user = userMapper.findById(review.getUser_id());
+
+        review.setUser_name(user.getUser_name());
+        review.setUser_img_url(user.getUser_img_url());
 
         review.setImage(reviewImageMapper.findAllByReviewId(review.getReview_id()));
         review.setCafe_name(cafeinfo.getCafe_name());

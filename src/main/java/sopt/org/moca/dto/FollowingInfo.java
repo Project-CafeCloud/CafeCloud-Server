@@ -5,12 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class SearchReviewInfo {
-    private int review_id;
-    private String review_img_url;
-    private int like_count;
+public class FollowingInfo {
+    private  String following_id;
+    private  String following_name;
+    private  String following_img_url;
 }

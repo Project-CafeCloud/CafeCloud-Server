@@ -8,9 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SearchUserInfo {
-    private String user_id;
-    private String user_name;
-    private String user_status_comment;
-    private boolean  follow_is ;
+public class FollowerInfo {
+    private  String follower_id;
+    private  String follower_name;
+    private  String follower_img_url;
 }

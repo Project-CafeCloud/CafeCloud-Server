@@ -1,7 +1,5 @@
 package sopt.org.moca.service.impl;
 
-
-import com.oracle.tools.packager.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sopt.org.moca.dto.*;
@@ -12,11 +10,6 @@ import sopt.org.moca.service.CafeService;
 import sopt.org.moca.utils.ResponseMessage;
 import sopt.org.moca.utils.StatusCode;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -154,7 +147,23 @@ public class CafeServiceImpl implements CafeService {
         }
     }
 
+    /**
+     * 핫플레이스 카페 리스트
+     * @param hot_place_id
+     * @return
+     */
+    @Override
+    public DefaultRes<List<CafeByHotPlace>> findCafeByHotPlaceList(int hot_place_id) {
+        List<CafeByHotPlace> cafeByHotPlaceList = null;
+        cafeByHotPlaceList =  cafeMapper.findCafeByHotPlaceList(hot_place_id);
+        if (cafeByHotPlaceList.isEmpty()) {
 
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_HOT_PLACE_CAFE_LIST);
+        } else {
+
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_HOT_PLACE_CAFE_LIST, cafeByHotPlaceList);
+        }
+    }
 
 
     /**

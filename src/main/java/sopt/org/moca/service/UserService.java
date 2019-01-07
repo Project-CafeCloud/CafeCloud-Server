@@ -12,6 +12,7 @@ public interface UserService {
     DefaultRes save(final UserSignUpReq userSignUpReq);
     DefaultRes<User> findById(final String user_id);
     DefaultRes updateUser(final String token_value ,final UserSignUpReq userSignUpReq);
+    DefaultRes findUser(final String user_id);
     DefaultRes deleteById(final String user_id);
     DefaultRes<List<User>> findBestUser(final int num);
 }

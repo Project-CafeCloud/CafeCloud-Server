@@ -37,7 +37,7 @@ public interface MembershipMapper {
      * @return
      */
     //맴버쉽  리스트 조회
-    @Select("SELECT cafe_id,membership_create_date,cafe_img_url " +
+    @Select("SELECT cafe_id,cafe_name,membership_create_date,cafe_img_url " +
             "from MEMBERSHIP natural join CAFE natural join CAFE_IMG " +
             "where user_id = #{user_id} and cafe_img_main = 1 and membership_used = 0")
     List<Membership> findMembershipList(@Param("user_id")final String user_id);
