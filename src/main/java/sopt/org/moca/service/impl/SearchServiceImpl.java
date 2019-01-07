@@ -70,9 +70,9 @@ public class SearchServiceImpl implements SearchService {
                 {
                     max = i;
                 }
-                popularReviewList.add(new SearchReviewRef(searchReviewInfoList.get(max)));
-                searchReviewInfoList.remove(max);
             }
+            popularReviewList.add(new SearchReviewRef(searchReviewInfoList.get(max)));
+            searchReviewInfoList.remove(max);
         }
         for(SearchReviewInfo searchReviewInfo : searchReviewInfoList)
         {
@@ -87,5 +87,9 @@ public class SearchServiceImpl implements SearchService {
 
         return DefaultRes.res(StatusCode.OK,ResponseMessage.SEARCH_REVIEW_LIST, searchCommunityCombination);
     }
+
+
+
+
 
 }
