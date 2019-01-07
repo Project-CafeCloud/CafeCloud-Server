@@ -2,6 +2,7 @@ package sopt.org.moca.mapper;
 
 import org.apache.ibatis.annotations.*;
 import sopt.org.moca.dto.User;
+import sopt.org.moca.dto.UserInfo;
 import sopt.org.moca.model.UserSignUpReq;
 
 import java.util.List;
@@ -13,12 +14,26 @@ public interface UserMapper {
     @Select("SELECT * FROM USER")
     List<User> findAll();
 
+
+    /**
+     * 회원 정보 조회 (feed)
+     * @param user_id
+     *
+     * */
+    @Select("SELECT user_id, user_name, user_img_url, user_status_comment " +
+            "FROM USER WHERE user_id = #{user_id}")
+    UserInfo findUser(@Param("user_id") final String user_id);
+
+
+
     /**
     * 아이디로 조회
-     * @param user_id
+    * @param user_id
+     *
     * */
     @Select("SELECT * FROM USER WHERE user_id = #{user_id}")
     User findById(@Param("user_id") final String user_id);
+
 
 
     /**

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sopt.org.moca.dto.User;
+import sopt.org.moca.dto.UserInfo;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.UserSignUpReq;
 import sopt.org.moca.service.FollowService;
@@ -58,7 +59,7 @@ public class UserController {
 
 
     /**
-     * Mypage 회원 정보 조회
+     * Mypage 정보 조회
      *
      * @param httpServletRequest Request
      * @param user_id
@@ -79,7 +80,7 @@ public class UserController {
     }
 
     /**
-     * Mypage 회원 정보 수정
+     * Mypage 정보 수정
      **/
     @Auth
     @PutMapping("/mypage")
@@ -101,9 +102,38 @@ public class UserController {
         }
     }
 
+
+    /**
+     * 회원 정보 조회
+     *
+     * @param httpServletRequest Request
+     * @param user_id
+     * @retrun ResponseEntity
+     *
+     **/
+    @GetMapping("/{user_id}")
+    public ResponseEntity getUser(final HttpServletRequest httpServletRequest, @PathVariable final String user_id) {
+        try {
+            final String tokenValue = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+
+            DefaultRes<UserInfo> userInfo = userService.findUser(user_id);
+
+            if (tokenValue.compareTo(userInfo.getData().getUser_id()) == 0)
+                userInfo.getData().setAuth(true);
+            else
+                userInfo.getData().setFollow(followService.checkFollow(tokenValue, user_id));
+
+            return new ResponseEntity<>(userInfo, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     /**
      *
-     * Mypage 회원 탈퇴
+     *  회원 탈퇴
      *
      * **/
     @Auth

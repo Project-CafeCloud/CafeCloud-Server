@@ -3,6 +3,7 @@ package sopt.org.moca.mapper;
 import org.apache.ibatis.annotations.*;
 import sopt.org.moca.dto.Follow;
 import sopt.org.moca.dto.User;
+import sopt.org.moca.dto.UserInfo;
 import sopt.org.moca.model.FollowReq;
 import sopt.org.moca.model.UserSignUpReq;
 
@@ -71,6 +72,33 @@ public interface FollowMapper {
             "WHERE FOLLOW.following_id = USER.user_id " +
             "AND FOLLOW.follower_id = #{user_id}")
     List<User> findFollowing(@Param("user_id") final String user_id);
+
+
+
+
+    /**
+     * 팔로워 수 조회
+     *
+     * @param   userId     유저 고유 id
+     */
+    @Select("SELECT COUNT(*) AS follower_count, following_id " +
+            "FROM FOLLOW " +
+            "WHERE following_id = #{userId} " +
+            "GROUP BY following_id")
+    UserInfo countFollowerByUserId(@Param("userId") final String userId);
+
+
+
+    /**
+     * 팔로잉 수 조회
+     *
+     * @param   userId     유저 고유 id
+     */
+    @Select("SELECT COUNT(*) AS following_count, follower_id " +
+            "FROM FOLLOW " +
+            "WHERE follower_id = #{userId} " +
+            "GROUP BY follower_id")
+    UserInfo countFollowingByUserId(@Param("userId") final String userId);
 
 
 }
