@@ -5,7 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import sopt.org.moca.dto.SearchCafeInfo;
-import sopt.org.moca.dto.SearchUSerInfo;
+import sopt.org.moca.dto.SearchReviewInfo;
+import sopt.org.moca.dto.SearchUserInfo;
 
 import java.util.List;
 
@@ -25,8 +26,15 @@ public interface SearchMapper {
         "(CASE  WHEN user_id in (select following_id from FOLLOW where follower_id  =#{user_id})THEN 1 ELSE 0 END) as is_follow " +
         "from USER " +
         "where user_name like '%${keyword}%'")
-    List<SearchUSerInfo>searchUserInfoList(@Param("keyword")final String keyword, @Param("user_id")final String user_id);
+    List<SearchUserInfo>searchUserInfoList(@Param("keyword")final String keyword, @Param("user_id")final String user_id);
 
+
+@Select("select  REVIEW.review_id,review_img_url ,(select count(*) from REVIEW_LIKE where REVIEW_LIKE.review_id = REVIEW.review_id) as like_count " +
+        "from REVIEW natural join CAFE left  join REVIEW_IMG on REVIEW.review_id = REVIEW_IMG.review_id " +
+        "where  CAFE.cafe_name like '%${keyword}%' " +
+        "group by REVIEW.review_id " +
+        "order by 1")
+    List<SearchReviewInfo>searchReviewInfoList(@Param("keyword")final String keyword);
 
 
 

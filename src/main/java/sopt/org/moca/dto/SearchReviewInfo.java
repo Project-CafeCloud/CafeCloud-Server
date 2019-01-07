@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class SearchReviewInfo {
     private int review_id;
     private String review_img_url;
+    private int like_count;
 }

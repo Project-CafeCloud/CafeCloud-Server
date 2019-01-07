@@ -141,6 +141,10 @@ public class ResponseMessage {
     //검색
     public static final String SEARCH_CAFE_LIST = "카페 키워드 조회 성공";
     public static final String FAIL_SEARCH_CAFE_LIST = "카페 키워드 조회 실패";
+
+
+    public static final String SEARCH_REVIEW_LIST = "리뷰 키워드 조회 성공";
+    public static final String FAIL_SEARCH_REVIEW_LIST = "리뷰 키워드 조회 실패";
     // 스크랩
     public static final String SCRAP_SUCCESS = "스크랩 성공";
     public static final String SCRAP_FAIL = "스크랩 실패";
