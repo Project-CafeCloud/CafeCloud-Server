@@ -157,5 +157,30 @@ public class CafeServiceImpl implements CafeService {
 
 
 
+    /**
+     * 해당 카페에 대한 인기 리뷰 조회
+     *
+     * @param flag          0: 스크랩순 / 1: 리뷰개수순
+     * @return DefaultRes
+     */
+    @Override
+    public DefaultRes<List<CafeBest>>findBestCafeSimpleList(final int flag){
+
+        List<CafeBest> bestCafeSimpleList = null;
+
+        // flag 0: 스크랩 순
+        // flag 1: 리뷰 개수 순
+        if(flag == 0){
+            bestCafeSimpleList = cafeMapper.findBestCafeOrderByScrapCnt();
+        } else if (flag == 1) {
+            bestCafeSimpleList = cafeMapper.findBestCafeOrderByReviewCnt();
+        }
+
+        if(bestCafeSimpleList == null)
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_BEST_CAFE);
+
+        return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_BEST_CAFE_LIST, bestCafeSimpleList);
+
+    }
 
 }

@@ -110,4 +110,38 @@ public interface CafeMapper {
             "from CAFE natural join CAFE_IMG " +
             "where cafe_img_main = 1 and cafe_address_district_id = #{address_district_id}")
     List<CafeSimple> findCafeInfoList(@Param("address_district_id")final int address_district_id);
+
+
+
+
+
+    // 인기 카페 리스트 조회 (리뷰개수 순)
+    @Select("SELECT CAFE.cafe_id, CAFE.cafe_name, R.review_count, CAFE_IMG.cafe_img_url " +
+            "FROM CAFE_IMG, CAFE JOIN " +
+            "(SELECT cafe_id, COUNT(*) AS review_count " +
+            "FROM REVIEW " +
+            "GROUP BY cafe_id) as R " +
+            "ON R.cafe_id = CAFE.cafe_id " +
+            "WHERE CAFE.cafe_id = CAFE_IMG.cafe_id " +
+            "AND CAFE_IMG.cafe_img_main = 1 " +
+            "ORDER BY review_count DESC " +
+            "LIMIT 5")
+    List<CafeBest>findBestCafeOrderByReviewCnt();
+
+
+
+
+    // 인기 카페 리스트 조회 (스크랩 순)
+    @Select("SELECT CAFE.cafe_id, CAFE.cafe_name, S.scrap_count, CAFE_IMG.cafe_img_url " +
+            "FROM CAFE_IMG, CAFE JOIN " +
+            "(SELECT cafe_id, COUNT(*) AS scrap_count " +
+            "FROM SCRAP " +
+            "GROUP BY cafe_id) as S " +
+            "ON S.cafe_id = CAFE.cafe_id " +
+            "WHERE CAFE.cafe_id = CAFE_IMG.cafe_id " +
+            "AND CAFE_IMG.cafe_img_main = 1 " +
+            "ORDER BY scrap_count DESC " +
+            "LIMIT 5")
+    List<CafeBest>findBestCafeOrderByScrapCnt();
+
 }

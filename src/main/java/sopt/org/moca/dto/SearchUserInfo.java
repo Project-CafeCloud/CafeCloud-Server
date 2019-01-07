@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SearchUSerInfo {
+public class SearchUserInfo {
     private String user_id;
     private String user_name;
     private String user_status_comment;
