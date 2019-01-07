@@ -16,6 +16,8 @@ public class Review {
     private int review_id;
     private int cafe_id;
     private String user_id;
+    private String user_name;
+    private String user_img_url;
     private List<ReviewImage> image;
     private int review_rating;
     private String review_title;
