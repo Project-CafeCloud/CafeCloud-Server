@@ -12,7 +12,6 @@ import java.util.Date;
 public class MessageReq {
 
     private String message_content;
-    private String message_img_url;
     private MultipartFile message_img;
     private String receiver_id;
     private String sender_id;
