@@ -46,6 +46,12 @@ public class MessageServiceImpl implements MessageService {
         log.info(messageReq.toString());
         if (messageReq.checkElement()) {
             try {
+                if(userMapper.findById(messageReq.getReceiver_id()) ==null){
+                    return DefaultRes.res(StatusCode.BAD_REQUEST,ResponseMessage.NOT_FOUND_USER);
+                }
+                if(userMapper.findById(messageReq.getSender_id()) ==null){
+                    return DefaultRes.res(StatusCode.BAD_REQUEST,ResponseMessage.NOT_FOUND_USER);
+                }
                 if(messageReq.getMessage_img() != null)
                     messageReq.setMessage_img_url(fileUploadService.upload(messageReq.getMessage_img()));
                 messageReq.setMessage_send_date(messageReq.getMessage_send_date());
