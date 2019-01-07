@@ -13,6 +13,7 @@ import java.util.Date;
 public class Membership {
 
     private  int cafe_id;
+    private String cafe_name;
     private Date membership_create_date;
     private String cafe_img_url;
 }
