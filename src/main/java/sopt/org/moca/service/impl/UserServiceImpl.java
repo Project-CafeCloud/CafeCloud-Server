@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import sopt.org.moca.dto.User;
+import sopt.org.moca.dto.UserInfo;
+import sopt.org.moca.mapper.FollowMapper;
+import sopt.org.moca.mapper.ReviewMapper;
 import sopt.org.moca.mapper.UserMapper;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.UserSignUpReq;
@@ -20,7 +23,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
-
+    private final ReviewMapper reviewMapper;
+    private final FollowMapper followMapper;
     private final FileUploadService fileUploadService;
 
     /**
@@ -28,8 +32,13 @@ public class UserServiceImpl implements UserService {
      *
      * @param userMapper
      */
-    public UserServiceImpl(final UserMapper userMapper, final FileUploadService fileUploadService) {
+    public UserServiceImpl(final UserMapper userMapper,
+                           final ReviewMapper reviewMapper,
+                           final FollowMapper followMapper,
+                           final FileUploadService fileUploadService) {
         this.userMapper = userMapper;
+        this.reviewMapper = reviewMapper;
+        this.followMapper = followMapper;
         this.fileUploadService = fileUploadService;
     }
 
@@ -104,6 +113,41 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+
+    /**
+     * 회원 조회
+     *
+     * **/
+    public DefaultRes findUser(final String user_id){
+
+        findById(user_id);
+
+        try{
+
+            UserInfo user = userMapper.findUser(user_id);
+
+            UserInfo review_cnt = reviewMapper.countReviewByUserId(user_id);
+            UserInfo follower_cnt = followMapper.countFollowerByUserId(user_id);
+            UserInfo following_cnt = followMapper.countFollowingByUserId(user_id);
+
+            if(review_cnt != null){
+                user.setReview_count(review_cnt.getReview_count());
+            }
+            if(follower_cnt != null){
+                user.setReview_count(follower_cnt.getFollower_count());
+            }
+            if(following_cnt != null){
+                user.setReview_count(following_cnt.getFollowing_count());
+            }
+
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, user);
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
+        }
+    }
+
 
     /**
      * 회원 탈퇴

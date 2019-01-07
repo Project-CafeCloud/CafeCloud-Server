@@ -3,6 +3,7 @@ package sopt.org.moca.mapper;
 
 import org.apache.ibatis.annotations.*;
 import sopt.org.moca.dto.Review;
+import sopt.org.moca.dto.UserInfo;
 import sopt.org.moca.model.ReviewReq;
 
 import java.util.List;
@@ -90,6 +91,19 @@ public interface ReviewMapper {
             "VALUES (#{reviewReq.cafe_id}, #{reviewReq.user_id}, #{reviewReq.rating}, #{reviewReq.title}, #{reviewReq.content}, #{reviewReq.created_date})")
     @Options(useGeneratedKeys = true, keyProperty = "reviewReq.review_id")
     void save(@Param("reviewReq") final ReviewReq reviewReq);
+
+
+
+    /**
+     *
+     *
+     * @param   userId     유저 고유 id
+     */
+    @Select("SELECT COUNT(*) AS review_count, user_id " +
+            "FROM REVIEW " +
+            "WHERE user_id = #{userId} " +
+            "GROUP BY user_id")
+    UserInfo countReviewByUserId(@Param("userId") final String userId);
 
 
 
