@@ -48,12 +48,17 @@ public class FeedController {
     @GetMapping("/user/{user_id}")
     public ResponseEntity getUserFeed(
             final HttpServletRequest httpServletRequest,
-            @PathVariable final String user_id) {
+            @PathVariable  String user_id) {
 
         try {
-            final String feedId = user_id;
-            final String userId = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
 
+            String feedId = user_id;
+
+            final String userId = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+            if(user_id.equals("-1"))
+            {
+                feedId = userId;
+            }
             DefaultRes<List<Review>> feedList = reviewService.findByUserId(feedId,true);
 
             if(feedList.getData() != null) {
