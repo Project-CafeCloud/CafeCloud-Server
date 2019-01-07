@@ -16,5 +16,6 @@ public class CategorizedCafeSimple {
     private String cafe_menu_img_url;
     private String cafe_main_menu_name;
     private String cafe_concept_name;
+    private  boolean evaluated_cafe_is;
 }
 

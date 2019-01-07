@@ -13,5 +13,5 @@ public class CafeByHotPlace {
    private String cafe_name;
    private String cafe_subway;
    private  int cafe_rating_avg;
-   private  boolean is_evaluated_cafe;
+   private  boolean evaluated_cafe_is;
 }
