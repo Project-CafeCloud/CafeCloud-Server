@@ -5,7 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import sopt.org.moca.dto.Message;
+import sopt.org.moca.dto.MessageBox;
+import sopt.org.moca.dto.MyMessages;
+import sopt.org.moca.dto.User;
 import sopt.org.moca.mapper.MessageMapper;
+import sopt.org.moca.mapper.UserMapper;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.MessageReq;
 import sopt.org.moca.service.MessageService;
@@ -21,11 +25,14 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
 
     private MessageMapper messageMapper;
+    private UserMapper userMapper;
+
     private final FileUploadService fileUploadService;
 
-    public MessageServiceImpl(final MessageMapper messageMapper,final FileUploadService fileUploadService) {
+    public MessageServiceImpl(final MessageMapper messageMapper,final FileUploadService fileUploadService,final UserMapper userMapper) {
         this.messageMapper = messageMapper;
         this.fileUploadService = fileUploadService;
+        this.userMapper = userMapper;
     }
 
     /**
@@ -58,7 +65,27 @@ public class MessageServiceImpl implements MessageService {
      * 상대방과 주고받은 쪽지함 조회
      *
      * **/
-//    public DefaultRes<List<Message>> findMessageList(final String user_id){
-//        List<Message> messageList = messageMapper.findByUserId(user_id);
-//    }
+    @Override
+    public DefaultRes<List<MessageBox>> findMessageList(final String my_id , final String user_id){
+        List<MessageBox> messageBoxList = messageMapper.findByUserId(my_id, user_id);
+        log.info(String.valueOf(messageBoxList));
+        if(messageBoxList.isEmpty()){
+            return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_MESSAGELIST);
+        }else{
+            return  DefaultRes.res(StatusCode.OK,ResponseMessage.READ_MESSAGE,messageBoxList);
+        }
+    }
+
+    /**
+     * 내 쪽지함 조회
+     * **/
+    @Override
+    public DefaultRes<List<MyMessages>> findMyMessageList(final String my_id){
+        List<MyMessages> myMessagesList = messageMapper.findMyMessages(my_id);
+        if(myMessagesList.isEmpty()){
+            return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_MESSAGELIST);
+        }else{
+            return  DefaultRes.res(StatusCode.OK,ResponseMessage.READ_MESSAGE,myMessagesList);
+        }
+    }
 }

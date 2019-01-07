@@ -157,5 +157,7 @@ public class ResponseMessage {
     //메시지
     public static final String FAIL_TO_SAVE_MESSAGE = "메시지 저장 실패";
     public static final String MESSAGE_SAVE_SUCCESS = "메시지 저장 성공";
+    public static final String NOT_FOUND_MESSAGELIST = "메시지 리스트가 없습니다.";
+    public static final String READ_MESSAGE = "메시지 리스트 조회 성공";
 
 }

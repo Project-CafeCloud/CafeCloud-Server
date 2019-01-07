@@ -1,19 +1,19 @@
 package sopt.org.moca.service.impl;
 
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import sopt.org.moca.dto.SearchCafeInfo;
-import sopt.org.moca.mapper.SearchMapper;
-import sopt.org.moca.model.DefaultRes;
-import sopt.org.moca.model.SearchCafeInfoRef;
-import sopt.org.moca.service.SearchService;
-import sopt.org.moca.utils.ResponseMessage;
-import sopt.org.moca.utils.StatusCode;
+        import lombok.extern.slf4j.Slf4j;
+        import org.springframework.stereotype.Service;
+        import sopt.org.moca.dto.SearchCafeInfo;
+        import sopt.org.moca.mapper.SearchMapper;
+        import sopt.org.moca.model.DefaultRes;
+        import sopt.org.moca.model.SearchCafeInfoRef;
+        import sopt.org.moca.service.SearchService;
+        import sopt.org.moca.utils.ResponseMessage;
+        import sopt.org.moca.utils.StatusCode;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.Iterator;
+        import java.util.List;
 
 @Slf4j
 @Service
