@@ -257,6 +257,28 @@ public class CafeController {
 
 
 
+    /**
+     * 인기 있는 카페 리스트 조회
+     *
+     * @param httpServletRequest
+     * @param flag
+     * @return
+     */
+    @GetMapping("/best/{flag}")
+    public ResponseEntity getBestCafeList(final HttpServletRequest httpServletRequest, @PathVariable final int flag)
+    {
+        // flag 0: 스크랩 순
+        // flag 1: 리뷰 개수 순
+
+        try{
+            return new ResponseEntity<>(cafeService.findBestCafeSimpleList(flag), HttpStatus.OK);
+
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
 

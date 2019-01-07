@@ -55,6 +55,7 @@ public class MapServiceImpl implements MapService {
             for(Map m : mapList){
                 CafeInfo cafeInfo = cafeMapper.findCafeInfo(m.getCafe_id());
                 m.setCafe_rating_avg(cafeInfo.getCafe_rating_avg());
+                m.setAddress_district_name("서울 "+cafeInfo.getAddress_district_name());
             }
             return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_NEAR_BY_CAFE,mapList);
         }

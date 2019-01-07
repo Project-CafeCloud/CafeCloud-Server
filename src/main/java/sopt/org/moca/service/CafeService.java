@@ -26,6 +26,6 @@ public interface CafeService {
     //해당 지역구 전체
 
 
-
+    DefaultRes<List<CafeBest>>findBestCafeSimpleList(final int flag);
 
 }

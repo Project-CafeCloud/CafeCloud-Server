@@ -1,6 +1,5 @@
 package sopt.org.moca.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,12 +9,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Message {
+public class MyMessages {
 
-    private String sender_id;
-    private String receiver_id;
-    private Date message_send_data = new Date();
+    private String partner_name;
+    private String partner_profile_img;
+    private Date message_send_date;
     private String message_content;
-    private String message_img;
-
 }
