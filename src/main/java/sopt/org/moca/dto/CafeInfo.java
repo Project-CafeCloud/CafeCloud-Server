@@ -27,4 +27,5 @@ public class CafeInfo {
     private boolean cafe_option_allnight;
     private boolean cafe_option_reservation;
     private boolean cafe_option_smokingarea;
+    private boolean cafe_scrab_is;
 }

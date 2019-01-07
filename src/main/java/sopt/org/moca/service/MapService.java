@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface MapService {
 
-    DefaultRes<List<Map>> GetNearByCafe(final MapReq mapReq);
+    DefaultRes<List<Map>> GetNearByCafe(final MapReq mapReq, final String user_id);
 }

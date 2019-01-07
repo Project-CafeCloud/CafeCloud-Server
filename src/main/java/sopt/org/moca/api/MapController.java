@@ -9,6 +9,7 @@ import sopt.org.moca.dto.Map;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.MapReq;
 import sopt.org.moca.service.MapService;
+import sopt.org.moca.utils.auth.JwtUtils;
 
 import java.util.List;
 
@@ -27,15 +28,16 @@ public class MapController {
 
 
     /**
+     *반경 3km 카페 찾기
      *
-     * 반경 3km 카페 찾기
      *
      * **/
     @PostMapping("/nearbycafe")
     public ResponseEntity GetNearbyCafe(
-            @RequestBody MapReq mapReq){
+            @RequestHeader("Authorization") final String jwt, @RequestBody MapReq mapReq){
         try{
-            DefaultRes<List<Map>> mapDefaultRes = mapService.GetNearByCafe(mapReq);
+            String user_id = JwtUtils.decode(jwt).getUser_id();
+            DefaultRes<List<Map>> mapDefaultRes = mapService.GetNearByCafe(mapReq,user_id);
 
 
             return new ResponseEntity<>(mapDefaultRes, HttpStatus.OK);
