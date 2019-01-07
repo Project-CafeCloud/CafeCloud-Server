@@ -21,7 +21,7 @@ public class MessageReq {
     public boolean checkElement(){
         if(!isThereRId()) return false;
         if(!isThereSId()) return false;
-
+        if(!isThereContents())return false;
         return true;
     }
 
@@ -34,7 +34,11 @@ public class MessageReq {
         if(sender_id == null) return false;
         return true;
     }
-
+    public boolean isThereContents(){
+        if(message_content == null && message_img == null)
+        return false;
+        return true;
+    }
 
 
 }

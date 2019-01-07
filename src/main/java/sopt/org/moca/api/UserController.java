@@ -112,18 +112,26 @@ public class UserController {
      *
      **/
     @GetMapping("/{user_id}")
-    public ResponseEntity getUser(final HttpServletRequest httpServletRequest, @PathVariable final String user_id) {
+    public ResponseEntity getUser(final HttpServletRequest httpServletRequest, @PathVariable String user_id) {
         try {
+            log.info(user_id);
+
             final String tokenValue = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+            log.info(tokenValue);
+            if(user_id.equals("-1")){
+                user_id = tokenValue;
+            }
+            log.info(user_id);
+            DefaultRes<UserInfo> userInfoDefaultRes = userService.findUser(user_id);
 
-            DefaultRes<UserInfo> userInfo = userService.findUser(user_id);
+            if (tokenValue.compareTo(userInfoDefaultRes.getData().getUser_id()) == 0)
+                userInfoDefaultRes.getData().setAuth(true);
+            else {
 
-            if (tokenValue.compareTo(userInfo.getData().getUser_id()) == 0)
-                userInfo.getData().setAuth(true);
-            else
-                userInfo.getData().setFollow(followService.checkFollow(tokenValue, user_id));
+                userInfoDefaultRes.getData().setFollow(followService.checkFollow(tokenValue, user_id));
+            }
 
-            return new ResponseEntity<>(userInfo, HttpStatus.OK);
+            return new ResponseEntity<>(userInfoDefaultRes, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);

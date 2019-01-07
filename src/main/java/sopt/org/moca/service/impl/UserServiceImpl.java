@@ -127,6 +127,8 @@ public class UserServiceImpl implements UserService {
 
             UserInfo user = userMapper.findUser(user_id);
 
+
+
             UserInfo review_cnt = reviewMapper.countReviewByUserId(user_id);
             UserInfo follower_cnt = followMapper.countFollowerByUserId(user_id);
             UserInfo following_cnt = followMapper.countFollowingByUserId(user_id);
