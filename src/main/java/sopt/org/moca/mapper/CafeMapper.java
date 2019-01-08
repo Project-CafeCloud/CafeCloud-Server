@@ -88,10 +88,11 @@ public interface CafeMapper {
 
     //카페 상세 정보 조회  model
     @Select("select cafe_name, cafe_latitude, cafe_longitude, cafe_phone, cafe_menu_img_url, address_district_name, cafe_address_detail, " +
-            "cafe_rating_avg, cafe_times, cafe_days, cafe_option_parking, cafe_option_wifi, cafe_option_allnight, cafe_option_reservation, cafe_option_smokingarea " +
+            "cafe_rating_avg, cafe_times, cafe_days, cafe_option_parking, cafe_option_wifi, cafe_option_allnight, cafe_option_reservation, cafe_option_smokingarea, " +
+            " (CASE  WHEN CAFE.cafe_id  in (select cafe_id from SCRAP where user_id = #{user_id})THEN 1 ELSE 0 END) as cafe_scrab_is " +
             "from (CAFE LEFT join CAFE_OPTION on CAFE.cafe_id = CAFE_OPTION.cafe_id) join ADDRESS_DISTRICT on cafe_address_district_id = address_district_id " +
             "where CAFE.cafe_id = #{cafe_id}")
-    CafeInfo findCafeInfo(@Param("cafe_id")final int cafe_id);
+    CafeInfo findCafeInfo(@Param("cafe_id")final int cafe_id ,@Param("user_id")final String user_id);
 
 
     //시그니처 메뉴 리스트 조회
@@ -151,6 +152,15 @@ public interface CafeMapper {
             "where hot_place_id = #{hot_place_id}")
     List<CafeByHotPlace>findCafeByHotPlaceList(@Param("hot_place_id")final int hot_place_id);
 
+
+
+
+    //카페 리뷰 별점 랭킹 30개
+    @Select("select  CAFE.cafe_id, cafe_name, cafe_menu_img_url, address_district_name , cafe_rating_avg , (CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
+            "from CAFE inner join ADDRESS_DISTRICT on CAFE.cafe_address_district_id = ADDRESS_DISTRICT.address_district_id left join CAFE_IMG on CAFE.cafe_id = CAFE_IMG.cafe_id " +
+            "where  cafe_img_main = 1 or ISNULL(cafe_img_main) " +
+            "order by  cafe_rating_avg  DESC  limit #{length}")
+    List<CafeRankingInfo>findCafeListByRanking(@Param("length")final int length);
 
 
 

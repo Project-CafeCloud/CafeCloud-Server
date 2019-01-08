@@ -4,11 +4,9 @@ package sopt.org.moca.api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sopt.org.moca.service.CafeService;
+import sopt.org.moca.utils.auth.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -199,22 +197,20 @@ public class CafeController {
 
     /**
      * 카페 상세 정보 조회
-     * @param httpServletRequest
+     * @param jwt
      * @param cafe_id
      * @return
      */
     @GetMapping("/{cafe_id}/detail")
-    public ResponseEntity getCafeInfo(final HttpServletRequest httpServletRequest,@PathVariable final int cafe_id )
+    public ResponseEntity getCafeInfo(@RequestHeader("Authorization") final String jwt, @PathVariable final int cafe_id )
     {
         /**
          * 토큰으로 유효한지 아닌지 확인 구현 필요
          *
          */
-
-
-
         try{
-            return new ResponseEntity<>(cafeService.findCafeInfo(cafe_id), HttpStatus.OK);
+        String user_id = JwtUtils.decode(jwt).getUser_id();
+            return new ResponseEntity<>(cafeService.findCafeInfo(cafe_id,user_id), HttpStatus.OK);
         } catch (Exception e){
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -294,6 +290,30 @@ public class CafeController {
 
 
     }
+
+    /**
+     * 카페 랭킹
+     * @param length
+     * @return
+     */
+    @GetMapping("/ranking/{length}")
+    public ResponseEntity getCafeListByRanking(@PathVariable("length") int length)
+    {
+        try{
+            if(length == -1)
+                length = 30;
+            return new ResponseEntity<>(cafeService.findCafeByReviewRanking(length), HttpStatus.OK);
+
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+
+
 
 
 

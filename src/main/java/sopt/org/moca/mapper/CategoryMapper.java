@@ -35,6 +35,7 @@ public interface CategoryMapper {
     //카테고리회된 카페 리스트 조회
 
     @Select("<script>"+"SELECT  CAFE.cafe_id , cafe_name ,cafe_address_detail ,cafe_rating_avg ,cafe_img_url, cafe_main_menu_name, cafe_concept_name " +
+            ",(CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
             "from CAFE left join CAFE_IMG on CAFE.cafe_id = CAFE_IMG.cafe_id natural join CAFE_CONCEPT natural join CAFE_MAIN_MENU "+
             "where cafe_address_district_id = #{district_id} " +
             "and  (cafe_img_main = 1 or ISNULL(cafe_img_main)) and cafe_main_menu_id in " +

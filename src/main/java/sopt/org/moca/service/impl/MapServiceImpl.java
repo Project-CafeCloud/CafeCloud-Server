@@ -29,7 +29,7 @@ public class MapServiceImpl implements MapService {
 
 
     @Override
-    public DefaultRes<List<Map>> GetNearByCafe(final MapReq mapReq){
+    public DefaultRes<List<Map>> GetNearByCafe(final MapReq mapReq,final String user_id){
 
         //log.info(mapReq.getIs_cafe_detail()+"");
         List<Map> mapList = mapMapper.findNearbyCafe(mapReq);
@@ -53,7 +53,7 @@ public class MapServiceImpl implements MapService {
         else
         {
             for(Map m : mapList){
-                CafeInfo cafeInfo = cafeMapper.findCafeInfo(m.getCafe_id());
+                CafeInfo cafeInfo = cafeMapper.findCafeInfo(m.getCafe_id(),user_id);
                 m.setCafe_rating_avg(cafeInfo.getCafe_rating_avg());
                 m.setAddress_district_name("서울 "+cafeInfo.getAddress_district_name());
             }

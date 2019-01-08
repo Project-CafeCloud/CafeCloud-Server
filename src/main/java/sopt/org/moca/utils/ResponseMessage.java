@@ -73,6 +73,8 @@ public class ResponseMessage {
     public static final String CREATED_REVIEW = "리뷰 작성 성공";
     public static final String FAIL_CREATE_REVIEW = "리뷰 작성 실패";
     public static final String LIKE_REVIEW = "리뷰 좋아요/취소 성공";
+    public static final String UPDATE_REVIEW = "리뷰 수정 성공";
+    public static final String DELETE_REIVEW = "리뷰 삭제 성공";
 
 
     // 리뷰에 대한 댓글
@@ -80,6 +82,8 @@ public class ResponseMessage {
     public static final String NOT_FOUND_COMMENTS = "댓글을 찾을 수 없습니다";
     public static final String CREATED_COMMENT = "댓글 작성 성공";
     public static final String FAIL_CREATE_COMMENT = "댓글 작성 실패";
+    public static final String UPDATE_COMMENT = "댓글 수정 성공";
+    public static final String DELETE_COMMENT = "댓글 삭제 성공";
 
 
 
@@ -130,6 +134,11 @@ public class ResponseMessage {
     public static final String USE_COUPON ="쿠폰 사용 완료";
 
 
+    //쿠폰 적립 내역
+    public static final String READ_HISTORY_LIST = "멤버십 히스토리 조회 성공";
+    public static final String FAIL_HISTORY_LIST = "멤버십 히스토리 조회 실패";
+
+
 
     // 플러스
     public static final String NOT_FOUND_PLUS_SUBJECT_LIST = "플러스 주제 리스트를 찾을 수 없습니다.";
@@ -174,5 +183,9 @@ public class ResponseMessage {
     //핫플레이스로 카페 리스트
     public static final String READ_HOT_PLACE_CAFE_LIST = "핫플레이스로 카페 리스트 조회 성공";
     public static final String FAIL_HOT_PLACE_CAFE_LIST = "핫플레이스로 카페 리스트 조회 실패";
+
+    //카페 리뷰 랭킹 30으로 검색
+    public static final String READ_CAFE_LIST_BY_REVIEW = "리뷰 랭킹 순 카페 리스트 조회 성공";
+    public static final String FAIL_CAFE_LIST_BY_REVIEW = "리뷰 랭킹 순 카페 리스트 조회 실패";
 
 }

@@ -120,7 +120,7 @@ public class MembershipController {
      * 쿠폰 인증 테이블 등록
      * @param couponAuthReq
      */
-    @PostMapping("coupon/auth")
+    @PostMapping("/coupon/auth")
     public ResponseEntity registerAuth(@RequestBody final CouponAuthReq couponAuthReq)
     {
         try{
@@ -137,7 +137,7 @@ public class MembershipController {
      *  쿠폰 인증 테이블 삭제
      * @param couponAuthReq
      */
-    @DeleteMapping("coupon/auth")
+    @DeleteMapping("/coupon/auth")
     public ResponseEntity deleteAuth(@RequestBody final CouponAuthReq couponAuthReq)
     {
 
@@ -147,6 +147,28 @@ public class MembershipController {
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+
+    }
+
+
+    /**
+     * 멤버십 사용 내역 조회
+     *
+     */
+    @GetMapping("/membership/history")
+    public ResponseEntity findHistoryOfMembershipList(@RequestHeader("Authorization") final String jwt)
+    {
+
+        String user_id = null;
+        try{
+            user_id = JwtUtils.decode(jwt).getUser_id();
+            return new ResponseEntity<>(membershipService.findHistoryOfMembership(user_id), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
 
 
     }

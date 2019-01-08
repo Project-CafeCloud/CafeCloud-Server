@@ -11,8 +11,16 @@ import java.util.List;
 
 public interface ReviewCommentService {
 
-    DefaultRes<List<ReviewComment>> findByReviewId(final int reviewId);
+    ReviewComment findByCommentId(final int reviewCommentId);
+
+    DefaultRes<List<ReviewComment>> findByReviewId(final String user_id, final int reviewId);
+
+    DefaultRes<ReviewComment> update(final ReviewCommentReq reviewCommentReq);
+
+    DefaultRes deleteByReviewCommentId(final int reviewCommentId);
 
     DefaultRes save(final ReviewCommentReq reviewCommentReq);
+
+    boolean checkAuth(final String user_id, final int review_comment_id);
 
 }

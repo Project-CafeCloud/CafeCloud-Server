@@ -18,7 +18,7 @@ public interface CafeService {
 
     //cafe 정보 상세 조회
     DefaultRes<List<CafeImg>>findCafeImgList(final int cafe_id);
-    DefaultRes<CafeInfo>findCafeInfo(final int cafe_id);
+    DefaultRes<CafeInfo>findCafeInfo(final int cafe_id,final String user_id);
     DefaultRes<List<CafeSignitureMenu>>findCafeSignitureMenuList(final int cafe_id);
 
     //카페 리스트 조회(핫플레이스)
@@ -26,5 +26,9 @@ public interface CafeService {
 
 
     DefaultRes<List<CafeBest>>findBestCafeSimpleList(final int flag);
+
+    //카페 랭킹순 리스트
+    DefaultRes<List<CafeRankingInfo>>findCafeByReviewRanking(final int length);
+
 
 }

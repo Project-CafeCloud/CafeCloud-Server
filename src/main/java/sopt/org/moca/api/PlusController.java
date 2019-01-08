@@ -4,10 +4,7 @@ package sopt.org.moca.api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sopt.org.moca.dto.PlusContents;
 import sopt.org.moca.dto.PlusSubject;
 import sopt.org.moca.model.DefaultRes;
@@ -71,9 +68,10 @@ public class PlusController {
      * PLUS 카페 콘텐츠 뷰 조회
      * **/
     @GetMapping("/{plus_subject_id}/contents")
-    public ResponseEntity GetPlusDetail (@PathVariable final int plus_subject_id){
+    public ResponseEntity GetPlusDetail( @RequestHeader("Authorization") final String jwt,@PathVariable final int plus_subject_id){
         try{
-            DefaultRes<List<PlusContents>> contentDefaultRes = plusService.findContentList(plus_subject_id);
+            String user_id = JwtUtils.decode(jwt).getUser_id();
+            DefaultRes<List<PlusContents>> contentDefaultRes = plusService.findContentList(plus_subject_id,user_id);
             return new ResponseEntity<>(contentDefaultRes,HttpStatus.OK);
         }catch (Exception e){
             log.error(e.getMessage());

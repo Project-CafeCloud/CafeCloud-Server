@@ -120,11 +120,18 @@ public class CafeServiceImpl implements CafeService {
             return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_CAFE_IMG_LIST, cafeImgList);
         }
     }
+
+
+    /**
+     *
+     * @param cafe_id
+     * @return
+     */
     @Override
-    public DefaultRes<CafeInfo> findCafeInfo(int cafe_id) {
+    public DefaultRes<CafeInfo> findCafeInfo(int cafe_id,String user_id) {
 
         CafeInfo cafeInfo = null;
-        cafeInfo = cafeMapper.findCafeInfo(cafe_id);
+        cafeInfo = cafeMapper.findCafeInfo(cafe_id,user_id);
         if (cafeInfo == null) {
 
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_CAFE_INFO);
@@ -189,6 +196,19 @@ public class CafeServiceImpl implements CafeService {
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_BEST_CAFE);
 
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_BEST_CAFE_LIST, bestCafeSimpleList);
+
+    }
+
+    @Override
+    public DefaultRes<List<CafeRankingInfo>> findCafeByReviewRanking(final int length) {
+        List<CafeRankingInfo> cafeRankingInfoList =  cafeMapper.findCafeListByRanking(length);
+        if (cafeRankingInfoList.isEmpty()) {
+
+            return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.FAIL_CAFE_LIST_BY_REVIEW);
+        } else {
+
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_CAFE_LIST_BY_REVIEW,cafeRankingInfoList);
+        }
 
     }
 
