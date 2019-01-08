@@ -27,4 +27,8 @@ public interface CafeService {
 
     DefaultRes<List<CafeBest>>findBestCafeSimpleList(final int flag);
 
+    //카페 랭킹순 리스트
+    DefaultRes<List<CafeRankingInfo>>findCafeByReviewRanking(final int length);
+
+
 }

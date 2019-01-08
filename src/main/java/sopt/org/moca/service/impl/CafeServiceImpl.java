@@ -199,4 +199,17 @@ public class CafeServiceImpl implements CafeService {
 
     }
 
+    @Override
+    public DefaultRes<List<CafeRankingInfo>> findCafeByReviewRanking(final int length) {
+        List<CafeRankingInfo> cafeRankingInfoList =  cafeMapper.findCafeListByRanking(length);
+        if (cafeRankingInfoList.isEmpty()) {
+
+            return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.FAIL_CAFE_LIST_BY_REVIEW);
+        } else {
+
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_CAFE_LIST_BY_REVIEW,cafeRankingInfoList);
+        }
+
+    }
+
 }

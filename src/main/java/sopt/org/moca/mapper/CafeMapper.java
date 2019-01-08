@@ -155,5 +155,14 @@ public interface CafeMapper {
 
 
 
+    //카페 리뷰 별점 랭킹 30개
+    @Select("select  CAFE.cafe_id, cafe_name, cafe_menu_img_url, address_district_name , cafe_rating_avg , (CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
+            "from CAFE inner join ADDRESS_DISTRICT on CAFE.cafe_address_district_id = ADDRESS_DISTRICT.address_district_id left join CAFE_IMG on CAFE.cafe_id = CAFE_IMG.cafe_id " +
+            "where  cafe_img_main = 1 or ISNULL(cafe_img_main) " +
+            "order by  cafe_rating_avg  DESC  limit #{length}")
+    List<CafeRankingInfo>findCafeListByRanking(@Param("length")final int length);
+
+
+
 
 }

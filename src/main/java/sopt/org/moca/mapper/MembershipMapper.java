@@ -2,6 +2,7 @@ package sopt.org.moca.mapper;
 
 import org.apache.ibatis.annotations.*;
 import sopt.org.moca.dto.Coupon;
+import sopt.org.moca.dto.HistoryOfMembership;
 import sopt.org.moca.dto.Membership;
 import sopt.org.moca.model.CouponRes;
 import sopt.org.moca.model.MembershipIns;
@@ -74,6 +75,13 @@ public interface MembershipMapper {
     //쿠폰 있는지
     @Select("SELECT * from AUTHENTICATION natural join COUPON where coupon_authentication_number = #{coupon_authentication_number}")
     Coupon checkCoupon(@Param("coupon_authentication_number")final String coupon_authentication_number);
+
+
+    //멤버쉽 히스토리 조회
+    @Select("select cafe_name, cafe_menu_img_url ,coupon_create_date " +
+            "from  CAFE natural join COUPON left join CAFE_IMG on CAFE.cafe_id = CAFE_IMG.cafe_id " +
+            "where (cafe_img_main =1 or ISNULL(cafe_img_main))  and user_id = #{user_id}")
+    List<HistoryOfMembership> findHistoryOfMembershipList(@Param("user_id")final String user_id);
 
 
 
