@@ -73,6 +73,8 @@ public class ResponseMessage {
     public static final String CREATED_REVIEW = "리뷰 작성 성공";
     public static final String FAIL_CREATE_REVIEW = "리뷰 작성 실패";
     public static final String LIKE_REVIEW = "리뷰 좋아요/취소 성공";
+    public static final String UPDATE_REVIEW = "리뷰 수정 성공";
+    public static final String DELETE_REIVEW = "리뷰 삭제 성공";
 
 
     // 리뷰에 대한 댓글
@@ -80,6 +82,8 @@ public class ResponseMessage {
     public static final String NOT_FOUND_COMMENTS = "댓글을 찾을 수 없습니다";
     public static final String CREATED_COMMENT = "댓글 작성 성공";
     public static final String FAIL_CREATE_COMMENT = "댓글 작성 실패";
+    public static final String UPDATE_COMMENT = "댓글 수정 성공";
+    public static final String DELETE_COMMENT = "댓글 삭제 성공";
 
 
 
