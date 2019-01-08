@@ -19,6 +19,10 @@ public interface ReviewService {
 
     DefaultRes<List<Review>> findByUserId(final String userId, final boolean is_user_feed);
 
+    DefaultRes<Review> update(final ReviewReq reviewReq);
+
+    DefaultRes deleteByReviewId(final int reviewId);
+
     DefaultRes save(final ReviewReq reviewReq);
 
     DefaultRes like(final String userId, final int reviewId);

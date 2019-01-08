@@ -4,6 +4,7 @@ package sopt.org.moca.mapper;
 import org.apache.ibatis.annotations.*;
 import sopt.org.moca.dto.Review;
 import sopt.org.moca.dto.UserInfo;
+import sopt.org.moca.model.ReviewCommentReq;
 import sopt.org.moca.model.ReviewReq;
 
 import java.util.List;
@@ -95,7 +96,7 @@ public interface ReviewMapper {
 
 
     /**
-     *
+     * 유저 별 리뷰 개수 세기
      *
      * @param   userId     유저 고유 id
      */
@@ -106,9 +107,17 @@ public interface ReviewMapper {
     UserInfo countReviewByUserId(@Param("userId") final String userId);
 
 
+    /**
+     * 댓글 수정
+     *
+     * @param reviewReq      리뷰 댓글 고유 데이터
+     */
+    @Delete("UPDATE REVIEW SET " +
+            "review_title = #{reviewReq.title}, review_content = #{reviewReq.content}, review_rating = #{reviewReq.rating}, review_date = #{reviewReq.created_date} " +
+            "WHERE review_id = #{reviewReq.review_id}")
+    void updateByReviewId(@Param("reviewReq") final ReviewReq reviewReq);
 
 
-    // [후순위]
 
     /**
      * 리뷰 삭제

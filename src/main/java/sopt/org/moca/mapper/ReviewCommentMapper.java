@@ -40,6 +40,7 @@ public interface ReviewCommentMapper {
     List<ReviewComment> findByReviewId(@Param("reviewId") final int reviewId);
 
 
+
     /**
      * 리뷰에 대한 댓글 등록
      *

@@ -168,6 +168,7 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
     @Override
     public DefaultRes deleteByReviewCommentId(final int reviewCommentId) {
         final ReviewComment comment = reviewCommentMapper.findByCommentId(reviewCommentId);
+
         if (comment == null)
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_COMMENTS);
 

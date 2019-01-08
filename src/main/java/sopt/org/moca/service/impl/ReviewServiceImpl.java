@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sopt.org.moca.dto.*;
 import sopt.org.moca.mapper.*;
 import sopt.org.moca.model.DefaultRes;
+import sopt.org.moca.model.ReviewCommentReq;
 import sopt.org.moca.model.ReviewReq;
 import sopt.org.moca.service.ReviewService;
 import sopt.org.moca.utils.ResponseMessage;
@@ -266,6 +267,63 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
+
+
+    /**
+     * 리뷰 수정
+     *
+     * @param reviewReq 댓글 내용
+     * @return DefaultRes
+     */
+    @Transactional
+    @Override
+    public DefaultRes<Review> update(final ReviewReq reviewReq) {
+
+        if (reviewMapper.findByReviewId(reviewReq.getReview_id()) == null)
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
+
+        try {
+
+            reviewMapper.updateByReviewId(reviewReq);
+            DefaultRes<Review> review = findByReviewId(reviewReq.getReview_id());
+
+            review.getData().setAuth(checkAuth(reviewReq.getUser_id(), reviewReq.getReview_id()));
+            review.getData().setLike(checkLike(reviewReq.getUser_id(), reviewReq.getReview_id()));
+
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.UPDATE_REVIEW, review.getData());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
+        }
+    }
+
+    /**
+     * 리뷰 삭제
+     *
+     * @param reviewId      리뷰 고유 id
+     * @return DefaultRes
+     */
+    @Transactional
+    @Override
+    public DefaultRes deleteByReviewId(final int reviewId) {
+        final Review review = reviewMapper.findByReviewId(reviewId);
+
+        if (review == null)
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
+
+        try {
+            reviewMapper.deleteByReviewId(reviewId);
+            return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.DELETE_REIVEW);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
+        }
+    }
+
+
+
     /**
      * 리뷰 권한 확인
      *
@@ -275,7 +333,7 @@ public class ReviewServiceImpl implements ReviewService {
      */
     @Override
     public boolean checkAuth(final String userId, final int reviewId) {
-        return userId == findByReviewId(reviewId).getData().getUser_id();
+        return userId.equals(findByReviewId(reviewId).getData().getUser_id());
     }
 
 
