@@ -162,7 +162,10 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public DefaultRes<List<CafeByHotPlace>> findCafeByHotPlaceList(int hot_place_id) {
         List<CafeByHotPlace> cafeByHotPlaceList = null;
+
+
         cafeByHotPlaceList =  cafeMapper.findCafeByHotPlaceList(hot_place_id);
+        log.info(cafeByHotPlaceList.toString());
         if (cafeByHotPlaceList.isEmpty()) {
 
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_HOT_PLACE_CAFE_LIST);
