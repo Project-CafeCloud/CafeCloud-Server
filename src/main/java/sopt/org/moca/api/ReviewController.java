@@ -49,7 +49,7 @@ public class ReviewController {
      * @param review_id     리뷰 고유 id
      * @return ResponseEntity
      */
-    @GetMapping("/{review_id}")
+    @GetMapping("/{review_id}/detail")
     public ResponseEntity getByReviewId(
             final HttpServletRequest httpServletRequest,
             @PathVariable final int review_id) {
@@ -135,6 +135,7 @@ public class ReviewController {
             ReviewReq reviewReq) {
         try {
             reviewReq.setUser_id(JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id());
+
             return new ResponseEntity<>(reviewService.save(reviewReq), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
