@@ -122,14 +122,16 @@ public class UserController {
                 user_id = tokenValue;
             }
             log.info(user_id);
-            DefaultRes<UserInfo> userInfoDefaultRes = userService.findUser(user_id);
+            DefaultRes<UserInfo> userInfoDefaultRes = userService.findUser(user_id,tokenValue);
 
             if (tokenValue.compareTo(userInfoDefaultRes.getData().getUser_id()) == 0)
                 userInfoDefaultRes.getData().setAuth(true);
-            else {
 
-                userInfoDefaultRes.getData().setFollow(followService.checkFollow(tokenValue, user_id));
-            }
+
+//            else {
+//
+//                userInfoDefaultRes.getData().setFollow(followService.checkFollow(tokenValue, user_id));
+//            }
 
             return new ResponseEntity<>(userInfoDefaultRes, HttpStatus.OK);
         } catch (Exception e) {
