@@ -97,7 +97,15 @@ public class ReviewCommentController {
                                 @PathVariable final int comment_id,
                                 ReviewCommentReq reviewCommentReq) {
         try {
-            reviewCommentReq.setUser_id(JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id());
+
+            final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+
+            // 수정 권한 확인
+            if (!reviewCommentService.checkAuth(user_id, comment_id)){
+                return new ResponseEntity<>(UNAUTHORIZED_RES, HttpStatus.OK);
+            }
+
+            reviewCommentReq.setUser_id(user_id);
             reviewCommentReq.setReview_comment_id(comment_id);
 
             return new ResponseEntity<>(reviewCommentService.update(reviewCommentReq), HttpStatus.OK);
@@ -123,11 +131,12 @@ public class ReviewCommentController {
 
             final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
 
-            if (reviewCommentService.checkAuth(user_id, comment_id)){
-                return new ResponseEntity<>(reviewCommentService.deleteByReviewCommentId(comment_id), HttpStatus.OK);
+            // 삭제 권한 확인
+            if (!reviewCommentService.checkAuth(user_id, comment_id)){
+                return new ResponseEntity<>(UNAUTHORIZED_RES, HttpStatus.OK);
             }
 
-            return new ResponseEntity<>(UNAUTHORIZED_RES, HttpStatus.OK);
+            return new ResponseEntity<>(reviewCommentService.deleteByReviewCommentId(comment_id), HttpStatus.OK);
 
         } catch (Exception e) {
             log.error(e.getMessage());
