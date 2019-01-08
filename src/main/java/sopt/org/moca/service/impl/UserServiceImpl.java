@@ -119,30 +119,27 @@ public class UserServiceImpl implements UserService {
      * 회원 조회
      *
      * **/
-    public DefaultRes findUser(final String user_id){
+    public DefaultRes findUser(final String user_id,final String my_id){
 
-        findById(user_id);
+       // findById(user_id);
 
         try{
 
-            UserInfo user = userMapper.findUser(user_id);
+            UserInfo user = userMapper.findUser(user_id,my_id);
 
-
-
-            UserInfo review_cnt = reviewMapper.countReviewByUserId(user_id);
-            UserInfo follower_cnt = followMapper.countFollowerByUserId(user_id);
-            UserInfo following_cnt = followMapper.countFollowingByUserId(user_id);
-
-            if(review_cnt != null){
-                user.setReview_count(review_cnt.getReview_count());
-            }
-            if(follower_cnt != null){
-                user.setReview_count(follower_cnt.getFollower_count());
-            }
-            if(following_cnt != null){
-                user.setReview_count(following_cnt.getFollowing_count());
-            }
-
+//            UserInfo review_cnt = reviewMapper.countReviewByUserId(user_id);
+//            UserInfo follower_cnt = followMapper.countFollowerByUserId(user_id);
+//            UserInfo following_cnt = followMapper.countFollowingByUserId(user_id);
+//
+//            if(review_cnt != null){
+//                user.setReview_count(review_cnt.getReview_count());
+//            }
+//            if(follower_cnt != null){
+//                user.setReview_count(follower_cnt.getFollower_count());
+//            }
+//            if(following_cnt != null){
+//                user.setReview_count(following_cnt.getFollowing_count());
+//            }
             return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, user);
         }catch (Exception e) {
             log.error(e.getMessage());
