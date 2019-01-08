@@ -50,6 +50,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!--json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
+        </dependency>
+
         <!-- AWS -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
