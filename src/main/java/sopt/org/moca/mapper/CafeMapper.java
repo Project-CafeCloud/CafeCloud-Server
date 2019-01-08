@@ -50,6 +50,7 @@ public interface CafeMapper {
 
 
 
+
     //검증 카페 검증 위원 평가 정보 리스트 조회
     @Select("select barista_id, barista_name, barista_title, barista_img_url, " +
             "evaluation_bean_condition, evaluation_bean_condition_comment, evaluation_roasting, evaluation_roasting_comment, evaluation_creativity, evaluation_creativity_comment, evaluation_reasonable, evaluation_reasonable_comment, evaluation_consistancy, evaluation_consistancy_comment " +
@@ -84,6 +85,9 @@ public interface CafeMapper {
     //카페 이미지 리스트 조회
     @Select("select cafe_img_url from CAFE_IMG where cafe_id = #{cafe_id}")
     List<CafeImg> findCafeImgList(@Param("cafe_id")final int cafe_id);
+
+    @Select("select cafe_img_url from CAFE_IMG where cafe_id = #{cafe_id}")
+    String findCafeImg(@Param("cafe_id") final int cafe_id);
 
 
     //카페 상세 정보 조회  model

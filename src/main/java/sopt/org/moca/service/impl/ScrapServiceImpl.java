@@ -86,6 +86,7 @@ public class ScrapServiceImpl implements ScrapService {
 
             for(Scrap s : scrapList){
                 CafeInfo cafeInfo = cafeMapper.findCafeInfo(s.getCafe_id(),user_id);
+              //  log.info(String.valueOf(s.getCafe_id()));
                 s.setCafe_img_url(cafeMapper.findCafeImgList(s.getCafe_id()));
                 s.setCafe_name(cafeInfo.getCafe_name());
                 s.setAddress_district_name("서울 "+ cafeInfo.getAddress_district_name()+" " + cafeInfo.getCafe_address_detail());
