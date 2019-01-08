@@ -24,14 +24,21 @@ public class HotPlaceServiceImpl implements HotPlaceService {
         //token 인증 필요함
         //코드 추가 필요
 
-
-
-
-
         List<HotPlace> hotPlaceList = hotPlaceMapper.findAllHotPlace();
         if(hotPlaceList != null)
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_HOT_PLACE,hotPlaceList);
         else
          return DefaultRes.res(StatusCode.DB_ERROR,ResponseMessage.DB_ERROR);
+    }
+
+
+    @Override
+    public DefaultRes<List<HotPlace>> findBestHotPlace(final int num) {
+
+        List<HotPlace> hotPlaceList = hotPlaceMapper.findBestHotPlace(num);
+        if(hotPlaceList != null)
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_HOT_PLACE,hotPlaceList);
+        else
+            return DefaultRes.res(StatusCode.DB_ERROR,ResponseMessage.DB_ERROR);
     }
 }

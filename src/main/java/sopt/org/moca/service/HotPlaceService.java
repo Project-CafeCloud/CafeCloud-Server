@@ -8,4 +8,6 @@ import java.util.List;
 public interface HotPlaceService {
 
     DefaultRes<List<HotPlace>> findAllHotPlace();
+
+    DefaultRes<List<HotPlace>> findBestHotPlace(final int num);
 }
