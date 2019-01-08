@@ -151,9 +151,9 @@ public interface CafeMapper {
 
 
     //핫플레이스 별 카페리스트 조회
-    @Select("SELECT cafe_id, cafe_name , cafe_subway, cafe_rating_avg ,(CASE  WHEN cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
-            "from CAFE " +
-            "where hot_place_id = #{hot_place_id}")
+    @Select("SELECT CAFE.cafe_id, cafe_name , cafe_subway, cafe_rating_avg ,cafe_img_url,(CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
+            "from CAFE left join CAFE_IMG on CAFE.cafe_id = CAFE_IMG.cafe_id " +
+            "where hot_place_id = #{hot_place_id} and (cafe_img_main = 1 or ISNULL(cafe_img_main))")
     List<CafeByHotPlace>findCafeByHotPlaceList(@Param("hot_place_id")final int hot_place_id);
 
 
