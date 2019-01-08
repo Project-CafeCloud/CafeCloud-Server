@@ -13,7 +13,11 @@ import java.util.List;
 public interface MembershipService {
 
     DefaultRes<List<Membership>>findMembershipList(final String user_id);
+
+
     DefaultRes saveMembership(final MembershipReq membershipReq);
+
+
 
     DefaultRes<List<CouponRes>> findCouponList(final String user_id);
 
@@ -26,5 +30,8 @@ public interface MembershipService {
 
     //쿠폰 인증 삭제
     DefaultRes deleteAuth(final int coupon_id);
+
+    //맴버쉽 사용 내영
+    DefaultRes findHistoryOfMembership(final String user_id);
 
 }

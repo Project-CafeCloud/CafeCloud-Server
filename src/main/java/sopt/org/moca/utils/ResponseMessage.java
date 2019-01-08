@@ -130,6 +130,11 @@ public class ResponseMessage {
     public static final String USE_COUPON ="쿠폰 사용 완료";
 
 
+    //쿠폰 적립 내역
+    public static final String READ_HISTORY_LIST = "멤버십 히스토리 조회 성공";
+    public static final String FAIL_HISTORY_LIST = "멤버십 히스토리 조회 실패";
+
+
 
     // 플러스
     public static final String NOT_FOUND_PLUS_SUBJECT_LIST = "플러스 주제 리스트를 찾을 수 없습니다.";
@@ -174,5 +179,9 @@ public class ResponseMessage {
     //핫플레이스로 카페 리스트
     public static final String READ_HOT_PLACE_CAFE_LIST = "핫플레이스로 카페 리스트 조회 성공";
     public static final String FAIL_HOT_PLACE_CAFE_LIST = "핫플레이스로 카페 리스트 조회 실패";
+
+    //카페 리뷰 랭킹 30으로 검색
+    public static final String READ_CAFE_LIST_BY_REVIEW = "리뷰 랭킹 순 카페 리스트 조회 성공";
+    public static final String FAIL_CAFE_LIST_BY_REVIEW = "리뷰 랭킹 순 카페 리스트 조회 실패";
 
 }

@@ -291,6 +291,30 @@ public class CafeController {
 
     }
 
+    /**
+     * 카페 랭킹
+     * @param length
+     * @return
+     */
+    @GetMapping("/ranking/{length}")
+    public ResponseEntity getCafeListByRanking(@PathVariable("length") int length)
+    {
+        try{
+            if(length == -1)
+                length = 30;
+            return new ResponseEntity<>(cafeService.findCafeByReviewRanking(length), HttpStatus.OK);
+
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+
+
+
 
 
 }

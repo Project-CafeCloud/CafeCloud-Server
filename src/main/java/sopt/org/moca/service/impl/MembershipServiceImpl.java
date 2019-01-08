@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.stereotype.Service;
 import sopt.org.moca.dto.Coupon;
+import sopt.org.moca.dto.HistoryOfMembership;
 import sopt.org.moca.dto.Membership;
 import sopt.org.moca.mapper.MembershipMapper;
 import sopt.org.moca.mapper.UserMapper;
@@ -108,6 +109,20 @@ public class MembershipServiceImpl implements MembershipService {
         return DefaultRes.res(StatusCode.OK , ResponseMessage.DELETE_COUPON_AUTH);
     }
 
+    @Override
+    public DefaultRes findHistoryOfMembership(String user_id) {
+
+      List<HistoryOfMembership>  historyOfMembershipList  =  membershipMapper.findHistoryOfMembershipList(user_id);
+        if(historyOfMembershipList.isEmpty())
+        {
+
+            return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.FAIL_HISTORY_LIST);
+
+        }
+        return DefaultRes.res(StatusCode.OK , ResponseMessage.READ_HISTORY_LIST, historyOfMembershipList);
+
+
+    }
 
 
     private int countMembership(String user_id)
