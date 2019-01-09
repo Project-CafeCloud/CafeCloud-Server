@@ -90,7 +90,9 @@ public class UserController {
             @RequestPart(value = "profile", required = false) final MultipartFile user_img
     ) {
         try {
+           // log.info(user_img.toString());
             if (user_img != null) userSignUpReq.setUser_img(user_img);
+            //log.info(user_img.toString());
             final String tokenValue = JwtUtils.decode(jwt).getUser_id();
             if(tokenValue != null) return new ResponseEntity<>(userService.updateUser(tokenValue, userSignUpReq), HttpStatus.OK);
             else{

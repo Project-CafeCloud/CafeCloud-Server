@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sopt.org.moca.dto.Review;
+import sopt.org.moca.dto.User;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.service.ReviewService;
 import sopt.org.moca.service.UserService;
@@ -93,11 +94,11 @@ public class FeedController {
             final String userId = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
 
             DefaultRes<List<Review>> feedList = reviewService.findByUserId(userId, false);
-
             if(feedList.getData() != null) {
                 for (Review r : feedList.getData()) {
                     r.setAuth(r.getUser_id().compareTo(userId) == 0);
                     r.setLike(reviewService.checkLike(userId, r.getReview_id()));
+
                 }
             }
 

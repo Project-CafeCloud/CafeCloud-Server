@@ -1,6 +1,8 @@
 package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -31,6 +33,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewImageMapper reviewImageMapper;
     private final ReviewLikeMapper reviewLikeMapper;
     private final FileUploadService fileUploadService;
+    private final AndroidPushNotificationsService androidPushNotificationsService;
 
 
 
@@ -52,7 +55,8 @@ public class ReviewServiceImpl implements ReviewService {
                              final ReviewMapper reviewMapper,
                              final ReviewImageMapper reviewImageMapper,
                              final ReviewLikeMapper reviewLikeMapper,
-                             final FileUploadService fileUploadService) {
+                             final FileUploadService fileUploadService,
+                             final AndroidPushNotificationsService androidPushNotificationsService) {
 
         this.userMapper = userMapper;
         this.followMapper = followMapper;
@@ -61,6 +65,7 @@ public class ReviewServiceImpl implements ReviewService {
         this.reviewImageMapper = reviewImageMapper;
         this.reviewLikeMapper = reviewLikeMapper;
         this.fileUploadService = fileUploadService;
+        this.androidPushNotificationsService = androidPushNotificationsService;
     }
 
 
@@ -144,7 +149,8 @@ public class ReviewServiceImpl implements ReviewService {
         for (Review r : reviewList){
 
             CafeInfo cafeinfo = cafeMapper.findByCafeId(r.getCafe_id());
-            User user = userMapper.findById(userId);
+            User user = userMapper.findById(r.getUser_id());
+
 
             r.setImage(reviewImageMapper.findAllByReviewId(r.getReview_id()));
             r.setCafe_name(cafeinfo.getCafe_name());
@@ -245,10 +251,18 @@ public class ReviewServiceImpl implements ReviewService {
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_REVIEWS);
 
         ReviewLike reviewLike = reviewLikeMapper.findByUserIdAndReviewId(userId, reviewId);
-
+        ReviewAlarm reviewAlarm = new ReviewAlarm();
         try {
             if (reviewLike == null) {
                 // 좋아요
+
+                reviewAlarm.setAlarm_user(review.getUser_id());
+                reviewAlarm.setAlarm_contents(userId+"님이 좋아요를 눌렀습니다."); //이름으로 바꾸기
+                String alarm_user = review.getUser_name();
+                String alarm_contnets = userId+"님이 좋아요를 눌렀습니다.";
+               // String deviceToken = "ecvVeSTNZkE:APA91bGZmJD5drrxoVWl_6ZyYN32Hjy27K22X2mADN3gYrks6xW9aMmjNFuSOiJ9ViEgySz2imwyMjme4Lclcs5-TgQiMjR2Y_SNzyIhNhwe8nvkuJlNHJQqsGfASvX6nv4mrfY8csix";
+                androidPushNotificationsService.makeJson(alarm_user,alarm_contnets);
+
                 reviewLikeMapper.save(userId, reviewId, new Date());
             } else {
                 // 좋아요 취소
@@ -258,7 +272,10 @@ public class ReviewServiceImpl implements ReviewService {
             review.setAuth(checkAuth(userId, reviewId));
             review.setLike(checkLike(userId, reviewId));
 
+
+
             return DefaultRes.res(StatusCode.OK, ResponseMessage.LIKE_REVIEW);
+
         } catch (Exception e) {
             log.error(e.getMessage());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

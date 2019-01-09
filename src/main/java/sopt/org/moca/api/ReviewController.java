@@ -11,7 +11,9 @@ import sopt.org.moca.dto.ReviewImage;
 import sopt.org.moca.model.DefaultRes;
 import sopt.org.moca.model.ReviewCommentReq;
 import sopt.org.moca.model.ReviewReq;
+import sopt.org.moca.service.PushService;
 import sopt.org.moca.service.ReviewService;
+import sopt.org.moca.service.impl.AndroidPushNotificationsService;
 import sopt.org.moca.utils.auth.Auth;
 import sopt.org.moca.utils.auth.JwtUtils;
 
@@ -38,10 +40,12 @@ public class ReviewController {
 
     private static final String HEADER = "Authorization";
     private final ReviewService reviewService;
+    private final AndroidPushNotificationsService androidPushNotificationsService;
 
-    public ReviewController(final ReviewService reviewService) {
+    public ReviewController(final ReviewService reviewService,final AndroidPushNotificationsService androidPushNotificationsService) {
 
         this.reviewService = reviewService;
+        this.androidPushNotificationsService = androidPushNotificationsService;
     }
 
 
@@ -161,7 +165,9 @@ public class ReviewController {
             @PathVariable final int review_id) {
         try {
             final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
-            return new ResponseEntity<>(reviewService.like(user_id, review_id), HttpStatus.OK);
+            DefaultRes likeDefaultRes = reviewService.like(user_id, review_id);
+            return new ResponseEntity<>(likeDefaultRes, HttpStatus.OK);
+
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
