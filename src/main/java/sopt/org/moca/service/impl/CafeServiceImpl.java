@@ -26,7 +26,6 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public DefaultRes<List<EvaluatedCafeSimple>> findEvaluatedCafeSimpleList(final int length) {
         List<EvaluatedCafeSimple> evaluatedCafeSimpleList;
-
         if(length <0)
         {
 
