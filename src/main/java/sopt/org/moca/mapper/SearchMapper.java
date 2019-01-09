@@ -12,9 +12,10 @@ import java.util.List;
 public interface SearchMapper {
 
     @Select("select CAFE.cafe_id ,cafe_name ,cafe_img_url,cafe_address_detail " +
-            "from CAFE left join CAFE_IMG on  CAFE.cafe_id = CAFE_IMG.cafe_id inner join ADDRESS_DISTRICT on CAFE.cafe_address_district_id = ADDRESS_DISTRICT.address_district_id\n" +
+            "from CAFE left join CAFE_IMG on  CAFE.cafe_id = CAFE_IMG.cafe_id inner join ADDRESS_DISTRICT on CAFE.cafe_address_district_id = ADDRESS_DISTRICT.address_district_id " +
             "natural join CAFE_CONCEPT natural join HOT_PLACE " +
-            "where  address_district_name like'%${keyword}%' or hot_place_name like '%${keyword}%' or cafe_address_detail like '%${keyword}%'  or cafe_name like '%${keyword}%' ")
+            "where  address_district_name like'%${keyword}%' or hot_place_name like '%${keyword}%' or cafe_address_detail like '%${keyword}%'  or cafe_name like '%${keyword}%' " +
+            " and (cafe_img_main = 1 or ISNULL(cafe_img_main)) ")
     List<SearchCafeInfo>searchCafeInfoList(@Param("keyword")final String keyword);
 
 
