@@ -39,7 +39,6 @@ public class CafeController {
          * 토큰으로 유효한지 아닌지 확인 구현 필요
          *
          */
-
         try{
             return new ResponseEntity<>(cafeService.findEvaluatedCafeSimpleList(length), HttpStatus.OK);
         } catch (Exception e){
