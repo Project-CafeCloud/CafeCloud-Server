@@ -26,7 +26,6 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public DefaultRes<List<EvaluatedCafeSimple>> findEvaluatedCafeSimpleList(final int length) {
         List<EvaluatedCafeSimple> evaluatedCafeSimpleList;
-
         if(length <0)
         {
 
@@ -156,13 +155,16 @@ public class CafeServiceImpl implements CafeService {
 
     /**
      * 핫플레이스 카페 리스트
+     *
      * @param hot_place_id
      * @return
      */
     @Override
     public DefaultRes<List<CafeByHotPlace>> findCafeByHotPlaceList(int hot_place_id) {
         List<CafeByHotPlace> cafeByHotPlaceList = null;
+
         cafeByHotPlaceList =  cafeMapper.findCafeByHotPlaceList(hot_place_id);
+        log.info(cafeByHotPlaceList.toString());
         if (cafeByHotPlaceList.isEmpty()) {
 
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_HOT_PLACE_CAFE_LIST);

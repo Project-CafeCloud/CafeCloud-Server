@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/***
+ * cafe_img 필드 삭제 (1/11)
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

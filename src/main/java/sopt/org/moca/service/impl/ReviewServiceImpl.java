@@ -151,14 +151,11 @@ public class ReviewServiceImpl implements ReviewService {
             CafeInfo cafeinfo = cafeMapper.findByCafeId(r.getCafe_id());
             User user = userMapper.findById(r.getUser_id());
 
-
             r.setImage(reviewImageMapper.findAllByReviewId(r.getReview_id()));
             r.setCafe_name(cafeinfo.getCafe_name());
             r.setCafe_address("서울 " + cafeinfo.getAddress_district_name());
             r.setLike_count(reviewLikeMapper.countByReviewId(r.getReview_id()));
             r.setTime(Time.toText(r.getReview_date()));
-            r.setUser_name(user.getUser_name());
-            r.setUser_img_url(user.getUser_img_url());
             r.setUser_name(user.getUser_name());
             r.setUser_img_url(user.getUser_img_url());
         }

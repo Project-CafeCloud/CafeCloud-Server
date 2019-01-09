@@ -20,9 +20,12 @@ public interface UserMapper {
      * @param user_id
      *
      * */
-    @Select("SELECT user_id, user_name, user_img_url, user_status_comment " +
-            "FROM USER WHERE user_id = #{user_id}")
-    UserInfo findUser(@Param("user_id") final String user_id);
+    @Select("SELECT user_id, user_name, user_img_url, user_status_comment ,(select count(*) from REVIEW where user_id = USER.user_id)as review_count,\n" +
+            "(select count(*) from FOLLOW where following_id = USER.user_id)as follower_count ,  (select count(*) from FOLLOW where follower_id = USER.user_id)as following_count ,\n" +
+            "(CASE   WHEN   user_id in (select following_id from FOLLOW where follower_id = #{my_id} )THEN 1 WHEN user_id = #{my_id}  THEN 1 ELSE 0 END )as follow  \n" +
+            "FROM USER \n" +
+            "WHERE user_id = #{user_id};")
+    UserInfo findUser(@Param("user_id") final String user_id,@Param("my_id")final String my_id);
 
 
 

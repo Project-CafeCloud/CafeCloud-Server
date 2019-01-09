@@ -10,9 +10,9 @@
     </parent>
     <groupId>sopt.org</groupId>
     <artifactId>moca</artifactId>
-    <version>8.0.0-SNAPSHOT</version>
+    <version>9.1.0-SNAPSHOT</version>
     <name>moca</name>
-    <description>Sopt 23th App Jam Moca&#39;s server project</description>
+    <description>Sopt 23th App Jam Moca server project</description>
 
     <properties>
         <java.version>1.8</java.version>

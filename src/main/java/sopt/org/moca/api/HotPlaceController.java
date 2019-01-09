@@ -42,4 +42,17 @@ public class HotPlaceController {
 
 
 
+    @GetMapping("/best")
+    public ResponseEntity findBestHotPlace(final HttpServletRequest httpServletRequest)
+    {
+
+        try{
+            return new ResponseEntity<>(hotPlaceService.findBestHotPlace(3), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

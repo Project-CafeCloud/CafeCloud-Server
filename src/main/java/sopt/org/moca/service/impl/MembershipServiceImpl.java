@@ -72,11 +72,10 @@ public class MembershipServiceImpl implements MembershipService {
     public DefaultRes<List<CouponRes>> findCouponList(String user_id) {
 
         List<CouponRes> couponList = membershipMapper.findCouponList(user_id);
+        log.info(couponList+"");
 
         if(couponList.isEmpty())
         {
-            log.info(couponList.get(0).toString()+"");
-
 
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.FAIL_COUPON_LIST);
 
