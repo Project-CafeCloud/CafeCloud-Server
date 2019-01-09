@@ -86,7 +86,9 @@ public class ResponseMessage {
     public static final String DELETE_COMMENT = "댓글 삭제 성공";
 
 
-
+    // 신고기능
+    public static final String CREATED_REPORT = "신고 성공";
+    public static final String FAIL_CREATE_REPORT = "신고 실패";
 
 
 
