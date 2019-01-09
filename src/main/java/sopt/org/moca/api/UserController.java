@@ -62,15 +62,14 @@ public class UserController {
      * Mypage 정보 조회
      *
      * @param httpServletRequest Request
-     * @param user_id
      * @retrun ResponseEntity
      **/
-    @GetMapping("/{user_id}/mypage")
-    public ResponseEntity getMypage(final HttpServletRequest httpServletRequest, @PathVariable final String user_id) {
+    @GetMapping("/mypage")
+    public ResponseEntity getMypage(final HttpServletRequest httpServletRequest) {
         try {
             final String tokenValue = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
-            DefaultRes<User> defaultRes = userService.findById(user_id);
-            if (tokenValue.compareTo(user_id) == 0)
+            DefaultRes<User> defaultRes = userService.findById(tokenValue);
+            if (tokenValue.compareTo(tokenValue) == 0)
                 defaultRes.getData().setAuth(true);
             return new ResponseEntity<>(defaultRes, HttpStatus.OK);
         } catch (Exception e) {

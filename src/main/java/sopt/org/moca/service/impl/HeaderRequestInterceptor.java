@@ -8,6 +8,7 @@ import org.springframework.http.client.support.HttpRequestWrapper;
 
 import java.io.IOException;
 
+//HTTP 통신을 가능하게 해주기 위해서 Request 객체를 만들어주어 설정
 public class HeaderRequestInterceptor implements ClientHttpRequestInterceptor{
     private final String headerName;
     private final String headerValue;

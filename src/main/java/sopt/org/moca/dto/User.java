@@ -17,6 +17,7 @@ public class User {
     private String user_phone;
     private String user_img_url;
     private String user_status_comment;
+    private boolean push_flag;
 
     private boolean auth;
     private boolean follow;

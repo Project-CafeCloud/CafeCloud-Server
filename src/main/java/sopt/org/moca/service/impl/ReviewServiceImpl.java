@@ -260,8 +260,15 @@ public class ReviewServiceImpl implements ReviewService {
                 reviewAlarm.setAlarm_contents(userId+"님이 좋아요를 눌렀습니다."); //이름으로 바꾸기
                 String alarm_user = review.getUser_name();
                 String alarm_contnets = userId+"님이 좋아요를 눌렀습니다.";
-               // String deviceToken = "ecvVeSTNZkE:APA91bGZmJD5drrxoVWl_6ZyYN32Hjy27K22X2mADN3gYrks6xW9aMmjNFuSOiJ9ViEgySz2imwyMjme4Lclcs5-TgQiMjR2Y_SNzyIhNhwe8nvkuJlNHJQqsGfASvX6nv4mrfY8csix";
-                androidPushNotificationsService.makeJson(alarm_user,alarm_contnets);
+//                new Thread(() -> {
+//                        try {
+//                            androidPushNotificationsService.makeJson(alarm_user,alarm_contnets);
+//
+//                        } catch (Exception e) {
+//
+//                        }
+//                }).start();
+
 
                 reviewLikeMapper.save(userId, reviewId, new Date());
             } else {
