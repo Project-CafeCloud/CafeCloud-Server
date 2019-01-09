@@ -167,7 +167,7 @@ public class CafeController {
 
 
     /**
-     * 카페 상세 이미지 리스트 조회
+     * 카페 상세 이미지 리스트 조회 ,핫플레이스에서도 사용(1/10)
      * @param httpServletRequest
      * @param cafe_id
      * @return
@@ -275,6 +275,13 @@ public class CafeController {
         }
     }
 
+    /**
+     * 핫플레이스로 카페 리스트
+     * 1/10 다중이미지로 변경-> CafeByHotPlace 객체에 이미지 필드 삭제 및 cafe_img
+     * 이미지는 cafe/{cafe_id}/image 로 이미지 받아 오면 됨
+     * @param hot_place_id
+     * @return
+     */
 
     @GetMapping("/hot_place/{hot_place_id}")
     public ResponseEntity getCafeListByHotPlace(@PathVariable("hot_place_id") final int hot_place_id)

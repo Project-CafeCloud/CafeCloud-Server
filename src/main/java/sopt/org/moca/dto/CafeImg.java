@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class CafeImg {
     private String cafe_img_url;
+    private boolean  cafe_img_main;
 }

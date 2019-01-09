@@ -82,11 +82,12 @@ public interface CafeMapper {
 
 
     //카페 이미지 리스트 조회
-    @Select("select cafe_img_url from CAFE_IMG where cafe_id = #{cafe_id}")
+    @Select("select  cafe_img_url, cafe_img_main from CAFE_IMG where cafe_id = #{cafe_id} order by cafe_img_main DESC")
     List<CafeImg> findCafeImgList(@Param("cafe_id")final int cafe_id);
 
-    @Select("select cafe_img_url from CAFE_IMG where cafe_id = #{cafe_id}")
-    String findCafeImg(@Param("cafe_id") final int cafe_id);
+
+//    @Select("select cafe_img_url from CAFE_IMG where cafe_id = #{cafe_id}")
+//    String findCafeImg(@Param("cafe_id") final int cafe_id);
 
 
     //카페 상세 정보 조회  model
@@ -150,9 +151,20 @@ public interface CafeMapper {
 
 
     //핫플레이스 별 카페리스트 조회
-    @Select("SELECT CAFE.cafe_id, cafe_name , cafe_subway, cafe_rating_avg ,cafe_img_url,(CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
-            "from CAFE left join CAFE_IMG on CAFE.cafe_id = CAFE_IMG.cafe_id " +
-            "where hot_place_id = #{hot_place_id} and (cafe_img_main = 1 or ISNULL(cafe_img_main))")
+//    @Select("SELECT CAFE.cafe_id, cafe_name , cafe_subway, cafe_rating_avg ,cafe_img_url,(CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
+//            "from CAFE left join CAFE_IMG on CAFE.cafe_id = CAFE_IMG.cafe_id " +
+//            "where hot_place_id = #{hot_place_id} and (cafe_img_main = 1 or ISNULL(cafe_img_main))")
+
+
+    /**
+     * 1/10 일 수정됨 img_url 제거
+     * @param hot_place_id
+     * @return
+     */
+
+    @Select("SELECT CAFE.cafe_id, cafe_name , cafe_subway, cafe_rating_avg ," +
+            "(CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
+            "from CAFE where hot_place_id = #{hot_place_id}")
     List<CafeByHotPlace>findCafeByHotPlaceList(@Param("hot_place_id")final int hot_place_id);
 
 
