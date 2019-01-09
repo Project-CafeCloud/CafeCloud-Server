@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @Data
 public class EvaluatedCafeInfo {
    private String cafe_name;
-   private String cafe_address;
+   private String cafe_address_detail;
    private String evaluated_cafe_total_evaluation;
    private String evaluated_cafe_rating;
 
