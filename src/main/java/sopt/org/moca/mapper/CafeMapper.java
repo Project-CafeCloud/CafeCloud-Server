@@ -20,18 +20,18 @@ public interface CafeMapper {
      */
 
     //인기 있는 검증 카페 리스트 조회 (갯수)
-    @Select("select cafe_id, cafe_name , address_district_name, evaluated_cafe_img_url,evaluated_cafe_rating " +
-            "from EVALUATED_CAFE natural join EVALUATED_CAFE_IMG natural join CAFE natural join ADDRESS_DISTRICT " +
-            " where evaluated_cafe_main_img = 1 "
-            +
-            "ORDER BY evaluated_cafe_rating DESC "+
-            "limit  #{length}" )
+    @Select("select EVALUATED_CAFE.cafe_id, cafe_name , address_district_name, evaluated_cafe_img_url, evaluated_cafe_rating \n" +
+            "            from EVALUATED_CAFE  natural join CAFE inner  join ADDRESS_DISTRICT on CAFE.cafe_address_district_id = ADDRESS_DISTRICT.address_district_id left join EVALUATED_CAFE_IMG on EVALUATED_CAFE.cafe_id = EVALUATED_CAFE_IMG.cafe_id  \n" +
+            "            where (evaluated_cafe_main_img = 1 or ISNULL(evaluated_cafe_main_img))\n" +
+            "            ORDER BY evaluated_cafe_rating DESC \n" +
+            "            limit  #{length} " )
     List<EvaluatedCafeSimple>findPopularEvaluatedCafe(@Param("length") final int length);
 
     //인기 있는 검증 카페 리스트 조회(전체)
-    @Select("select cafe_id, cafe_name , address_district_name, evaluated_cafe_img_url,evaluated_cafe_rating " +
-            "from EVALUATED_CAFE natural join EVALUATED_CAFE_IMG natural join CAFE natural join ADDRESS_DISTRICT " +
-            "where evaluated_cafe_main_img = 1 ")
+    @Select("select EVALUATED_CAFE.cafe_id, cafe_name , address_district_name, evaluated_cafe_img_url, evaluated_cafe_rating \n" +
+            "            from EVALUATED_CAFE  natural join CAFE inner  join ADDRESS_DISTRICT on CAFE.cafe_address_district_id = ADDRESS_DISTRICT.address_district_id left join EVALUATED_CAFE_IMG on EVALUATED_CAFE.cafe_id = EVALUATED_CAFE_IMG.cafe_id  \n" +
+            "            where (evaluated_cafe_main_img = 1 or ISNULL(evaluated_cafe_main_img))\n" +
+            "            ORDER BY evaluated_cafe_rating DESC \n")
     List<EvaluatedCafeSimple>findAllEvaluatedCafe();
 
     //검증 카페 상세 정보 조회(카페이름, 카페주소, 총평, 평균 별점)
@@ -39,7 +39,6 @@ public interface CafeMapper {
             "from EVALUATED_CAFE natural join CAFE " +
             "where cafe_id = #{cafe_id}")
     EvaluatedCafeInfo findEvaluatedCafeInfo(@Param("cafe_id")final int cafe_id);
-
 
 
     //검증 카페  이미지 조회

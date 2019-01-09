@@ -49,8 +49,9 @@ public class SearchController {
         catch(Exception e)
         {
             log.error(e.getMessage());
+            return new ResponseEntity(DefaultRes.FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity(DefaultRes.FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 
    @GetMapping("/follower/{keyeord}")
