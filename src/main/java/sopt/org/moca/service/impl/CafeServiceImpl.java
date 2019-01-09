@@ -155,13 +155,13 @@ public class CafeServiceImpl implements CafeService {
 
     /**
      * 핫플레이스 카페 리스트
+     *
      * @param hot_place_id
      * @return
      */
     @Override
     public DefaultRes<List<CafeByHotPlace>> findCafeByHotPlaceList(int hot_place_id) {
         List<CafeByHotPlace> cafeByHotPlaceList = null;
-
 
         cafeByHotPlaceList =  cafeMapper.findCafeByHotPlaceList(hot_place_id);
         log.info(cafeByHotPlaceList.toString());
