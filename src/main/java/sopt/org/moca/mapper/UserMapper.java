@@ -45,8 +45,8 @@ public interface UserMapper {
     * @param userSignUpReq
     *
     */
-    @Insert("INSERT INTO USER(user_id,user_password,user_name,user_phone)"+
-            "VALUES(#{userSignUpReq.user_id}, #{userSignUpReq.user_password},#{userSignUpReq.user_name},#{userSignUpReq.user_phone})")
+    @Insert("INSERT INTO USER(user_id,user_password,user_name,user_phone,user_img_url)"+
+            "VALUES(#{userSignUpReq.user_id}, #{userSignUpReq.user_password},#{userSignUpReq.user_name},#{userSignUpReq.user_phone},#{userSignUpReq.user_img_url})")
     void save(@Param("userSignUpReq") final UserSignUpReq userSignUpReq);
 
     @Insert("INSERT INTO USER(user_id,user_password,user_name,user_phone)"+
