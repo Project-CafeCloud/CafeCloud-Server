@@ -13,6 +13,6 @@ public class EvaluatedCafeSimple {
     private String cafe_name;
     private int evaluated_cafe_rating;
     private  String address_district_name;
-    private String cafe_img_main;
     private String evaluated_cafe_img_url;
+    private  boolean scrab_is;
 }

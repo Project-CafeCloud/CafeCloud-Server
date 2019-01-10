@@ -20,19 +20,22 @@ public interface CafeMapper {
      */
 
     //인기 있는 검증 카페 리스트 조회 (갯수)
-    @Select("select EVALUATED_CAFE.cafe_id, cafe_name , address_district_name, evaluated_cafe_img_url, evaluated_cafe_rating \n" +
+    @Select("select EVALUATED_CAFE.cafe_id, cafe_name , address_district_name, evaluated_cafe_img_url, evaluated_cafe_rating , " +
+            "(CASE WHEN EVALUATED_CAFE.cafe_id in (select cafe_id from SCRAP where user_id = #{user_id} )THEN 1 ELSE 0 END) as scrab_is " +
             "            from EVALUATED_CAFE  natural join CAFE inner  join ADDRESS_DISTRICT on CAFE.cafe_address_district_id = ADDRESS_DISTRICT.address_district_id left join EVALUATED_CAFE_IMG on EVALUATED_CAFE.cafe_id = EVALUATED_CAFE_IMG.cafe_id  \n" +
             "            where (evaluated_cafe_main_img = 1 or ISNULL(evaluated_cafe_main_img))\n" +
             "            ORDER BY evaluated_cafe_rating DESC \n" +
             "            limit  #{length} " )
-    List<EvaluatedCafeSimple>findPopularEvaluatedCafe(@Param("length") final int length);
+    List<EvaluatedCafeSimple>findPopularEvaluatedCafe(@Param("length") final int length, @Param("user_id")final String user_id);
 
     //인기 있는 검증 카페 리스트 조회(전체)
-    @Select("select EVALUATED_CAFE.cafe_id, cafe_name , address_district_name, evaluated_cafe_img_url, evaluated_cafe_rating \n" +
+    @Select("select EVALUATED_CAFE.cafe_id, cafe_name , address_district_name, evaluated_cafe_img_url, evaluated_cafe_rating, " +
+            "(CASE WHEN EVALUATED_CAFE.cafe_id in (select cafe_id from SCRAP where user_id = #{user_id} )THEN 1 ELSE 0 END) as scrab_is " +
             "            from EVALUATED_CAFE  natural join CAFE inner  join ADDRESS_DISTRICT on CAFE.cafe_address_district_id = ADDRESS_DISTRICT.address_district_id left join EVALUATED_CAFE_IMG on EVALUATED_CAFE.cafe_id = EVALUATED_CAFE_IMG.cafe_id  \n" +
             "            where (evaluated_cafe_main_img = 1 or ISNULL(evaluated_cafe_main_img))\n" +
             "            ORDER BY evaluated_cafe_rating DESC \n")
-    List<EvaluatedCafeSimple>findAllEvaluatedCafe();
+    List<EvaluatedCafeSimple>findAllEvaluatedCafe(@Param("user_id")final String user_id);
+
 
     //검증 카페 상세 정보 조회(카페이름, 카페주소, 총평, 평균 별점)
     @Select("select cafe_name,cafe_address_detail , evaluated_cafe_total_evaluation, evaluated_cafe_rating " +

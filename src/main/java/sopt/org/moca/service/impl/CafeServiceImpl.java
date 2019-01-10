@@ -24,16 +24,16 @@ public class CafeServiceImpl implements CafeService {
 
 
     @Override
-    public DefaultRes<List<EvaluatedCafeSimple>> findEvaluatedCafeSimpleList(final int length) {
+    public DefaultRes<List<EvaluatedCafeSimple>> findEvaluatedCafeSimpleList(final int length,final String user_id) {
         List<EvaluatedCafeSimple> evaluatedCafeSimpleList;
         if(length <0)
         {
 
-            evaluatedCafeSimpleList = cafeMapper.findAllEvaluatedCafe();
+            evaluatedCafeSimpleList = cafeMapper.findAllEvaluatedCafe(user_id);
         }
         else
         {
-          evaluatedCafeSimpleList = cafeMapper.findPopularEvaluatedCafe(length);
+          evaluatedCafeSimpleList = cafeMapper.findPopularEvaluatedCafe(length,user_id);
 
         }
         if(evaluatedCafeSimpleList.isEmpty())

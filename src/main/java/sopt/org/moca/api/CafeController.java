@@ -17,7 +17,7 @@ import static sopt.org.moca.model.DefaultRes.FAIL_DEFAULT_RES;
 @RequestMapping("/cafe")
 public class CafeController {
    private final CafeService cafeService;
-
+    private static final String HEADER = "Authorization";
 
 
 
@@ -28,7 +28,7 @@ public class CafeController {
 
     /**
      *
-     *
+     *1.11 스크랩 여부 추가
      * 인기 있는  검증 카페 리스트 조회
      *
      */
@@ -41,7 +41,8 @@ public class CafeController {
          */
 
         try{
-            return new ResponseEntity<>(cafeService.findEvaluatedCafeSimpleList(length), HttpStatus.OK);
+            String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
+            return new ResponseEntity<>(cafeService.findEvaluatedCafeSimpleList(length,user_id), HttpStatus.OK);
         } catch (Exception e){
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
