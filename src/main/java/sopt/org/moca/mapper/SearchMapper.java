@@ -22,7 +22,7 @@ public interface SearchMapper {
 
 
 @Select("select  user_id, user_name ,user_status_comment , user_img_url , " +
-        "(CASE  WHEN user_id in (select following_id from FOLLOW where follower_id  =#{user_id})THEN 1 ELSE 0 END) as is_follow " +
+        "(CASE  WHEN user_id in (select following_id from FOLLOW where follower_id  =#{user_id})THEN 1 ELSE 0 END) as follow_is " +
         "from USER " +
         "where user_name like '%${keyword}%'")
     List<SearchUserInfo>searchUserInfoList(@Param("keyword")final String keyword, @Param("user_id")final String user_id);
