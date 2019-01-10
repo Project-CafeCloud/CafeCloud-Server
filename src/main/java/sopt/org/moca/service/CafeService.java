@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public interface CafeService {
-    DefaultRes<List<EvaluatedCafeSimple>>findEvaluatedCafeSimpleList(final int length);
+    DefaultRes<List<EvaluatedCafeSimple>>findEvaluatedCafeSimpleList(final int length,final String user_id);
     DefaultRes<EvaluatedCafeInfo>findEvaluatedCafeInfo(final int cafe_id);
     DefaultRes<List<EvaluatedCafeImg>>findEvaluatedCafeImg(final int cafe_id);
     DefaultRes<List<Evaluation>>findEvaluationList(final int cafe_id);
