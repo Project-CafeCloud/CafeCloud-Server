@@ -44,6 +44,7 @@ public interface CafeMapper {
     EvaluatedCafeInfo findEvaluatedCafeInfo(@Param("cafe_id")final int cafe_id);
 
 
+
     //검증 카페  이미지 조회
     @Select("select evaluated_cafe_img_url,evaluated_cafe_main_img " +
             "from EVALUATED_CAFE_IMG " +
@@ -166,7 +167,7 @@ public interface CafeMapper {
      */
 
     @Select("SELECT CAFE.cafe_id, cafe_name , cafe_subway, cafe_rating_avg ," +
-            "(CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
+            "(CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  evaluated_cafe_is " +
             "from CAFE where hot_place_id = #{hot_place_id}")
     List<CafeByHotPlace>findCafeByHotPlaceList(@Param("hot_place_id")final int hot_place_id);
 
@@ -174,7 +175,7 @@ public interface CafeMapper {
 
 
     //카페 리뷰 별점 랭킹 30개
-    @Select("select  CAFE.cafe_id, cafe_name, cafe_menu_img_url, address_district_name , cafe_rating_avg , (CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  is_evaluated_cafe " +
+    @Select("select  CAFE.cafe_id, cafe_name, cafe_menu_img_url, address_district_name , cafe_rating_avg , (CASE  WHEN CAFE.cafe_id in (select cafe_id from EVALUATED_CAFE )THEN 1 ELSE 0 END) as  evaluated_cafe_is " +
             "from CAFE inner join ADDRESS_DISTRICT on CAFE.cafe_address_district_id = ADDRESS_DISTRICT.address_district_id left join CAFE_IMG on CAFE.cafe_id = CAFE_IMG.cafe_id " +
             "where  cafe_img_main = 1 or ISNULL(cafe_img_main) " +
             "order by  cafe_rating_avg  DESC  limit #{length}")
