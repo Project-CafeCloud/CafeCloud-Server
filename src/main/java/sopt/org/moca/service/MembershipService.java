@@ -31,7 +31,7 @@ public interface MembershipService {
     //쿠폰 인증 삭제
     DefaultRes deleteAuth(final int coupon_id);
 
-    //맴버쉽 사용 내영
+    //맴버쉽 사용 내역
     DefaultRes findHistoryOfMembership(final String user_id);
 
 }
