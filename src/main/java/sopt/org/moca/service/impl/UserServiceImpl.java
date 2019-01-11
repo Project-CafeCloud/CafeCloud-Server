@@ -91,7 +91,11 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.findById(user_id);
         if (user != null) {
-            user.setUser_img_url(defaultUrl + user.getUser_img_url());
+            if(user.getUser_img_url() !=null) {
+                user.setUser_img_url(defaultUrl + user.getUser_img_url());
+            }else{
+                user.setUser_img_url(null);
+            }
             return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, user);
         }
         return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_USER);
@@ -141,9 +145,12 @@ public class UserServiceImpl implements UserService {
         try{
 
             UserInfo user = userMapper.findUser(user_id,my_id);
-
             if (user != null) {
-                user.setUser_img_url(defaultUrl + user.getUser_img_url());
+                if(user.getUser_img_url() !=null) {
+                    user.setUser_img_url(defaultUrl + user.getUser_img_url());
+                }else{
+                    user.setUser_img_url(null);
+                }
                 return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, user);
             }
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_USER);
