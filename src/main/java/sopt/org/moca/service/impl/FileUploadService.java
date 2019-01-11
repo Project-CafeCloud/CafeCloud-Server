@@ -1,11 +1,5 @@
 package sopt.org.moca.service.impl;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.transfer.TransferManager;
-import com.amazonaws.services.s3.transfer.Upload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,15 +21,16 @@ public class FileUploadService {
     @Value("${cloud.aws.s3.bucket.url}")
     private String defaultUrl;
 
-    private final AmazonS3Client amazonS3Client;
+    private final S3Service s3Service;
 
-    public FileUploadService(final AmazonS3Client amazonS3Client) {
-        this.amazonS3Client = amazonS3Client;
+    public FileUploadService(final S3Service s3Service) {
+        this.s3Service = s3Service;
     }
 
-    public String upload(MultipartFile uploadFile) throws IOException {
+    public String upload(MultipartFile uploadFile, String dir) throws IOException {
         String origName = uploadFile.getOriginalFilename();
         String url;
+
         try {
             //확장자
             String ext = origName.substring(origName.lastIndexOf('.'));
@@ -46,15 +41,22 @@ public class FileUploadService {
             //파일 변환
             uploadFile.transferTo(file);
             //S3 파일 업로드
-            uploadOnS3(saveFileName, file);
+            s3Service.uploadOnS3(dir, saveFileName, file);
+
             //주소 할당
-            url = defaultUrl + saveFileName;
+            if(dir.compareTo("message") == 0){
+                url = defaultUrl + dir + "/" + saveFileName;
+            } else {
+                url = dir + "/" + saveFileName;
+            }
+
             //파일 삭제
             file.delete();
-        }catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException e) {
             //파일이 없을 경우 예외 처리
             url = null;
         }
+
         return url;
     }
 
@@ -62,22 +64,4 @@ public class FileUploadService {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
-    //S3에 파일을 업로드한다.
-    private void uploadOnS3(final String fileName, final File file) {
-        //AWS S3 전송 객체 생성
-        final TransferManager transferManager = new TransferManager(this.amazonS3Client);
-        //요청 객체 생성
-        final PutObjectRequest request = new PutObjectRequest(bucket, fileName, file);
-        //업로드 시도
-        final Upload upload = transferManager.upload(request);
-        log.info(upload.toString());
-        try {
-            //완료 확인
-            upload.waitForCompletion();
-        } catch (AmazonClientException amazonClientException) {
-            log.error(amazonClientException.getMessage());
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
-    }
 }
