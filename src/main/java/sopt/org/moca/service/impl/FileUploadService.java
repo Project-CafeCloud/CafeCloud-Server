@@ -1,5 +1,6 @@
 package sopt.org.moca.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,10 +9,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-
+@Slf4j
 @Service
 public class FileUploadService {
 
+    //버킷 이름 동적 할당
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    //버킷 주소 동적 할당
     @Value("${cloud.aws.s3.bucket.url}")
     private String defaultUrl;
 
@@ -21,9 +27,10 @@ public class FileUploadService {
         this.s3Service = s3Service;
     }
 
-    public String upload(MultipartFile uploadFile) throws IOException {
+    public String upload(MultipartFile uploadFile, String dir) throws IOException {
         String origName = uploadFile.getOriginalFilename();
         String url;
+
         try {
             //확장자
             String ext = origName.substring(origName.lastIndexOf('.'));
@@ -34,34 +41,27 @@ public class FileUploadService {
             //파일 변환
             uploadFile.transferTo(file);
             //S3 파일 업로드
-            s3Service.uploadOnS3(saveFileName, file);
+            s3Service.uploadOnS3(dir, saveFileName, file);
+
             //주소 할당
-            url = defaultUrl + saveFileName;
+            if(dir.compareTo("message") == 0){
+                url = defaultUrl + dir + "/" + saveFileName;
+            } else {
+                url = dir + "/" + saveFileName;
+            }
+
             //파일 삭제
             file.delete();
-        }catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException e) {
             //파일이 없을 경우 예외 처리
             url = null;
         }
+
         return url;
     }
 
-    public File upload2(MultipartFile uploadFile) throws IOException {
-        String origName = uploadFile.getOriginalFilename();
-        String url;
-        try {
-            File file = new File(System.getProperty("user.dir") + origName);
-            //파일 변환
-            uploadFile.transferTo(file);
-            return file;
-            //파일 삭제
-        }catch (StringIndexOutOfBoundsException e) {
-            //파일이 없을 경우 예외 처리
-            return null;
-        }
-    }
-
-    public static String getUuid() {
+    private static String getUuid() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
+
 }
