@@ -1,6 +1,7 @@
 package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -29,7 +30,14 @@ public class MessageServiceImpl implements MessageService {
 
     private final FileUploadService fileUploadService;
 
-    public MessageServiceImpl(final MessageMapper messageMapper,final FileUploadService fileUploadService,final UserMapper userMapper) {
+
+    @Value("${cloud.aws.s3.bucket.url}")
+    private String defaultUrl;
+
+
+    public MessageServiceImpl(final MessageMapper messageMapper,
+                              final FileUploadService fileUploadService,
+                              final UserMapper userMapper) {
         this.messageMapper = messageMapper;
         this.fileUploadService = fileUploadService;
         this.userMapper = userMapper;
@@ -78,6 +86,10 @@ public class MessageServiceImpl implements MessageService {
         if(messageBoxList.isEmpty()){
             return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_MESSAGELIST);
         }else{
+            for(MessageBox m : messageBoxList){
+                m.setReceiver_profile_img(defaultUrl + m.getReceiver_profile_img());
+                m.setSender_profile_img(defaultUrl + m.getSender_profile_img());
+            }
             return  DefaultRes.res(StatusCode.OK,ResponseMessage.READ_MESSAGE,messageBoxList);
         }
     }
@@ -91,6 +103,9 @@ public class MessageServiceImpl implements MessageService {
         if(myMessagesList.isEmpty()){
             return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_MESSAGELIST);
         }else{
+            for(MyMessages m : myMessagesList){
+                m.setPartner_profile_img(defaultUrl + m.getPartner_profile_img());
+            }
             return  DefaultRes.res(StatusCode.OK,ResponseMessage.READ_MESSAGE,myMessagesList);
         }
     }

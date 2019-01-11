@@ -1,8 +1,6 @@
 package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import sopt.org.moca.dto.*;
 import sopt.org.moca.mapper.*;
 import sopt.org.moca.model.DefaultRes;
-import sopt.org.moca.model.ReviewCommentReq;
 import sopt.org.moca.model.ReviewReq;
 import sopt.org.moca.service.ReviewService;
 import sopt.org.moca.utils.ResponseMessage;
@@ -35,7 +32,6 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewLikeMapper reviewLikeMapper;
     private final FileUploadService fileUploadService;
     private final AndroidPushNotificationsService androidPushNotificationsService;
-
 
     @Value("${cloud.aws.s3.bucket.url}")
     private String defaultUrl;

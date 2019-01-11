@@ -47,8 +47,9 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity signUp(
             UserSignUpReq userSignUpReq,
-            @RequestPart(value = "profile", required = false) final MultipartFile user_img
+            @RequestPart(value = "profile", required = false) final MultipartFile profile
     ) {
+//        if(userSignUpReq.getUser_img() != null) userSignUpReq.setUser_img(profile);
         try {
             return new ResponseEntity<>(userService.save(userSignUpReq), HttpStatus.OK);
         } catch (Exception e) {
@@ -86,11 +87,11 @@ public class UserController {
     public ResponseEntity updateMypage(
             @RequestHeader("Authorization") final String jwt,
             final UserSignUpReq userSignUpReq,
-            @RequestPart(value = "profile", required = false) final MultipartFile user_img
+            @RequestPart(value = "profile", required = false) final MultipartFile profile
     ) {
         try {
            // log.info(user_img.toString());
-            if (user_img != null) userSignUpReq.setUser_img(user_img);
+            if (profile != null) userSignUpReq.setUser_img(profile);
             //log.info(user_img.toString());
             final String tokenValue = JwtUtils.decode(jwt).getUser_id();
             if(tokenValue != null) return new ResponseEntity<>(userService.updateUser(tokenValue, userSignUpReq), HttpStatus.OK);

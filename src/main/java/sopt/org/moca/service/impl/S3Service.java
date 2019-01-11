@@ -29,6 +29,7 @@ public class S3Service {
         this.amazonS3Client = amazonS3Client;
     }
 
+
     //S3에 파일을 업로드한다.
     @Transactional
     public void uploadOnS3(final String dir, final String fileName, final File file) {

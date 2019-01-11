@@ -13,6 +13,11 @@ import java.util.UUID;
 @Service
 public class FileUploadService {
 
+    //버킷 이름 동적 할당
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    //버킷 주소 동적 할당
     @Value("${cloud.aws.s3.bucket.url}")
     private String defaultUrl;
 
@@ -37,20 +42,26 @@ public class FileUploadService {
             uploadFile.transferTo(file);
             //S3 파일 업로드
             s3Service.uploadOnS3(dir, saveFileName, file);
+
             //주소 할당
-            url = dir + "/" + saveFileName;
+            if(dir.compareTo("message") == 0){
+                url = defaultUrl + dir + "/" + saveFileName;
+            } else {
+                url = dir + "/" + saveFileName;
+            }
+
             //파일 삭제
             file.delete();
-        }catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException e) {
             //파일이 없을 경우 예외 처리
             url = null;
         }
 
-        log.info(url);
         return url;
     }
 
-    public static String getUuid() {
+    private static String getUuid() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
+
 }
