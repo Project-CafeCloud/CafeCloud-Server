@@ -66,8 +66,8 @@ public class SearchServiceImpl implements SearchService {
             int size = searchReviewInfoList.size();
             for(int j = 0 ; j < size ; j++)
             {
-                popularReviewList.add(new SearchReviewRef(searchReviewInfoList.get(j)));
-                searchReviewInfoList.remove(j);
+                popularReviewList.add(new SearchReviewRef(searchReviewInfoList.get(0)));
+                searchReviewInfoList.remove(0);
             }
 
         }
@@ -89,6 +89,7 @@ public class SearchServiceImpl implements SearchService {
         }
 
         searchCommunityCombination.setPopularReviewList(popularReviewList);
+
         searchCommunityCombination.setReviewListOrderByLatest(reviewListOrderByLatest);
 
 
