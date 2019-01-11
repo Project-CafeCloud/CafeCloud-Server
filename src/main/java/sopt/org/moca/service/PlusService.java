@@ -10,6 +10,6 @@ import java.util.List;
 public interface PlusService {
 
     DefaultRes<List<PlusSubject>> findPlusSubjectList (final int length);
-    DefaultRes<List<PlusContents>> findContentList (final int plus_subject_id, final String user_id);
+    DefaultRes<List<PlusContents>> findContentsList (final int plus_subject_id, final String user_id);
     DefaultRes<PlusSubject> findPlusSubject(final int plus_subject_id);
 }
