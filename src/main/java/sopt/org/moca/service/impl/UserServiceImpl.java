@@ -92,6 +92,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.findById(user_id);
         if (user != null) {
             if(user.getUser_img_url() !=null) {
+
                 user.setUser_img_url(defaultUrl + user.getUser_img_url());
             }else{
                 user.setUser_img_url(null);
