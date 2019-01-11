@@ -139,7 +139,7 @@ public class ReviewController {
     @PostMapping("/")
     public ResponseEntity save(
             final HttpServletRequest httpServletRequest,
-            ReviewReq reviewReq) {
+            @RequestBody ReviewReq reviewReq) {
         try {
             reviewReq.setUser_id(JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id());
 
@@ -189,7 +189,7 @@ public class ReviewController {
     @PutMapping("/{review_id}")
     public ResponseEntity update(final HttpServletRequest httpServletRequest,
                                  @PathVariable final int review_id,
-                                 ReviewReq reviewReq) {
+                                 @RequestBody ReviewReq reviewReq) {
         try {
             final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();
 
