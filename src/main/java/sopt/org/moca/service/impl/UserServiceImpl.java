@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
                 try {
                     if(userSignUpReq.getUser_img() != null){
                         userSignUpReq.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img(), "user"));
-                    userMapper.save(userSignUpReq);
+                        userMapper.save(userSignUpReq);
                     }
                     else{
                         //디폴트 이미지
@@ -191,6 +191,9 @@ public class UserServiceImpl implements UserService {
 
         if (bestUserList == null){
             return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_USER);
+        }else {
+            for(User u : bestUserList)
+                u.setUser_img_url(defaultUrl + u.getUser_img_url());
         }
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, bestUserList);
 
