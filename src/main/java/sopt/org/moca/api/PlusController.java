@@ -71,7 +71,7 @@ public class PlusController {
     public ResponseEntity GetPlusDetail( @RequestHeader("Authorization") final String jwt,@PathVariable final int plus_subject_id){
         try{
             String user_id = JwtUtils.decode(jwt).getUser_id();
-            DefaultRes<List<PlusContents>> contentDefaultRes = plusService.findContentList(plus_subject_id,user_id);
+            DefaultRes<List<PlusContents>> contentDefaultRes = plusService.findContentsList(plus_subject_id,user_id);
             return new ResponseEntity<>(contentDefaultRes,HttpStatus.OK);
         }catch (Exception e){
             log.error(e.getMessage());
