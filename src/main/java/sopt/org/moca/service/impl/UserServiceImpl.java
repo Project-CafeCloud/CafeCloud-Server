@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
             final User user = userMapper.findById(userSignUpReq.getUser_id());
             if(user == null) {
                 try {
+                    log.info(userSignUpReq.getUser_img().toString());
                     if(userSignUpReq.getUser_img() != null) {
                         userSignUpReq.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
                         userMapper.save(userSignUpReq);
