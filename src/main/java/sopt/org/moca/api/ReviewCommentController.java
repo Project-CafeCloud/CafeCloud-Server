@@ -72,7 +72,7 @@ public class ReviewCommentController {
     @PostMapping("/comment")
     public ResponseEntity save(
             final HttpServletRequest httpServletRequest,
-            ReviewCommentReq reviewCommentReq) {
+            @RequestBody ReviewCommentReq reviewCommentReq) {
         try {
             reviewCommentReq.setUser_id(JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id());
 
@@ -95,7 +95,7 @@ public class ReviewCommentController {
     @PutMapping("/comment/{comment_id}")
     public ResponseEntity update(final HttpServletRequest httpServletRequest,
                                 @PathVariable final int comment_id,
-                                ReviewCommentReq reviewCommentReq) {
+                                @RequestBody ReviewCommentReq reviewCommentReq) {
         try {
 
             final String user_id = JwtUtils.decode(httpServletRequest.getHeader(HEADER)).getUser_id();

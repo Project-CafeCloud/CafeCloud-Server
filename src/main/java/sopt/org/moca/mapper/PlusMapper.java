@@ -29,6 +29,7 @@ public interface PlusMapper {
     @Select("SELECT * FROM PLUS_SUBJECT WHERE plus_subject_id = #{plus_subject_id}")
     PlusSubject findSubject(@Param("plus_subject_id")final int plus_subject_id);
 
+
     /**
      * PLUS 전체 리스트
      *
@@ -36,18 +37,22 @@ public interface PlusMapper {
     @Select("SELECT p.*,u.user_img_url FROM PLUS_SUBJECT as p, USER as u WHERE u.user_id = p.editor_id")
     List<PlusSubject> findPlusSubjectAll();
 
+
     /**
      *
-     * Plus 이미지 보여주기
-     ***/
-    @Select("SELECT * FROM PLUS_IMG as p, PLUS_CONTENTS as c WHERE p.plus_contents_id  = #{plus_contents_id}")
-    List<PlusContentImg> findPlusContentImg(@Param("plus_contents_id") final int plus_contents_id);
-    /**
-     *
-     * Plus 디테일 뷰
+     * Plus 이미지 리스트 조회
      *
      * **/
-    @Select("SELECT p.* FROM PLUS_CONTENTS as p, CAFE as c, PLUS_SUBJECT s,USER as u,PLUS_IMG as i WHERE c.cafe_id = p.cafe_id AND s.plus_subject_id = #{plus_subject_id} AND u.user_id = s.editor_id ORDER BY plus_contents_id DESC")
-    List<PlusContents> findContent (@Param("plus_subject_id") final int plus_subject_id);
+    @Select("SELECT * FROM PLUS_IMG WHERE plus_contents_id = #{plus_contents_id}")
+    List<PlusContentImg> findPlusContentsImg(@Param("plus_contents_id") final int plus_contents_id);
+
+
+    /**
+     *
+     * Plus 컨텐츠 리스트
+     *
+     * **/
+    @Select("SELECT * FROM PLUS_CONTENTS WHERE plus_subject_id = #{plus_subject_id};")
+    List<PlusContents> findContents(@Param("plus_subject_id") final int plus_subject_id);
 
 }

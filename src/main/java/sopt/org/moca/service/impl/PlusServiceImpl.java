@@ -1,6 +1,7 @@
 package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import sopt.org.moca.dto.*;
 import sopt.org.moca.mapper.CafeMapper;
@@ -23,6 +24,9 @@ public class PlusServiceImpl implements PlusService {
     private final UserMapper userMapper;
     private static final String HEADER = "Authorization";
 
+    @Value("${cloud.aws.s3.bucket.url}")
+    private String defaultUrl;
+
     public PlusServiceImpl(final PlusMapper plusMapper, final CafeMapper cafeMapper,final UserMapper userMapper) {
 
         this.plusMapper = plusMapper;
@@ -32,7 +36,7 @@ public class PlusServiceImpl implements PlusService {
 
     /**
      *
-     * PLUS 주제 조회
+     * PLUS 주제 리스트 조회
      * **/
 
     @Override
@@ -49,7 +53,7 @@ public class PlusServiceImpl implements PlusService {
         for(PlusSubject p : plusSubjectList){
             User user = userMapper.findById(p.getEditor_id());
             p.setEditor_name(user.getUser_name());
-            p.setEditor_img_url(user.getUser_img_url());
+            p.setEditor_img_url(defaultUrl + user.getUser_img_url());
         }
 
         if(plusSubjectList.isEmpty()){
@@ -61,7 +65,7 @@ public class PlusServiceImpl implements PlusService {
 
     /**
      *
-     * PLUS 주제 조회 1개
+     * PLUS 주제 상세 조회 1개
      * **/
     @Override
     public DefaultRes<PlusSubject> findPlusSubject(final int plus_subject_id){
@@ -71,7 +75,7 @@ public class PlusServiceImpl implements PlusService {
         else {
             User user = userMapper.findById(plusSubject.getEditor_id());
             plusSubject.setEditor_name(user.getUser_name());
-            plusSubject.setEditor_img_url(user.getUser_img_url());
+            plusSubject.setEditor_img_url(defaultUrl + user.getUser_img_url());
             return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_PLUS_SUBJECT, plusSubject);
         }
     }
@@ -79,42 +83,26 @@ public class PlusServiceImpl implements PlusService {
 
     /**
      *
-     * PLUS 디테일 뷰 조회
+     * PLUS 해당 주제의 컨텐츠 리스트 조회
      * **/
 
     @Override
-    public DefaultRes<List<PlusContents>> findContentList(final int plus_subject_id, final String user_id){
-        List<PlusContents> plusContentsList = plusMapper.findContent(plus_subject_id);
+    public DefaultRes<List<PlusContents>> findContentsList(final int plus_subject_id, final String user_id){
+        List<PlusContents> plusContentsList = plusMapper.findContents(plus_subject_id);
 
         if(plusContentsList.isEmpty()){
             return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_PLUS_CONTENT_LIST);
 
         }else {
             for(PlusContents p : plusContentsList ) {
-                CafeInfo cafeInfo = cafeMapper.findCafeInfo(p.getCafe_id(),user_id);
+                CafeInfo cafeInfo = cafeMapper.findCafeInfo(p.getCafe_id(), user_id);
                 p.setAddress_district_name("서울 " + cafeInfo.getAddress_district_name());
                 p.setCafe_name(cafeInfo.getCafe_name());
-                p.setContentImages(plusMapper.findPlusContentImg(p.getPlus_contents_id()));
+                p.setContentImages(plusMapper.findPlusContentsImg(p.getPlus_contents_id()));
             }
 
             return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_PLUS_CONTENT_LIST, plusContentsList);
         }
     }
-    //    /**
-//     *
-//     * PLUS 이미지 조회
-//     * **/
-//    @Override
-//    public DefaultRes<List <PlusContentImg>> findPlusImg(final int plus_contents_id){
-//
-//        List<PlusContentImg> plusContentImgList = plusMapper.findPlusContentImg(plus_contents_id);
-//
-//        if(plusContentImgList.isEmpty()){
-//            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_PLUS_CONTENT_IMG_LIST);
-//        }else{
-//            return DefaultRes.res(StatusCode.OK,ResponseMessage.READ_PLUS_CONTENT_IMG_LIST,plusContentImgList);
-//        }
-//
-//    }
 
 }

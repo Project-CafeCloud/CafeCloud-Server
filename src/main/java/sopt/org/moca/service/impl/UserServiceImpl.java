@@ -31,6 +31,8 @@ public class UserServiceImpl implements UserService {
     @Value("${cloud.aws.s3.bucket.url}")
     private String defaultUrl;
 
+    private String defaultUserImage = "user/commonDefaultimage%403x.png";
+
     /**
      * 생성자 의존성 주입
      *
@@ -111,7 +113,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public DefaultRes updateUser(final String token_value, UserSignUpReq userSignUpReq){
-        User temp= findById(token_value).getData();
+        User temp = findById(token_value).getData();
         if(temp == null){
             return DefaultRes.res(StatusCode.NOT_FOUND,ResponseMessage.NOT_FOUND_USER);
         }
@@ -122,6 +124,9 @@ public class UserServiceImpl implements UserService {
 
             if(userSignUpReq.getUser_img() != null)
                 temp.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img(), "user"));
+            else
+                temp.setUser_img_url(defaultUserImage);
+
             userMapper.update(token_value, temp);
 
             temp.setUser_img_url(defaultUrl + temp.getUser_img_url());
