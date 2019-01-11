@@ -1,8 +1,7 @@
 package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -10,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import sopt.org.moca.dto.*;
 import sopt.org.moca.mapper.*;
 import sopt.org.moca.model.DefaultRes;
-import sopt.org.moca.model.ReviewCommentReq;
 import sopt.org.moca.model.ReviewReq;
 import sopt.org.moca.service.ReviewService;
 import sopt.org.moca.utils.ResponseMessage;
@@ -35,6 +33,8 @@ public class ReviewServiceImpl implements ReviewService {
     private final FileUploadService fileUploadService;
     private final AndroidPushNotificationsService androidPushNotificationsService;
 
+    @Value("${cloud.aws.s3.bucket.url}")
+    private String defaultUrl;
 
 
     /**
@@ -85,6 +85,10 @@ public class ReviewServiceImpl implements ReviewService {
 
         List<ReviewImage> reviewImageList = reviewImageMapper.findOneByCafeId(cafeId);
 
+        for(ReviewImage img : reviewImageList){
+            img.setReview_img_url(defaultUrl + img.getReview_img_url());
+        }
+
         if (reviewImageList == null)
             return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_REVIEWS);
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_REVIEWS, reviewImageList);
@@ -109,13 +113,24 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> reviewList = reviewMapper.findBestByCafeId(cafeId, num);
         for (Review r : reviewList){
 
+            // 유저
             User user = userMapper.findById(r.getUser_id());
 
             r.setUser_name(user.getUser_name());
             r.setUser_img_url(user.getUser_img_url());
-            r.setImage(reviewImageMapper.findAllByReviewId(r.getReview_id()));
+
+            // 이미지
+            List<ReviewImage> reviewImageList = reviewImageMapper.findAllByReviewId(r.getReview_id());
+
+            for(ReviewImage img : reviewImageList){
+                img.setReview_img_url(defaultUrl + img.getReview_img_url());
+            }
+            r.setImage(reviewImageList);
+
+            // 카페
             r.setCafe_name(cafeinfo.getCafe_name());
             r.setCafe_address("서울 " + cafeinfo.getAddress_district_name());
+
             r.setLike_count(reviewLikeMapper.countByReviewId(r.getReview_id()));
             r.setTime(Time.toText(r.getReview_date()));
         }
@@ -148,16 +163,29 @@ public class ReviewServiceImpl implements ReviewService {
 
         for (Review r : reviewList){
 
-            CafeInfo cafeinfo = cafeMapper.findByCafeId(r.getCafe_id());
+            // 유저
             User user = userMapper.findById(r.getUser_id());
 
-            r.setImage(reviewImageMapper.findAllByReviewId(r.getReview_id()));
-            r.setCafe_name(cafeinfo.getCafe_name());
-            r.setCafe_address("서울 " + cafeinfo.getAddress_district_name());
-            r.setLike_count(reviewLikeMapper.countByReviewId(r.getReview_id()));
-            r.setTime(Time.toText(r.getReview_date()));
             r.setUser_name(user.getUser_name());
             r.setUser_img_url(user.getUser_img_url());
+
+            // 이미지
+            List<ReviewImage> reviewImageList = reviewImageMapper.findAllByReviewId(r.getReview_id());
+
+            for(ReviewImage img : reviewImageList){
+                img.setReview_img_url(defaultUrl + img.getReview_img_url());
+            }
+
+            r.setImage(reviewImageList);
+
+            // 카페
+            CafeInfo cafeinfo = cafeMapper.findByCafeId(r.getCafe_id());
+
+            r.setCafe_name(cafeinfo.getCafe_name());
+            r.setCafe_address("서울 " + cafeinfo.getAddress_district_name());
+
+            r.setLike_count(reviewLikeMapper.countByReviewId(r.getReview_id()));
+            r.setTime(Time.toText(r.getReview_date()));
         }
 
         if (reviewList.isEmpty())
@@ -182,18 +210,30 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         Review review = reviewMapper.findByReviewId(reviewId);
-        CafeInfo cafeinfo = cafeMapper.findByCafeId(review.getCafe_id());
+
+        // 유저
         User user = userMapper.findById(review.getUser_id());
 
         review.setUser_name(user.getUser_name());
         review.setUser_img_url(user.getUser_img_url());
 
-        review.setImage(reviewImageMapper.findAllByReviewId(review.getReview_id()));
+        // 이미지
+        List<ReviewImage> reviewImageList = reviewImageMapper.findAllByReviewId(review.getReview_id());
+
+        for(ReviewImage img : reviewImageList){
+            img.setReview_img_url(defaultUrl + img.getReview_img_url());
+        }
+
+        review.setImage(reviewImageList);
+
+        // 카페
+        CafeInfo cafeinfo = cafeMapper.findByCafeId(review.getCafe_id());
+
         review.setCafe_name(cafeinfo.getCafe_name());
         review.setCafe_address("서울 " + cafeinfo.getAddress_district_name());
+
         review.setLike_count(reviewLikeMapper.countByReviewId(review.getReview_id()));
         review.setTime(Time.toText(review.getReview_date()));
-
 
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_REVIEWS, review);
     }
@@ -219,7 +259,7 @@ public class ReviewServiceImpl implements ReviewService {
                 final int reviewId = reviewReq.getReview_id();
 
                 for (MultipartFile image : reviewReq.getImage()) {
-                    reviewImageMapper.save(reviewId, fileUploadService.upload(image));
+                    reviewImageMapper.save(reviewId, fileUploadService.upload(image, "review"));
                 }
 
                 return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_REVIEW);

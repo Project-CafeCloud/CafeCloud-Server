@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class Evaluation_detail {
 
-    private int barista_id;
     private String  barista_name;
     private String  barista_title;
     private String barista_img_url;

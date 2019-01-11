@@ -194,6 +194,8 @@ public class CafeServiceImpl implements CafeService {
             bestCafeSimpleList = cafeMapper.findBestCafeOrderByReviewCnt();
         }
 
+        log.info(bestCafeSimpleList.toString());
+
         if(bestCafeSimpleList == null)
             return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_BEST_CAFE);
 

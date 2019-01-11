@@ -1,6 +1,7 @@
 package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
     private final ReviewMapper reviewMapper;
     private final FollowMapper followMapper;
     private final FileUploadService fileUploadService;
+
+    @Value("${cloud.aws.s3.bucket.url}")
+    private String defaultUrl;
 
     /**
      * 생성자 의존성 주입
@@ -55,9 +59,8 @@ public class UserServiceImpl implements UserService {
             final User user = userMapper.findById(userSignUpReq.getUser_id());
             if(user == null) {
                 try {
-                    log.info(userSignUpReq.getUser_img().toString());
-                    if(userSignUpReq.getUser_img() != null) {
-                        userSignUpReq.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
+                    if(userSignUpReq.getUser_img() != null){
+                        userSignUpReq.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img(), "user"));
                         userMapper.save(userSignUpReq);
                     }
                     else{
@@ -65,6 +68,7 @@ public class UserServiceImpl implements UserService {
                         userMapper.saveNoImg(userSignUpReq);
                     }
                     return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_USER);
+
                 } catch (Exception e) {
                     //Rollback
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -86,7 +90,10 @@ public class UserServiceImpl implements UserService {
     public DefaultRes<User> findById(final String user_id){
 
         User user = userMapper.findById(user_id);
-        if (user != null) return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, user);
+        if (user != null) {
+            user.setUser_img_url(defaultUrl + user.getUser_img_url());
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, user);
+        }
         return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_USER);
     }
 
@@ -109,10 +116,12 @@ public class UserServiceImpl implements UserService {
             if(userSignUpReq.getUser_status_comment() != null) temp.setUser_status_comment(userSignUpReq.getUser_status_comment());
 
             if(userSignUpReq.getUser_img() != null)
-                temp.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
-            userMapper.update(token_value,temp);
+                temp.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img(), "user"));
+            userMapper.update(token_value, temp);
 
+            temp.setUser_img_url(defaultUrl + temp.getUser_img_url());
             temp.setAuth(true);
+
             return DefaultRes.res(StatusCode.OK, ResponseMessage.UPDATE_USER, temp);
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -129,26 +138,15 @@ public class UserServiceImpl implements UserService {
      * **/
     public DefaultRes findUser(final String user_id,final String my_id){
 
-       // findById(user_id);
-
         try{
 
             UserInfo user = userMapper.findUser(user_id,my_id);
 
-//            UserInfo review_cnt = reviewMapper.countReviewByUserId(user_id);
-//            UserInfo follower_cnt = followMapper.countFollowerByUserId(user_id);
-//            UserInfo following_cnt = followMapper.countFollowingByUserId(user_id);
-//
-//            if(review_cnt != null){
-//                user.setReview_count(review_cnt.getReview_count());
-//            }
-//            if(follower_cnt != null){
-//                user.setReview_count(follower_cnt.getFollower_count());
-//            }
-//            if(following_cnt != null){
-//                user.setReview_count(following_cnt.getFollowing_count());
-//            }
-            return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, user);
+            if (user != null) {
+                user.setUser_img_url(defaultUrl + user.getUser_img_url());
+                return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, user);
+            }
+            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_USER);
         }catch (Exception e) {
             log.error(e.getMessage());
             return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
@@ -191,8 +189,12 @@ public class UserServiceImpl implements UserService {
 
         List<User> bestUserList = userMapper.findBestUser(num);
 
-        if (bestUserList == null)
+        if (bestUserList == null){
             return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_USER);
+        }else {
+            for(User u : bestUserList)
+                u.setUser_img_url(defaultUrl + u.getUser_img_url());
+        }
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, bestUserList);
 
     }

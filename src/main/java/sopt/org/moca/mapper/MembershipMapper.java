@@ -46,7 +46,7 @@ public interface MembershipMapper {
 
 
     //쿠폰 리스트 조회
-   @Select("SELECT coupon_id ,coupon_create_date,coupon_authentication_number " +
+   @Select("SELECT coupon_id ,coupon_create_date,coupon_authentication_number,coupon_create_date " +
            "from COUPON " +
            "where user_id = #{user_id} and coupon_used = 0")
    List<CouponRes> findCouponList(@Param("user_id")final String user_id);
