@@ -63,7 +63,8 @@ public class SearchServiceImpl implements SearchService {
         ArrayList<SearchReviewRef> reviewListOrderByLatest = new ArrayList<>();
         if(searchReviewInfoList.size()<3)
         {
-            for(int j = 0 ; j < searchReviewInfoList.size() ; j++)
+            int size = searchReviewInfoList.size();
+            for(int j = 0 ; j < size ; j++)
             {
                 popularReviewList.add(new SearchReviewRef(searchReviewInfoList.get(j)));
                 searchReviewInfoList.remove(j);
