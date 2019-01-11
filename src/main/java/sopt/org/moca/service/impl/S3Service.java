@@ -31,14 +31,17 @@ public class S3Service {
 
     //S3에 파일을 업로드한다.
     @Transactional
-    public void uploadOnS3(final String fileName, final File file) {
+    public void uploadOnS3(final String dir, final String fileName, final File file) {
+
+        log.info(dir+"/"+fileName);
 
         final TransferManager transferManager = new TransferManager(this.amazonS3Client);
-        final PutObjectRequest request = new PutObjectRequest(bucket, fileName, file);
+        final PutObjectRequest request = new PutObjectRequest(bucket, dir + "/" + fileName, file);
         final Upload upload = transferManager.upload(request);
 
         try {
             upload.waitForCompletion();
+            log.info(request.toString());
         } catch (AmazonClientException amazonClientException) {
             log.error(amazonClientException.getMessage());
         } catch (InterruptedException e) {

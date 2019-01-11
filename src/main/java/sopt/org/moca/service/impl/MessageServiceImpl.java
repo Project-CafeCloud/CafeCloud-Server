@@ -53,7 +53,7 @@ public class MessageServiceImpl implements MessageService {
                     return DefaultRes.res(StatusCode.BAD_REQUEST,ResponseMessage.NOT_FOUND_USER);
                 }
                 if(messageReq.getMessage_img() != null)
-                    messageReq.setMessage_img_url(fileUploadService.upload(messageReq.getMessage_img()));
+                    messageReq.setMessage_img_url(fileUploadService.upload(messageReq.getMessage_img(), "message"));
                 messageReq.setMessage_send_date(messageReq.getMessage_send_date());
                 messageMapper.save(messageReq);
                 return DefaultRes.res(StatusCode.CREATED,ResponseMessage.MESSAGE_SAVE_SUCCESS);

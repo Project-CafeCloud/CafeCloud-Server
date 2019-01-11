@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
             if(user == null) {
                 try {
                     if(userSignUpReq.getUser_img() != null)
-                        userSignUpReq.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
+                        userSignUpReq.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img(), "user"));
                     userMapper.save(userSignUpReq);
                     return DefaultRes.res(StatusCode.CREATED, ResponseMessage.CREATED_USER);
                 } catch (Exception e) {
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
             if(userSignUpReq.getUser_status_comment() != null) temp.setUser_status_comment(userSignUpReq.getUser_status_comment());
 
             if(userSignUpReq.getUser_img() != null)
-                temp.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img()));
+                temp.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img(), "user"));
             userMapper.update(token_value,temp);
 
             temp.setAuth(true);
