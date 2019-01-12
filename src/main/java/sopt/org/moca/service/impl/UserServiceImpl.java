@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final FollowMapper followMapper;
     private final FileUploadService fileUploadService;
 
-    @Value("${cloud.aws.s3.bucket.url}")
+    @Value("https://s3.ap-northeast-2.amazonaws.com/project-moca/")
     private String defaultUrl;
 
     private String defaultUserImage = "user/commonDefaultimage%403x.png";
