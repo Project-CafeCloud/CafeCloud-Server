@@ -1,6 +1,7 @@
 package sopt.org.moca.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -32,6 +33,9 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
     private final ReviewCommentMapper reviewCommentMapper;
 
 
+    @Value("${cloud.aws.s3.bucket.url}")
+    private String defaultUrl;
+
     /**
      * 생성자 의존성 주입
      *
@@ -60,6 +64,8 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
         final ReviewComment reviewComment = reviewCommentMapper.findByCommentId(reviewCommentId);
         if (reviewComment == null) return new ReviewComment();
 
+        reviewComment.setUser_img_url(defaultUrl + reviewComment.getUser_img_url());
+
         return reviewComment;
     }
 
@@ -85,7 +91,7 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
 
             c.setTime(Time.toText(c.getReview_comment_date()));
             c.setUser_name(user.getUser_name());
-            c.setUser_img_url(user.getUser_img_url());
+            c.setUser_img_url(defaultUrl + user.getUser_img_url());
             c.setAuth(checkAuth(user_id, c.getReview_comment_id()));
         }
 
@@ -148,7 +154,7 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
 
             comment.setTime(Time.toText(comment.getReview_comment_date()));
             comment.setUser_name(user.getUser_name());
-            comment.setUser_img_url(user.getUser_img_url());
+            comment.setUser_img_url(defaultUrl + user.getUser_img_url());
 
             return DefaultRes.res(StatusCode.OK, ResponseMessage.UPDATE_COMMENT, comment);
         } catch (Exception e) {
