@@ -117,7 +117,7 @@ public class ReviewServiceImpl implements ReviewService {
             User user = userMapper.findById(r.getUser_id());
 
             r.setUser_name(user.getUser_name());
-            r.setUser_img_url(user.getUser_img_url());
+            r.setUser_img_url(defaultUrl + user.getUser_img_url());
 
             // 이미지
             List<ReviewImage> reviewImageList = reviewImageMapper.findAllByReviewId(r.getReview_id());
@@ -167,7 +167,7 @@ public class ReviewServiceImpl implements ReviewService {
             User user = userMapper.findById(r.getUser_id());
 
             r.setUser_name(user.getUser_name());
-            r.setUser_img_url(user.getUser_img_url());
+            r.setUser_img_url(defaultUrl + user.getUser_img_url());
 
             // 이미지
             List<ReviewImage> reviewImageList = reviewImageMapper.findAllByReviewId(r.getReview_id());
@@ -215,7 +215,7 @@ public class ReviewServiceImpl implements ReviewService {
         User user = userMapper.findById(review.getUser_id());
 
         review.setUser_name(user.getUser_name());
-        review.setUser_img_url(user.getUser_img_url());
+        review.setUser_img_url(defaultUrl + user.getUser_img_url());
 
         // 이미지
         List<ReviewImage> reviewImageList = reviewImageMapper.findAllByReviewId(review.getReview_id());
