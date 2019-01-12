@@ -124,9 +124,6 @@ public class UserServiceImpl implements UserService {
 
             if(userSignUpReq.getUser_img() != null)
                 temp.setUser_img_url(fileUploadService.upload(userSignUpReq.getUser_img(), "user"));
-            else
-                temp.setUser_img_url(defaultUserImage);
-
             userMapper.update(token_value, temp);
 
             temp.setUser_img_url(defaultUrl + temp.getUser_img_url());
