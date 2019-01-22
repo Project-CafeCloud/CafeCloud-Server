@@ -205,4 +205,5 @@ public class UserServiceImpl implements UserService {
         return DefaultRes.res(StatusCode.OK, ResponseMessage.READ_USER, bestUserList);
 
     }
+
 }
