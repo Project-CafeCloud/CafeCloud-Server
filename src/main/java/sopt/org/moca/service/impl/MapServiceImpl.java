@@ -48,7 +48,7 @@ public class MapServiceImpl implements MapService {
         log.info(String.valueOf(mapList));
         if(mapList.isEmpty())
 
-            return DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_NEAR_BY_CAFE);
+            return DefaultRes.res(StatusCode.NO_CONTENT, ResponseMessage.NOT_FOUND_NEAR_BY_CAFE);
 
         else
         {

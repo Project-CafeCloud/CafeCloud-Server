@@ -2,6 +2,7 @@ package sopt.org.moca.service.impl;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import sopt.org.moca.dto.*;
 import sopt.org.moca.mapper.SearchMapper;
@@ -19,7 +20,8 @@ import java.util.List;
 @Slf4j
 @Service
 public class SearchServiceImpl implements SearchService {
-
+    @Value("${cloud.aws.s3.bucket.url}")
+    private String defaultUrl;
     private final  SearchMapper searchMapper;
 
     public SearchServiceImpl(final SearchMapper searchMapper) {
@@ -48,7 +50,7 @@ public class SearchServiceImpl implements SearchService {
     {
         SearchCommunityCombination searchCommunityCombination = new SearchCommunityCombination();
         List<SearchUserInfo> searchUserInfoList = searchMapper.searchUserInfoList(keyword,user_id);
-        log.info(searchUserInfoList.toString());
+        // log.info(searchUserInfoList.toString());
         searchCommunityCombination.setSearchUserList(searchUserInfoList);
 
         //카페 리뷰
@@ -58,6 +60,13 @@ public class SearchServiceImpl implements SearchService {
             return DefaultRes.res(StatusCode.NO_CONTENT,ResponseMessage.FAIL_SEARCH_REVIEW_LIST);
 
 
+        /***/
+        for(SearchUserInfo searchUserInfo : searchUserInfoList)
+        {
+            searchUserInfo.setUser_img_url(defaultUrl+searchUserInfo.getUser_img_url());
+        }
+
+        /***/
         ArrayList<SearchReviewRef> popularReviewList = new ArrayList<>();
 
         ArrayList<SearchReviewRef> reviewListOrderByLatest = new ArrayList<>();
@@ -87,10 +96,25 @@ public class SearchServiceImpl implements SearchService {
         {
             reviewListOrderByLatest.add(new SearchReviewRef(searchReviewInfo));
         }
+       /****/
 
+       for(SearchReviewRef searchReviewRef :  popularReviewList)
+       {
+          searchReviewRef.setReview_img_url(defaultUrl+searchReviewRef.getReview_img_url());
+       }
+        for(SearchReviewRef searchReviewRef :reviewListOrderByLatest)
+        {
+            searchReviewRef.setReview_img_url(defaultUrl+searchReviewRef.getReview_img_url());
+        }
+
+       /****/
         searchCommunityCombination.setPopularReviewList(popularReviewList);
 
         searchCommunityCombination.setReviewListOrderByLatest(reviewListOrderByLatest);
+
+
+
+
 
 
         return DefaultRes.res(StatusCode.OK,ResponseMessage.SEARCH_REVIEW_LIST, searchCommunityCombination);
